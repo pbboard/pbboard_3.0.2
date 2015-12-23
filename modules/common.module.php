@@ -523,8 +523,7 @@ class PowerBBCommon
 
             $PowerBB->template->assign('LangDir',$PowerBB->_CONF['LangDir']);
 
-			if ($PowerBB->_CONF['info_row']['content_dir'] == 'ltr'
-			or $PowerBB->_CONF['LangDir'] == 'ltr')
+			if ($PowerBB->_CONF['LangDir'] == 'ltr')
 			{
 				  $style_path= $PowerBB->_CONF['rows']['style']['style_path'];
 				  $style_path = str_replace('style.css','style_ltr.css',$style_path);
@@ -537,7 +536,10 @@ class PowerBBCommon
 				  $PowerBB->_CONF['info_row']['content_language'] = 'en';
 			}
 			else
-			{		       $PowerBB->template->assign('align','right');
+			{
+				$PowerBB->template->assign('align','right');
+				$PowerBB->_CONF['info_row']['content_dir'] = 'rtl';
+				$PowerBB->_CONF['info_row']['content_language'] = 'ar';
 			}
 
 
@@ -715,22 +717,24 @@ class PowerBBCommon
 		$PowerBB->_CONF['rows']['style']['style_path']= str_replace('../','',$PowerBB->_CONF['rows']['style']['style_path']);
 
 				$PowerBB->template->assign('LangDir',$PowerBB->_CONF['LangDir']);
-				if ($PowerBB->_CONF['info_row']['content_dir'] == 'ltr'
-				or $PowerBB->_CONF['LangDir'] == 'ltr')
-				{				  $style_path= $PowerBB->_CONF['rows']['style']['style_path'];
+			if ($PowerBB->_CONF['LangDir'] == 'ltr')
+			{
+				  $style_path= $PowerBB->_CONF['rows']['style']['style_path'];
 				  $style_path = str_replace('style.css','style_ltr.css',$style_path);
 				 if (file_exists($style_path))
 				  {
 				   $PowerBB->_CONF['rows']['style']['style_path'] = $style_path;
 				  }
-				$PowerBB->template->assign('align','left');
+				  $PowerBB->template->assign('align','left');
 				  $PowerBB->_CONF['info_row']['content_dir'] = 'ltr';
 				  $PowerBB->_CONF['info_row']['content_language'] = 'en';
-				}
-				else
-				{
+			}
+			else
+			{
 				$PowerBB->template->assign('align','right');
-				}
+				$PowerBB->_CONF['info_row']['content_dir'] = 'rtl';
+				$PowerBB->_CONF['info_row']['content_language'] = 'ar';
+			}
 
 
 		$PowerBB->template->assign('image_path',$_VARS['path'] . $PowerBB->_CONF['rows']['style']['image_path']);
@@ -786,7 +790,8 @@ class PowerBBCommon
 
 		// if the forum close by admin , stop the page
 		if ($PowerBB->_CONF['info_row']['board_close'])
-    	{
+    	{
+
     	     $PowerBB->_CONF['info_row']['sidebar_list_active'] = 0;
   			if ($PowerBB->_CONF['group_info']['admincp_allow'] != 1
   				and !defined('LOGIN'))
@@ -985,7 +990,8 @@ class PowerBBCommon
         //////
 
 			if ($PowerBB->_CONF['info_row']['activate_chat_bar'] == 1)
-			{				if ($PowerBB->_CONF['member_row']['posts'] < $PowerBB->_CONF['info_row']['chat_num_mem_posts']
+			{
+				if ($PowerBB->_CONF['member_row']['posts'] < $PowerBB->_CONF['info_row']['chat_num_mem_posts']
 				and $PowerBB->_CONF['group_info']['banned'])
 				{
 		          $PowerBB->template->assign('num_mem_posts',true);
@@ -1176,14 +1182,16 @@ class PowerBBCommon
                if($page == 'forum')
                {
                 if(in_array($PowerBB->_GET['id'],$sidebar_list_exclusion_forums_array))
-                {               	 $PowerBB->template->assign('on_sidebar_list_thes_page',0);
+                {
+               	 $PowerBB->template->assign('on_sidebar_list_thes_page',0);
                 }
                }
               }
 			}
 
 			if ($PowerBB->_CONF['info_row']['sidebar_list_align'] == 'left')
-			{			$PowerBB->template->assign('opposite_direction','right');
+			{
+			$PowerBB->template->assign('opposite_direction','right');
 			}
 			elseif ($PowerBB->_CONF['info_row']['sidebar_list_align'] == 'right')
 			{
