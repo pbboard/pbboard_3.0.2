@@ -476,10 +476,14 @@ class FeedParser{
 		}
 		elseif($this->version == 'ATOM 1')
 		{
-			if(in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM')
+			if(in_array('ENTRY', $this->insideItem) && $this->currentTag != 'ENTRY')
 			return TRUE;
 		}
-
+       else
+        {
+			if(in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM')
+			return TRUE;
+        }
 		return FALSE;
 	}
 
