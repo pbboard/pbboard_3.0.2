@@ -523,8 +523,7 @@ class PowerBBCommon
 
             $PowerBB->template->assign('LangDir',$PowerBB->_CONF['LangDir']);
 
-			if ($PowerBB->_CONF['info_row']['content_dir'] == 'ltr'
-			or $PowerBB->_CONF['LangDir'] == 'ltr')
+			if ($PowerBB->_CONF['LangDir'] == 'ltr')
 			{
 				  $style_path= $PowerBB->_CONF['rows']['style']['style_path'];
 				  $style_path = str_replace('style.css','style_ltr.css',$style_path);
@@ -537,7 +536,9 @@ class PowerBBCommon
 				  $PowerBB->_CONF['info_row']['content_language'] = 'en';
 			}
 			else
-			{		       $PowerBB->template->assign('align','right');
+			{				$PowerBB->template->assign('align','right');
+				$PowerBB->_CONF['info_row']['content_dir'] = 'rtl';
+				$PowerBB->_CONF['info_row']['content_language'] = 'ar';
 			}
 
 
@@ -715,22 +716,24 @@ class PowerBBCommon
 		$PowerBB->_CONF['rows']['style']['style_path']= str_replace('../','',$PowerBB->_CONF['rows']['style']['style_path']);
 
 				$PowerBB->template->assign('LangDir',$PowerBB->_CONF['LangDir']);
-				if ($PowerBB->_CONF['info_row']['content_dir'] == 'ltr'
-				or $PowerBB->_CONF['LangDir'] == 'ltr')
-				{				  $style_path= $PowerBB->_CONF['rows']['style']['style_path'];
+			if ($PowerBB->_CONF['LangDir'] == 'ltr')
+			{
+				  $style_path= $PowerBB->_CONF['rows']['style']['style_path'];
 				  $style_path = str_replace('style.css','style_ltr.css',$style_path);
 				 if (file_exists($style_path))
 				  {
 				   $PowerBB->_CONF['rows']['style']['style_path'] = $style_path;
 				  }
-				$PowerBB->template->assign('align','left');
+				  $PowerBB->template->assign('align','left');
 				  $PowerBB->_CONF['info_row']['content_dir'] = 'ltr';
 				  $PowerBB->_CONF['info_row']['content_language'] = 'en';
-				}
-				else
-				{
+			}
+			else
+			{
 				$PowerBB->template->assign('align','right');
-				}
+				$PowerBB->_CONF['info_row']['content_dir'] = 'rtl';
+				$PowerBB->_CONF['info_row']['content_language'] = 'ar';
+			}
 
 
 		$PowerBB->template->assign('image_path',$_VARS['path'] . $PowerBB->_CONF['rows']['style']['image_path']);

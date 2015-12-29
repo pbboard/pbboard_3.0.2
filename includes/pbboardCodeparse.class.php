@@ -438,7 +438,6 @@ class PowerBBCodeParse
             {
               // $txt = $PowerBB->functions->pbb_stripslashes($txt);
             }
-
 			if($var)
 			{
 				$txt = base64_encode($txt);
@@ -738,8 +737,7 @@ class PowerBBCodeParse
 		 $text = str_replace( "#text_area#"   , "textarea ", $text );
          $text = str_ireplace("<script", "&lt;script", $text);
          $text = str_ireplace("<meta", "&lt;meta", $text);
-
-
+        $text = str_ireplace("<iframe", '<iframe sandbox="allow-popups"', $text);
 
           // nofollow links out said
         $text = str_ireplace('target="_blank"', '', $text);
@@ -983,6 +981,7 @@ class PowerBBCodeParse
         $height = '250';
 		}
        // jwplayer tag replace
+       echo "<script type=\"text/javascript\" src=\"applications/core/jwplayer/jwplayer.js\"></script><script type=\"text/javascript\" src=\"applications/core/jwplayer/jwplayer.trigger.js\"></script>";
 		$jwplayer = "<div style=\" margin:0 auto;width:'$width'px;height:'$height'px;\" data-width=\"$width\" data-height=\"$height\" data-auto=\"$auto\" data-image=\"$imageUrl\" data-url=\"$fileUrl\" class=\"jwplayer-html5-item\"></div><br />";
 	    return $jwplayer;
 	}

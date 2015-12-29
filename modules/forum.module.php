@@ -441,13 +441,10 @@ class PowerBBForumMOD
                                                    	$forum['last_subject_title'] =  $forum['last_subject'];
 													$forum['last_subject'] =  $PowerBB->Powerparse->_wordwrap($sub['last_subject'],'35');
 													$forum['last_post_date'] = $sub['last_time'];
-				                                    if($sub['subject_num'] > 0)
-				                                    {
 				                                     $forum['l_date'] = $forum_last_time1;
 													 $forum['last_date'] = $PowerBB->sys_functions->time_ago($forum_last_time1);
 													$forum['last_time_ago'] = $PowerBB->sys_functions->time_ago($forum_last_time1);
 													$forum['last_date_ago'] = $PowerBB->sys_functions->time($forum_last_time1);
-	                                                }
 													$forum['last_subjectid'] = $sub['last_subjectid'];
 													$forum['last_time'] = $sub['last_time'];
 													$forum['last_reply'] = $sub['last_reply'];
@@ -468,8 +465,8 @@ class PowerBBForumMOD
 												   {
 												        if ($sub['forum_title_color'] !='')
 												         {
-														    $forum_title_color = "'".$sub['forum_title_color']."'";
-														    $sub['title'] = "<font color=".$forum_title_color.">".$PowerBB->functions->pbb_stripslashes($sub['title'])."</font>";
+														    $forum_title_color = $sub['forum_title_color'];
+														    $sub['title'] = "<span style=color:".$forum_title_color.">".$PowerBB->functions->pbb_stripslashes($sub['title'])."</span>";
 														 }
 														if ($sub['id'])
 														{
@@ -515,13 +512,10 @@ class PowerBBForumMOD
 																		$forum['last_subject_title'] =  $forum['last_subject'];
 																		$forum['last_subject'] =  $PowerBB->Powerparse->_wordwrap($subforum['last_subject'],'35');
 																		$forum['last_post_date'] = $subforum['last_time'];
-									                                    if($subforum['subject_num'] > 0)
-									                                    {
 									                                    $forum['l_date'] = $forum_last_time1;
 																		$forum['last_date'] = $PowerBB->sys_functions->time_ago($forum_last_time1);
 																		$forum['last_time_ago'] = $PowerBB->sys_functions->time_ago($forum_last_time1);
 																		$forum['last_date_ago'] = $PowerBB->sys_functions->time($forum_last_time1);
-						                                                }
 																		$forum['last_subjectid'] = $subforum['last_subjectid'];
 																		$forum['last_time'] = $subforum['last_time'];
 																		$forum['last_reply'] = $subforum['last_reply'];
@@ -529,9 +523,9 @@ class PowerBBForumMOD
 																		$forum['review_subject'] = $subforum['review_subject'];
 																		$forum['last_berpage_nm'] = $subforum['last_berpage_nm'];
 																		$forum['last_writer']= $subforum['last_writer'];
-																		$forum['username_style_cache'] = $subforum['username_style_cache'];
-																		$forum['writer_photo']= $subforum['writer_photo'];
-																		$forum['avater_path']= $subforum['avater_path'];
+																		$forum['username_style_cache'] = $sub['username_style_cache'];
+																		$forum['writer_photo']= $sub['writer_photo'];
+																		$forum['avater_path']= $sub['avater_path'];
 													                    $forum['last_subject'] =  $subforum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($subforum['last_subject']);
 	                                                                   }
 				                                                 }
@@ -687,8 +681,8 @@ class PowerBBForumMOD
 
 							if ($forum['forum_title_color'] !='')
 					         {
-							    $forum_title_color = "'".$forum['forum_title_color']."'";
-							    $forum['title'] = "<font color=".$forum_title_color.">".$forum['title']."</font>";
+							    $forum_title_color = $forum['forum_title_color'];
+							    $forum['title'] = "<span style=color:".$forum_title_color.">".$forum['title']."</span>";
 							 }
 
                             if ($forum['linksection'])

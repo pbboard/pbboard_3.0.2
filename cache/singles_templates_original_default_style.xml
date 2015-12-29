@@ -2363,8 +2363,7 @@ $countpage = $perpage_r;?>
 <?php
 unset($PagerReplyNumArr);
 ?>]]></forum_perpage_reply>
-<forum_subject_table><![CDATA[
-<script type='text/javascript'>
+<forum_subject_table><![CDATA[<script type='text/javascript'>
 function AjaxTitle()
 {
 var data = {};
@@ -2421,7 +2420,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 </div>
 <!-- Code search Menu start -->
 {if {$_CONF['group_info']['search_allow']} == '1'}
-<div id="searchContainer" class="searchforum">
+<div id="searchContainer">
 <form name="search" action="index.php?page=forum" method="get">
 <input type="hidden" name="page" value="forum" />
 <input type="hidden" name="start" value="1"/>
@@ -3450,14 +3449,9 @@ updatecolor() ;
 
 </script>]]></jscolor>
 <headinclud><![CDATA[<!doctype html>
-<html dir="{$_CONF['info_row']['content_dir']}" lang="{$_CONF['info_row']['content_language']}">
+<html dir="{$_CONF['info_row']['content_dir']}" itemscope="" itemtype="http://schema.org/WebPage" lang="{$_CONF['info_row']['content_language']}">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- no cache headers -->
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="-1" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-<!-- end no cache headers -->
 <meta http-equiv="Content-Type" content="text/html; charset={$_CONF['info_row']['charset']}" />
 {if {$index}}
 <meta name="keywords" content="{$keywords}" />
@@ -3475,9 +3469,6 @@ updatecolor() ;
 <link rel="stylesheet" href="{$ForumAdress}applications/core/colorbox-master/colorbox.css" />
 <link rel="alternate" type="application/rss+xml" title="{$lang['rss_subject']}" href="
 {$ForumAdress}index.php?page=rss&amp;subject=1" />
-<script type="text/javascript" src="{$ForumAdress}includes/js/jquery.js"></script>
-<script type="text/javascript" src="{$ForumAdress}includes/js/jquery.min.js"></script>
-<script type="text/javascript" src="{$ForumAdress}includes/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jquery-ui.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jquery.save.js"></script>
@@ -3491,8 +3482,6 @@ updatecolor() ;
 <script type="text/javascript" src="{$ForumAdress}includes/js/pbboardCode.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/pbboard_global.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/pbboard_toggle.js"></script>
-<script type="text/javascript" src="{$ForumAdress}applications/core/jwplayer/jwplayer.js"></script>
-<script type="text/javascript" src="{$ForumAdress}applications/core/jwplayer/jwplayer.trigger.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jscolor.js"></script>
 {template}jscolor{/template}
 
@@ -3554,13 +3543,7 @@ $(".resize_img").colorbox({rel:'resize_img', width:"80%", height:"85%", scrollin
 $("#colorbox").draggable(true);
 });
 </script>
-<script type="text/javascript">
-<?php
-echo "lang_Resize='".$PowerBB->_CONF['template']['lang']['resize_image_w_h']."';\n";
-?>
-</script>
-<script type="text/javascript" language="javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
-
+<script type="text/javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
 {/if}
 ]]></imgs_resize>
 <info_bar><![CDATA[{get_hook}header{/get_hook}
@@ -3961,10 +3944,10 @@ echo " ...";
 <ul class="rUlRow">
 <li class="tcat pkr">
 <i id="heading_up_static" class="CollapseIcon">
-<img src="{$image_path}/expanded.png" alt="collapsed" />
+<img src="{$image_path}/expanded.png" alt="" />
 </i>
 <i id="heading_down_static" class="CollapseIcon">
-<img src="{$image_path}/collapsed.png" alt="expanded" />
+<img src="{$image_path}/collapsed.png" alt="" />
 </i>
 
 <a href="index.php?page=static&amp;index=1">
@@ -4777,7 +4760,7 @@ title="{$lang['Management_tools']}" />
 <a href="[l]&amp;[v]=[last]"><span class="smallfont">[last_page]</span></a>
 </td>
 <td class="mainbar pkr wd1">
-<a href="javascript:switchMenuNone('pageid');" name="pagdropmenu" title="[Jump_between_pages]"><span class="menu_open"></span></a>
+<a href="javascript:switchMenuNone('pageid');" id="pagdropmenu" title="[Jump_between_pages]"><span class="menu_open"></span></a>
 <div style="display:none; margin-right:-100px;" id="pageid" class="drop_menu">
 <table class="border pkr-obj pkr-b wd120n brd1 clpc0">
 <tr class="center_text_align">
@@ -10503,10 +10486,10 @@ alt="{$lang['s_special']}" /></td>
 <ul class="rUlRow">
 <li class="tcat pkr">
 <i id="heading_up_statistics_list" class="CollapseIcon">
-<img src="{$image_path}/expanded.png" alt="collapsed" />
+<img src="{$image_path}/expanded.png" alt="" />
 </i>
 <i id="heading_down_statistics_list" class="CollapseIcon">
-<img src="{$image_path}/collapsed.png" alt="expanded" />
+<img src="{$image_path}/collapsed.png" alt="" />
 </i>
 <a title="{$lang['mor_static']}" href="index.php?page=static&amp;index=1">
 <span>{$lang['last_static_num']}</span>

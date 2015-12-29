@@ -468,18 +468,21 @@ class FeedParser{
 	* @return   bool
 	*/
 	private function inItem()
-	{
-		if($this->version == 'RSS 1.0' || $this->version == 'RSS 2.0')
+	{		if($this->version == 'RSS 1.0' || $this->version == 'RSS 2.0')
 		{
 			if(in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM')
 			return TRUE;
 		}
 		elseif($this->version == 'ATOM 1')
 		{
-			if(in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM')
+			if(in_array('ENTRY', $this->insideItem) && $this->currentTag != 'ENTRY')
 			return TRUE;
 		}
-
+       else
+        {
+			if(in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM')
+			return TRUE;
+        }
 		return FALSE;
 	}
 
