@@ -18,7 +18,9 @@ class PowerBBCodeParse
 	        $jwplayer_replace['[jwplayer]'] = "\$this->jwplayer('\\1','\\2','\\3','\\4','\\5')";
 	        $string = @preg_replace($jwplayer_search,$jwplayer_replace,$string);
 
-
+            // start regex iframe
+            $string = str_ireplace("<iframe", '[iframe', $string);
+            $string = str_ireplace("</iframe>", '[/iframe]', $string);
  			$first_search = array();
  			$first_replace = array();
 
@@ -438,7 +440,6 @@ class PowerBBCodeParse
             {
               // $txt = $PowerBB->functions->pbb_stripslashes($txt);
             }
-
 			if($var)
 			{
 				$txt = base64_encode($txt);
@@ -738,8 +739,9 @@ class PowerBBCodeParse
 		 $text = str_replace( "#text_area#"   , "textarea ", $text );
          $text = str_ireplace("<script", "&lt;script", $text);
          $text = str_ireplace("<meta", "&lt;meta", $text);
-
-
+          // end regex iframe
+         $text = str_ireplace("[iframe", '<iframe sandbox="allow-popups allow-same-origin"', $text);
+         $text = str_ireplace("[/iframe]", '</iframe>', $text);
 
           // nofollow links out said
         $text = str_ireplace('target="_blank"', '', $text);
@@ -983,6 +985,7 @@ class PowerBBCodeParse
         $height = '250';
 		}
        // jwplayer tag replace
+       echo "<script type=\"text/javascript\" src=\"applications/core/jwplayer/jwplayer.js\"></script><script type=\"text/javascript\" src=\"applications/core/jwplayer/jwplayer.trigger.js\"></script>";
 		$jwplayer = "<div style=\" margin:0 auto;width:'$width'px;height:'$height'px;\" data-width=\"$width\" data-height=\"$height\" data-auto=\"$auto\" data-image=\"$imageUrl\" data-url=\"$fileUrl\" class=\"jwplayer-html5-item\"></div><br />";
 	    return $jwplayer;
 	}
@@ -1321,7 +1324,8 @@ class PowerBBCodeParse
 		$fileParts = pathinfo($img);
 
 		if(isset($fileParts['filename']))
-		{		 $fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
+		{
+		 $fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
          $imagename= trim($fileParts['filename']);
 		}
 		else
