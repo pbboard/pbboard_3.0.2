@@ -465,8 +465,8 @@ class PowerBBForumMOD
 												   {
 												        if ($sub['forum_title_color'] !='')
 												         {
-														    $forum_title_color = "'".$sub['forum_title_color']."'";
-														    $sub['title'] = "<font color=".$forum_title_color.">".$PowerBB->functions->pbb_stripslashes($sub['title'])."</font>";
+														    $forum_title_color = $sub['forum_title_color'];
+														    $sub['title'] = "<span style=color:".$forum_title_color.">".$PowerBB->functions->pbb_stripslashes($sub['title'])."</span>";
 														 }
 														if ($sub['id'])
 														{
@@ -681,8 +681,8 @@ class PowerBBForumMOD
 
 							if ($forum['forum_title_color'] !='')
 					         {
-							    $forum_title_color = "'".$forum['forum_title_color']."'";
-							    $forum['title'] = "<font color=".$forum_title_color.">".$forum['title']."</font>";
+							    $forum_title_color = $forum['forum_title_color'];
+							    $forum['title'] = "<span style=color:".$forum_title_color.">".$forum['title']."</span>";
 							 }
 
                             if ($forum['linksection'])
