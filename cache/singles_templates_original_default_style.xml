@@ -287,7 +287,7 @@ src="index.php?page=download&amp;attach=1&amp;id={$SubjectAttachList['id']}" tit
 <script type='text/javascript'>
 function AddMoreAttach(x)
 {
-x += 1;var 
+x += 1;var
 up_max = {$_CONF['group_info']['upload_attach_num']};
 if (x <= up_max)
 {
@@ -576,7 +576,7 @@ comm._toggle();</script>
 <script type='text/javascript'>
 function AddMoreAttach(x)
 {
-x += 1;var 
+x += 1;var
 up_max = {$_CONF['group_info']['upload_attach_num']};
 if (x <= up_max)
 {
@@ -702,15 +702,15 @@ src="index.php?page=download&amp;attach=1&amp;id={$ReplyAttachList['id']}" title
 <script type='text/javascript'>
 function AddMoreAttach(x)
 {
-x += 1;	
-var up_max = {$_CONF['group_info']['upload_attach_num']};	
+x += 1;
+var up_max = {$_CONF['group_info']['upload_attach_num']};
 if (x <= up_max)
 {
 $(".more_attach_tr").hide();
 $("#add_attach_table").append('<tr class="center_text_align"><td class="row1 pkr rows_space"><fieldset class="pkr-b"><legend class="pkr-b">{$lang['review_file']}</legend><span class="r-right"><input name="files[]" type="file" id="attach' + x + '" size="50" /></span><span class="l-left"></span></fieldset></td></tr>');
 $("#add_attach_table").append('<tr class="more_attach_tr center_text_align"><td class="row1 pkr rows_space" colspan="2"><input type="button" name="more_attach" class="more_attach_class" value="{$lang['more_attach_file']}" /></td></tr>');
 $("#files" + x).focus();
-$(".more_attach_class").click(function() { AddMoreAttach(x) });		
+$(".more_attach_class").click(function() { AddMoreAttach(x) });
 if (x == up_max)
 {
 $(".more_attach_tr").hide();
@@ -778,7 +778,7 @@ $(document).ready(Ready);
 <td class="row2 wd50">
 <a title="{$lang['upload']}"
 target="_blank" href="index.php?page=download&amp;attach=1&amp;id={$SubjectAttachList['id']}">
-<img class="brd0" alt="" src="{$image_path}/attach.gif" /> 
+<img class="brd0" alt="" src="{$image_path}/attach.gif" />
 {$SubjectAttachList['filename']}</a>
 </td>
 <td class="row2 center_text_align wd20">
@@ -1912,10 +1912,10 @@ config.contentsCss = '{$ForumAdress}look/fonts/fonts.css';
 config.font_names = 'Droid Arabic Kufi;' + config.font_names;
 config.font_defaultLabel = 'Droid Arabic Kufi';
 config.fontSize_defaultLabel = '15px';
-config.allowedContent = true; 
+config.allowedContent = true;
 };
 </script>
-<textarea cols="50" id="box_text" name="text" rows="5"> </textarea> 
+<textarea cols="50" id="box_text" name="text" rows="5"> </textarea>
 <script type="text/javascript">
 CKEDITOR.replace('text',
 {
@@ -2363,8 +2363,7 @@ $countpage = $perpage_r;?>
 <?php
 unset($PagerReplyNumArr);
 ?>]]></forum_perpage_reply>
-<forum_subject_table><![CDATA[
-<script type='text/javascript'>
+<forum_subject_table><![CDATA[<script type='text/javascript'>
 function AjaxTitle()
 {
 var data = {};
@@ -2421,7 +2420,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 </div>
 <!-- Code search Menu start -->
 {if {$_CONF['group_info']['search_allow']} == '1'}
-<div id="searchContainer" class="searchforum">
+<div id="searchContainer">
 <form name="search" action="index.php?page=forum" method="get">
 <input type="hidden" name="page" value="forum" />
 <input type="hidden" name="start" value="1"/>
@@ -2754,7 +2753,7 @@ alt="{$lang['s_special']}" class="f_special brd0" /> </span>
 </div>
 {/if}
 </div>
-</td>		
+</td>
 <td class="row2 forum_sub_rep wd4 a-center">
 {if {$stick_subject_list['reply_number']} == 0}
 {$stick_subject_list['reply_number']}
@@ -2785,14 +2784,14 @@ alt="{$lang['s_special']}" class="f_special brd0" /> </span>
 {/if}
 {/Des::while}
 </table>
-{/if}        
+{/if}
 <table class="border pkr-b wd98 brd1 clpc0 a-center">
 <tr>
 <td colspan="{$colspan}" class="thead pkr pkr-b wd98 a-center">
  {$lang['subject_list']}
 </td>
 </tr>
-</table>   
+</table>
 <table class="border pkr-b wd98 brd1 clpc0 a-center">
 {Des::while}{subject_list}
 <?php
@@ -3450,14 +3449,9 @@ updatecolor() ;
 
 </script>]]></jscolor>
 <headinclud><![CDATA[<!doctype html>
-<html dir="{$_CONF['info_row']['content_dir']}" lang="{$_CONF['info_row']['content_language']}">
+<html dir="{$_CONF['info_row']['content_dir']}" itemscope="" itemtype="http://schema.org/WebPage" lang="{$_CONF['info_row']['content_language']}">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<!-- no cache headers -->
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="-1" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-<!-- end no cache headers -->
 <meta http-equiv="Content-Type" content="text/html; charset={$_CONF['info_row']['charset']}" />
 {if {$index}}
 <meta name="keywords" content="{$keywords}" />
@@ -3475,9 +3469,6 @@ updatecolor() ;
 <link rel="stylesheet" href="{$ForumAdress}applications/core/colorbox-master/colorbox.css" />
 <link rel="alternate" type="application/rss+xml" title="{$lang['rss_subject']}" href="
 {$ForumAdress}index.php?page=rss&amp;subject=1" />
-<script type="text/javascript" src="{$ForumAdress}includes/js/jquery.js"></script>
-<script type="text/javascript" src="{$ForumAdress}includes/js/jquery.min.js"></script>
-<script type="text/javascript" src="{$ForumAdress}includes/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jquery-ui.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jquery.save.js"></script>
@@ -3491,8 +3482,6 @@ updatecolor() ;
 <script type="text/javascript" src="{$ForumAdress}includes/js/pbboardCode.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/pbboard_global.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/pbboard_toggle.js"></script>
-<script type="text/javascript" src="{$ForumAdress}applications/core/jwplayer/jwplayer.js"></script>
-<script type="text/javascript" src="{$ForumAdress}applications/core/jwplayer/jwplayer.trigger.js"></script>
 <script type="text/javascript" src="{$ForumAdress}includes/js/jscolor.js"></script>
 {template}jscolor{/template}
 
@@ -3559,8 +3548,7 @@ $("#colorbox").draggable(true);
 echo "lang_Resize='".$PowerBB->_CONF['template']['lang']['resize_image_w_h']."';\n";
 ?>
 </script>
-<script type="text/javascript" language="javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
-
+<script type="text/javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
 {/if}
 ]]></imgs_resize>
 <info_bar><![CDATA[{get_hook}header{/get_hook}
@@ -3961,10 +3949,10 @@ echo " ...";
 <ul class="rUlRow">
 <li class="tcat pkr">
 <i id="heading_up_static" class="CollapseIcon">
-<img src="{$image_path}/expanded.png" alt="collapsed" />
+<img src="{$image_path}/expanded.png" alt="" />
 </i>
 <i id="heading_down_static" class="CollapseIcon">
-<img src="{$image_path}/collapsed.png" alt="expanded" />
+<img src="{$image_path}/collapsed.png" alt="" />
 </i>
 
 <a href="index.php?page=static&amp;index=1">
@@ -3997,7 +3985,7 @@ echo " ...";
 {if {$view_usernamestyle}}
 <li class="row2">
 {Des::while}{GroupList}
-{$GroupList['h_title']} , 
+{$GroupList['h_title']} ,
 {/Des::while}
 </li>
 {/if}
@@ -4014,12 +4002,12 @@ echo " ...";
 {Des::while}{OnlineList}
 {if {$OnlineList['user_id']} == '-1'}
 {if {$OnlineList['is_bot']}}
-{$OnlineList['bot_name']} ,   
+{$OnlineList['bot_name']} ,
 {else}
 <?php
 echo $PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style'] = str_ireplace('Guest',$PowerBB->_CONF['template']['lang']['Guest_'],$PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style']).$x;
 $x += 1;
-?> ,   
+?> ,
 {/if}
 {else}
 {if {$OnlineList['username_style']} != 'Guest'}
@@ -4398,7 +4386,7 @@ $(document).ready(Ready);
 <td class="row1 pkr right_text_align">
 <!-- action_find_addons_1 -->
 {if {$section_info['active_prefix_subject']}}
-{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php
 $excludedWords = array();
 $doubleAr = $PowerBB->_CONF['template']['section_info']['prefix_subject'];
@@ -4513,7 +4501,7 @@ onclick="window.open('index.php?page=attachments&amp;add_attach=1&amp;section={$
 </td>
 </tr>
 {/if}
-<?php 
+<?php
 if ($PowerBB->_CONF['template']['write_poll'] == '1' and $PowerBB->_CONF['template']['_CONF']['group_info']['write_poll'] == '1') {  ?>
 <tr>
 <td class="row1 pkr" colspan="2">
@@ -4777,7 +4765,7 @@ title="{$lang['Management_tools']}" />
 <a href="[l]&amp;[v]=[last]"><span class="smallfont">[last_page]</span></a>
 </td>
 <td class="mainbar pkr wd1">
-<a href="javascript:switchMenuNone('pageid');" name="pagdropmenu" title="[Jump_between_pages]"><span class="menu_open"></span></a>
+<a href="javascript:switchMenuNone('pageid');" id="pagdropmenu" title="[Jump_between_pages]"><span class="menu_open"></span></a>
 <div style="display:none; margin-right:-100px;" id="pageid" class="drop_menu">
 <table class="border pkr-obj pkr-b wd120n brd1 clpc0">
 <tr class="center_text_align">
@@ -5404,7 +5392,7 @@ width:{$columns};
 <dl class="center_text_align">
 <dt></dt>
 <dd class="v-align-t p-center">
-<?php      
+<?php
 $center_blocks_info = $PowerBB->DB->sql_query("SELECT  *   FROM " . $PowerBB->prefix."blocks" . " WHERE place_block = 'center' AND active = '1' ORDER BY sort ASC");
 while ($get_center_blocks_row = $PowerBB->DB->sql_fetch_array($center_blocks_info))
 {
@@ -5477,7 +5465,7 @@ echo($right_blocks);
 {/if}
 {if {$active_left}}
 <dd  class="v-align-t p-left">
-<?php 
+<?php
 $left_blocks_info = $PowerBB->DB->sql_query("SELECT  *   FROM " . $PowerBB->prefix."blocks" . " WHERE place_block = 'left' AND active = '1' ORDER BY sort ASC");
 while ($get_left_blocks_row = $PowerBB->DB->sql_fetch_array($left_blocks_info))
 {
@@ -7898,7 +7886,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <div class="l-left"> {$lang['Number_of_results']}
 ({$username_nm})
 {$lang['result']}</div>
-{/if}		
+{/if}
 </td>
 </tr>
 {Des::while}{MembersListReply}
@@ -7914,12 +7902,12 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <img src="{$_CONF['MembersListReply_row']['icon_path']}{$MembersListReply['icon']}" alt="" />
 {else}
 <img src="look/images/icons/i1.gif" alt="" />
-{/if}				
+{/if}
 <a href="index.php?page=post&amp;show=1&amp;id={$MembersListReply['id']}">
 {$MembersListReply['title']}
 </a>
-| 
-{$lang['LastsPostsWriter']}  
+|
+{$lang['LastsPostsWriter']}
 {if {$MembersListReply['writer']} =='Guest'}
 {$lang['Guest_']}
  {else}
@@ -7929,7 +7917,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <?php $PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['title'] = $PowerBB->Powerparse->censor_words($PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['title']); ?>
 <?php
 $PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['text'] = $PowerBB->functions->replace_strip($PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['text']);
-?>          
+?>
 {if {$MembersListReply['close']}}
 | {$lang['subject_close']}
 {/if}
@@ -10000,7 +9988,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <td class="thead1 pkr pkr-b right_text_align wd98">
 <div class="r-right">{$lang['tags']}</div>
 <?php
- if(!$PowerBB->_CONF['template']['mod_toolbar'] 
+ if(!$PowerBB->_CONF['template']['mod_toolbar']
  or $PowerBB->_CONF['member_row']['username'] == $PowerBB->_CONF['template']['SubjectInfo']['writer'])
  {
 ?>
@@ -10019,7 +10007,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 {Des::while}{tags}
 <a href="index.php?page=tags&amp;show=1&amp;id={$tags['id']}">{$tags['tag']}</a> ،
 {/Des::while}
-{/if}		
+{/if}
 </td>
 </tr>
 </table>
@@ -10503,10 +10491,10 @@ alt="{$lang['s_special']}" /></td>
 <ul class="rUlRow">
 <li class="tcat pkr">
 <i id="heading_up_statistics_list" class="CollapseIcon">
-<img src="{$image_path}/expanded.png" alt="collapsed" />
+<img src="{$image_path}/expanded.png" alt="" />
 </i>
 <i id="heading_down_statistics_list" class="CollapseIcon">
-<img src="{$image_path}/collapsed.png" alt="expanded" />
+<img src="{$image_path}/collapsed.png" alt="" />
 </i>
 <a title="{$lang['mor_static']}" href="index.php?page=static&amp;index=1">
 <span>{$lang['last_static_num']}</span>
@@ -11634,7 +11622,7 @@ $(document).ready(Ready);
 <tr class="center_text_align">
 <td class="row1 pkr right_text_align">
 {if {$section_info['active_prefix_subject']}}
-{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php
 $excludedWords = array();
 $doubleAr = $PowerBB->_CONF['template']['section_info']['prefix_subject'];
@@ -11667,7 +11655,7 @@ echo '</select>';
 <br />
 {/if}
 
-{$lang['subject_title']} : 
+{$lang['subject_title']} :
 <input name="title" id="title" type="text" value="{$SubjectInfo['title']}{$title_prev}" size="40"
 onKeyDown="countChar(this)"
 onKeyUp="countChar(this)"
