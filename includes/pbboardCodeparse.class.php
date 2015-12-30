@@ -18,9 +18,7 @@ class PowerBBCodeParse
 	        $jwplayer_replace['[jwplayer]'] = "\$this->jwplayer('\\1','\\2','\\3','\\4','\\5')";
 	        $string = @preg_replace($jwplayer_search,$jwplayer_replace,$string);
 
-            // start regex iframe
-            $string = @str_ireplace("<iframe", '[iframe', $string);
-            $string = @str_ireplace("</iframe>", '[/iframe]', $string);
+            // start regex
  			$first_search = array();
  			$first_replace = array();
 
@@ -738,9 +736,8 @@ class PowerBBCodeParse
 		 $text = str_replace( "#text_area#"   , "textarea ", $text );
          $text = @str_ireplace("<script", "&lt;script", $text);
          $text = @str_ireplace("<meta", "&lt;meta", $text);
-          // end regex iframe
-         $text = @str_ireplace("[iframe", '<iframe sandbox="allow-popups allow-same-origin"', $text);
-         $text = @str_ireplace("[/iframe]", '</iframe>', $text);
+          // regex iframe
+        $text = @str_ireplace("<iframe", '<iframe sandbox="allow-popups allow-same-origin"', $text);
 
           // nofollow links out said
         $text = @str_ireplace('target="_blank"', '', $text);
