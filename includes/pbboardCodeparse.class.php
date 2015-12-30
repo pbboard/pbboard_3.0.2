@@ -18,7 +18,7 @@ class PowerBBCodeParse
 	        $jwplayer_replace['[jwplayer]'] = "\$this->jwplayer('\\1','\\2','\\3','\\4','\\5')";
 	        $string = @preg_replace($jwplayer_search,$jwplayer_replace,$string);
 
-
+            // start regex
  			$first_search = array();
  			$first_replace = array();
 
@@ -483,9 +483,8 @@ class PowerBBCodeParse
                 $linky = str_replace(array('"', "'"), array('&quot;', '&#39;'), $linky);
                 $linky = str_replace(array('/watch?', "v="), array('/v', '/'), $linky);
 
-                return "<span id='ytplayer'><object id='ytplayer' width='560' height='315'><param name='movie' value='$linky'></param><param name='allowFullScreen' value='true'></param><param id='ytplayer' name='allowscriptaccess' value='always'></param><embed id='ytplayer' src='$linky' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='false' allownetworking='internal' width='560' height='315'></embed></object></span>";
-
-             //  return "<iframe id='ytplayer' type='text/html' width='560' height='315' src='https://www.youtube.com/embed/$linky' frameborder='0' allowfullscreen></iframe>";
+             return "<span id='ytplayer'><object id='ytplayer' width='560' height='315'><param name='movie' value='$linky'></param><param name='allowFullScreen' value='true'></param><param id='ytplayer' name='allowscriptaccess' value='always'></param><embed id='ytplayer' src='$linky' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='false' allownetworking='internal' width='560' height='315'></embed></object></span>";
+            // return "<iframe id='ytplayer' type='text/html' width='560' height='315' src='$linky' frameborder='0' allowfullscreen></iframe>";
          }
 
 
@@ -735,59 +734,66 @@ class PowerBBCodeParse
          $text = str_replace("&amp;#092;","\(:*:)",$text);
          $text = str_replace("(:*:)","",$text);
 		 $text = str_replace( "#text_area#"   , "textarea ", $text );
+<<<<<<< HEAD
          $text = str_ireplace("<script", "&lt;script", $text);
          $text = str_ireplace("<meta", "&lt;meta", $text);
         $text = str_ireplace("<iframe", '<iframe sandbox="allow-popups"', $text);
+=======
+         $text = @str_ireplace("<script", "&lt;script", $text);
+         $text = @str_ireplace("<meta", "&lt;meta", $text);
+          // regex iframe
+        $text = @str_ireplace("<iframe", '<iframe sandbox="allow-popups allow-same-origin"', $text);
+>>>>>>> origin/master
 
           // nofollow links out said
-        $text = str_ireplace('target="_blank"', '', $text);
-        $text = str_ireplace("target='_blank'", '', $text);
-        $text = str_ireplace('rel="dofollow"', '', $text);
-        $text = str_ireplace('rel="nofollow"', '', $text);
+        $text = @str_ireplace('target="_blank"', '', $text);
+        $text = @str_ireplace("target='_blank'", '', $text);
+        $text = @str_ireplace('rel="dofollow"', '', $text);
+        $text = @str_ireplace('rel="nofollow"', '', $text);
 
 
 		$GetHOSThttp  = "http://".$PowerBB->_SERVER['HTTP_HOST'];
-		$text = str_ireplace('href="'.$GetHOSThttp,'rel="dofollow" href="'.$GetHOSThttp,$text);
-		$text = str_ireplace('href="'.!$GetHOSThttp,'rel="nofollow" href="'.!$GetHOSThttp,$text);
+		$text = @str_ireplace('href="'.$GetHOSThttp,'rel="dofollow" href="'.$GetHOSThttp,$text);
+		$text = @str_ireplace('href="'.!$GetHOSThttp,'rel="nofollow" href="'.!$GetHOSThttp,$text);
 
 		$GetHOSTwww  = "www.".$PowerBB->_SERVER['HTTP_HOST'];
-		$text = str_ireplace('href="'.$GetHOSTwww,'rel="dofollow" href="'.$GetHOSTwww,$text);
-		$text = str_ireplace('href="'.!$GetHOSTwww,'rel="nofollow" href="'.!$GetHOSTwww,$text);
+		$text = @str_ireplace('href="'.$GetHOSTwww,'rel="dofollow" href="'.$GetHOSTwww,$text);
+		$text = @str_ireplace('href="'.!$GetHOSTwww,'rel="nofollow" href="'.!$GetHOSTwww,$text);
 
 		$GetHOSThttpwww  = "http://www.".$PowerBB->_SERVER['HTTP_HOST'];
-		$text = str_ireplace('href="'.$GetHOSThttpwww,'rel="dofollow" href="'.$GetHOSThttpwww,$text);
-		$text = str_ireplace('href="'.!$GetHOSThttpwww,'rel="nofollow" href="'.!$GetHOSThttpwww,$text);
+		$text = @str_ireplace('href="'.$GetHOSThttpwww,'rel="dofollow" href="'.$GetHOSThttpwww,$text);
+		$text = @str_ireplace('href="'.!$GetHOSThttpwww,'rel="nofollow" href="'.!$GetHOSThttpwww,$text);
         //
-        $text = str_ireplace("<a ", '<a target="_blank" ', $text);
+        $text = @str_ireplace("<a ", '<a target="_blank" ', $text);
 
-        $text = str_ireplace('rel="dofollow" rel="dofollow"', '', $text);
-        $text = str_ireplace('rel="nofollow" rel="nofollow"', '', $text);
-        $text = str_ireplace('rel="dofollow"  rel="nofollow"', 'rel="dofollow"', $text);
+        $text = @str_ireplace('rel="dofollow" rel="dofollow"', '', $text);
+        $text = @str_ireplace('rel="nofollow" rel="nofollow"', '', $text);
+        $text = @str_ireplace('rel="dofollow"  rel="nofollow"', 'rel="dofollow"', $text);
 
-        $text = str_ireplace('"   rel="', '" rel="', $text);
-        $text = str_ireplace('blank"  rel="', 'blank" rel="', $text);
-        $text = str_ireplace('target="_blank" rel="nofollow" href="#', 'href="#', $text);
-        $text = str_ireplace('target="_blank" rel="dofollow" href="#', 'href="#', $text);
+        $text = @str_ireplace('"   rel="', '" rel="', $text);
+        $text = @str_ireplace('blank"  rel="', 'blank" rel="', $text);
+        $text = @str_ireplace('target="_blank" rel="nofollow" href="#', 'href="#', $text);
+        $text = @str_ireplace('target="_blank" rel="dofollow" href="#', 'href="#', $text);
 
         $PowerBB->functions->get_hooks('BBCodeParseHooks3');
 
-         $text = str_ireplace('absolute',"a*bsolute",$text);
-         $text = str_ireplace('document',"d*ocument",$text);
-         $text = str_ireplace('cookie',"c*ookie",$text);
-         $text = str_ireplace('alert',"a*lert",$text);
-         $text = str_ireplace('location',"l*ocation",$text);
-         $text = str_ireplace('equiv',"e*quiv",$text);
-         $text = str_ireplace('refresh',"r*efresh",$text);
-         $text = str_ireplace('meta',"m*eta",$text);
-         $text = str_ireplace('base',"b*ase",$text);
-        // $text = str_ireplace('iframe',"i*frame",$text);
-         $text = str_ireplace('method',"m*ethod",$text);
-         $text = str_ireplace('input',"i*nput",$text);
-         $text = str_ireplace('action',"a*ction",$text);
-         $text = str_ireplace('<form',"<f*orm",$text);
+         $text = @str_ireplace('absolute',"a*bsolute",$text);
+         $text = @str_ireplace('document',"d*ocument",$text);
+         $text = @str_ireplace('cookie',"c*ookie",$text);
+         $text = @str_ireplace('alert',"a*lert",$text);
+         $text = @str_ireplace('location',"l*ocation",$text);
+         $text = @str_ireplace('equiv',"e*quiv",$text);
+         $text = @str_ireplace('refresh',"r*efresh",$text);
+         $text = @str_ireplace('meta',"m*eta",$text);
+         $text = @str_ireplace('base',"b*ase",$text);
+        // $text = @str_ireplace('iframe',"i*frame",$text);
+         $text = @str_ireplace('method',"m*ethod",$text);
+         $text = @str_ireplace('input',"i*nput",$text);
+         $text = @str_ireplace('action',"a*ction",$text);
+         $text = @str_ireplace('<form',"<f*orm",$text);
 
         $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
-        $text = str_ireplace($censorwords,'**', $text);
+        $text = @str_ireplace($censorwords,'**', $text);
 
          $blankasciistrip ="160 173 u8205 u8204 u8237 u8238";
 
@@ -881,7 +887,7 @@ class PowerBBCodeParse
 		      {
 		      	$bbcode_tag = $getbbcode_row['bbcode_tag'];
 		      	$bbcode_replace = $getbbcode_row['bbcode_replace'];
-                $bbcode_replace = str_ireplace("'","&#39;",$bbcode_replace);
+                $bbcode_replace = @str_ireplace("'","&#39;",$bbcode_replace);
 
 				if ($getbbcode_row['bbcode_useoption'] == '1')
 				{
@@ -901,8 +907,8 @@ class PowerBBCodeParse
 
             }
 
-			$text = str_ireplace("{h-h}", "http", $text);
-			$text = str_ireplace("{w-w}", "www.", $text);
+			$text = @str_ireplace("{h-h}", "http", $text);
+			$text = @str_ireplace("{w-w}", "www.", $text);
 
 
         return $text;
@@ -957,10 +963,10 @@ class PowerBBCodeParse
 		$auto = str_replace('\\"', '"', $auto);
 		$imageUrl = str_replace('\\"', '"', $imageUrl);
 		$fileUrl = str_replace('\\"', '"', $fileUrl);
-		$imageUrl = str_ireplace("http", "{h-h}", $imageUrl);
-		$imageUrl = str_ireplace("www.", "{w-w}", $imageUrl);
-		$fileUrl = str_ireplace("http", "{h-h}", $fileUrl);
-		$fileUrl = str_ireplace("www.", "{w-w}", $fileUrl);
+		$imageUrl = @str_ireplace("http", "{h-h}", $imageUrl);
+		$imageUrl = @str_ireplace("www.", "{w-w}", $imageUrl);
+		$fileUrl = @str_ireplace("http", "{h-h}", $fileUrl);
+		$fileUrl = @str_ireplace("www.", "{w-w}", $fileUrl);
 
         $imageUrl = $PowerBB->functions->CleanVariable($imageUrl,'trim');
         $fileUrl = $PowerBB->functions->CleanVariable($fileUrl,'trim');
@@ -1030,7 +1036,7 @@ class PowerBBCodeParse
 	       }
 
 	  }
-      $html = str_ireplace('</img>','',$html);
+      $html = @str_ireplace('</img>','',$html);
 
 	   return $html;
 	   }
@@ -1045,24 +1051,24 @@ class PowerBBCodeParse
          $text = str_replace("&amp;#39;","'",$text);
 		 $text = $PowerBB->functions->pbb_stripslashes($text);
          $text = str_replace('{39}',"'",$text);
-         $text = str_ireplace('xss',"**",$text);
-         $text = str_ireplace('document',"**",$text);
-         $text = str_ireplace('cookie',"**",$text);
-         $text = str_ireplace('alert',"**",$text);
-         $text = str_ireplace('location',"**",$text);
-         $text = str_ireplace('equiv',"**",$text);
-         $text = str_ireplace('script',"**",$text);
-         $text = str_ireplace('equiv',"**",$text);
-         $text = str_ireplace('refresh',"**",$text);
-         $text = str_ireplace('meta',"**",$text);
-         $text = str_ireplace('base',"**",$text);
-         $text = str_ireplace('iframe',"**",$text);
-         $text = str_ireplace('style',"",$text);
-         $text = str_ireplace('method',"**",$text);
-         $text = str_ireplace('input',"**",$text);
-         $text = str_ireplace('action',"**",$text);
+         $text = @str_ireplace('xss',"**",$text);
+         $text = @str_ireplace('document',"**",$text);
+         $text = @str_ireplace('cookie',"**",$text);
+         $text = @str_ireplace('alert',"**",$text);
+         $text = @str_ireplace('location',"**",$text);
+         $text = @str_ireplace('equiv',"**",$text);
+         $text = @str_ireplace('script',"**",$text);
+         $text = @str_ireplace('equiv',"**",$text);
+         $text = @str_ireplace('refresh',"**",$text);
+         $text = @str_ireplace('meta',"**",$text);
+         $text = @str_ireplace('base',"**",$text);
+         $text = @str_ireplace('iframe',"**",$text);
+         $text = @str_ireplace('style',"",$text);
+         $text = @str_ireplace('method',"**",$text);
+         $text = @str_ireplace('input',"**",$text);
+         $text = @str_ireplace('action',"**",$text);
         $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
-        $text = str_ireplace($censorwords,'**', $text);
+        $text = @str_ireplace($censorwords,'**', $text);
 
          $blankasciistrip ="160 173 u8205 u8204 u8237 u8238";
 
@@ -1119,12 +1125,12 @@ class PowerBBCodeParse
 			$PowerBB->functions->CleanVariable($smile,'html');
 		if (defined('IN_ADMIN'))
 		{
-			$smile['smile_short'] = str_ireplace(":#","{:#}", $smile['smile_short']);
+			$smile['smile_short'] = @str_ireplace(":#","{:#}", $smile['smile_short']);
 			$text = str_replace($smile['smile_short'],'<img src="' . "../".$smile['smile_path'] . '" border="0" alt="' . $smile['smile_short'] . '" />',$text);
 		}
 		else
 		{
-			$smile['smile_short'] = str_ireplace(":#","{:#}", $smile['smile_short']);
+			$smile['smile_short'] = @str_ireplace(":#","{:#}", $smile['smile_short']);
 			$text = str_replace($smile['smile_short'],'<img src="' . $smile['smile_path'] . '" border="0" alt="' . $smile['smile_short'] . '" />',$text);
 		}
         		$text = str_replace("smiles//","smiles/", $text);
@@ -1198,22 +1204,22 @@ class PowerBBCodeParse
                 }
 
                 $message = str_replace('\\"', '"', $message);
-                $message = str_ireplace("&quot;", '', $message);
-                $message = str_ireplace('"<a ', "<a ", $message);
-                $message = str_ireplace('&quot;<a ', "<a ", $message);
-                $message = str_ireplace('\"', '"', $message);
-                $message = str_ireplace('""', '"', $message);
+                $message = @str_ireplace("&quot;", '', $message);
+                $message = @str_ireplace('"<a ', "<a ", $message);
+                $message = @str_ireplace('&quot;<a ', "<a ", $message);
+                $message = @str_ireplace('\"', '"', $message);
+                $message = @str_ireplace('""', '"', $message);
                 $message = @preg_replace('#<a href="(.*?)" (.*?)</a>#i', "$1", $message);
-                $message = str_ireplace("&quot", '', $message);
+                $message = @str_ireplace("&quot", '', $message);
 
                 $link = str_replace('\\"', '"', $link);
-                $link = str_ireplace("&quot;", '', $link);
-                $link = str_ireplace('"<a ', "<a ", $link);
-                $link = str_ireplace('&quot;<a ', "<a ", $link);
-                $link = str_ireplace('\"', '"', $link);
-                $link = str_ireplace('""', '"', $link);
+                $link = @str_ireplace("&quot;", '', $link);
+                $link = @str_ireplace('"<a ', "<a ", $link);
+                $link = @str_ireplace('&quot;<a ', "<a ", $link);
+                $link = @str_ireplace('\"', '"', $link);
+                $link = @str_ireplace('""', '"', $link);
                 $link = @preg_replace('#<a href="(.*?)" (.*?)</a>#i', "$1", $link);
-                $link = str_ireplace("&quot", '', $link);
+                $link = @str_ireplace("&quot", '', $link);
 
                $PowerBB->functions->get_hooks('BBCodeParseHooks6');
 
@@ -1297,15 +1303,15 @@ class PowerBBCodeParse
         */
         $img = str_replace("&lt;br&gt;","<br>",$img);
        // $img = str_replace("&lt;br /&gt;","<br>",$img);
-        $img = str_ireplace("&amp;quot;", "", $img);
-		$img = str_ireplace("alt=", '', $img);
-		$img = str_ireplace("border=0", '', $img);
-   		//$img = str_ireplace('<br />', '', $img);
+        $img = @str_ireplace("&amp;quot;", "", $img);
+		$img = @str_ireplace("alt=", '', $img);
+		$img = @str_ireplace("border=0", '', $img);
+   		//$img = @str_ireplace('<br />', '', $img);
         $img = str_replace("<br>", '',$img);
    		$img = str_replace('\n', '', $img);
    		$img = str_replace('\s', '', $img);
    		$img = str_replace('\r', '', $img);
-        $img = str_ireplace("&nbsp;", '',$img);
+        $img = @str_ireplace("&nbsp;", '',$img);
 
         //attach url img replace id
         $Adress = $PowerBB->functions->GetForumAdress();
@@ -1320,7 +1326,8 @@ class PowerBBCodeParse
 		$fileParts = pathinfo($img);
 
 		if(isset($fileParts['filename']))
-		{		 $fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
+		{
+		 $fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
          $imagename= trim($fileParts['filename']);
 		}
 		else
@@ -1636,7 +1643,7 @@ class PowerBBCodeParse
         $string = str_replace('\\"', '"', $string);
         $string = @preg_replace('#\<li\>(.*)\</li\>#esiU',"\$this->li_not_bar('\\1')",$string);
 		$string = str_replace( "#textarea#"   , "text_area ", $string );
-		$string  = str_ireplace("<iframe", "&lt;iframe", $string);
+		$string  = @str_ireplace("<iframe", "&lt;iframe", $string);
 
 
         return $string;

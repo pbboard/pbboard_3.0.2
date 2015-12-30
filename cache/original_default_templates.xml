@@ -288,7 +288,7 @@ src="index.php?page=download&amp;attach=1&amp;id={$SubjectAttachList['id']}" tit
 <script type='text/javascript'>
 function AddMoreAttach(x)
 {
-x += 1;var 
+x += 1;var
 up_max = {$_CONF['group_info']['upload_attach_num']};
 if (x <= up_max)
 {
@@ -577,7 +577,7 @@ comm._toggle();</script>
 <script type='text/javascript'>
 function AddMoreAttach(x)
 {
-x += 1;var 
+x += 1;var
 up_max = {$_CONF['group_info']['upload_attach_num']};
 if (x <= up_max)
 {
@@ -703,15 +703,15 @@ src="index.php?page=download&amp;attach=1&amp;id={$ReplyAttachList['id']}" title
 <script type='text/javascript'>
 function AddMoreAttach(x)
 {
-x += 1;	
-var up_max = {$_CONF['group_info']['upload_attach_num']};	
+x += 1;
+var up_max = {$_CONF['group_info']['upload_attach_num']};
 if (x <= up_max)
 {
 $(".more_attach_tr").hide();
 $("#add_attach_table").append('<tr class="center_text_align"><td class="row1 pkr rows_space"><fieldset class="pkr-b"><legend class="pkr-b">{$lang['review_file']}</legend><span class="r-right"><input name="files[]" type="file" id="attach' + x + '" size="50" /></span><span class="l-left"></span></fieldset></td></tr>');
 $("#add_attach_table").append('<tr class="more_attach_tr center_text_align"><td class="row1 pkr rows_space" colspan="2"><input type="button" name="more_attach" class="more_attach_class" value="{$lang['more_attach_file']}" /></td></tr>');
 $("#files" + x).focus();
-$(".more_attach_class").click(function() { AddMoreAttach(x) });		
+$(".more_attach_class").click(function() { AddMoreAttach(x) });
 if (x == up_max)
 {
 $(".more_attach_tr").hide();
@@ -779,7 +779,7 @@ $(document).ready(Ready);
 <td class="row2 wd50">
 <a title="{$lang['upload']}"
 target="_blank" href="index.php?page=download&amp;attach=1&amp;id={$SubjectAttachList['id']}">
-<img class="brd0" alt="" src="{$image_path}/attach.gif" /> 
+<img class="brd0" alt="" src="{$image_path}/attach.gif" />
 {$SubjectAttachList['filename']}</a>
 </td>
 <td class="row2 center_text_align wd20">
@@ -1913,10 +1913,10 @@ config.contentsCss = '{$ForumAdress}look/fonts/fonts.css';
 config.font_names = 'Droid Arabic Kufi;' + config.font_names;
 config.font_defaultLabel = 'Droid Arabic Kufi';
 config.fontSize_defaultLabel = '15px';
-config.allowedContent = true; 
+config.allowedContent = true;
 };
 </script>
-<textarea cols="50" id="box_text" name="text" rows="5"> </textarea> 
+<textarea cols="50" id="box_text" name="text" rows="5"> </textarea>
 <script type="text/javascript">
 CKEDITOR.replace('text',
 {
@@ -2754,7 +2754,7 @@ alt="{$lang['s_special']}" class="f_special brd0" /> </span>
 </div>
 {/if}
 </div>
-</td>		
+</td>
 <td class="row2 forum_sub_rep wd4 a-center">
 {if {$stick_subject_list['reply_number']} == 0}
 {$stick_subject_list['reply_number']}
@@ -2785,14 +2785,14 @@ alt="{$lang['s_special']}" class="f_special brd0" /> </span>
 {/if}
 {/Des::while}
 </table>
-{/if}        
+{/if}
 <table class="border pkr-b wd98 brd1 clpc0 a-center">
 <tr>
 <td colspan="{$colspan}" class="thead pkr pkr-b wd98 a-center">
  {$lang['subject_list']}
 </td>
 </tr>
-</table>   
+</table>
 <table class="border pkr-b wd98 brd1 clpc0 a-center">
 {Des::while}{subject_list}
 <?php
@@ -3544,6 +3544,14 @@ $(".resize_img").colorbox({rel:'resize_img', width:"80%", height:"85%", scrollin
 $("#colorbox").draggable(true);
 });
 </script>
+<<<<<<< HEAD
+=======
+<script type="text/javascript">
+<?php
+echo "lang_Resize='".$PowerBB->_CONF['template']['lang']['resize_image_w_h']."';\n";
+?>
+</script>
+>>>>>>> origin/master
 <script type="text/javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
 {/if}
 ]]></template>
@@ -3981,7 +3989,7 @@ echo " ...";
 {if {$view_usernamestyle}}
 <li class="row2">
 {Des::while}{GroupList}
-{$GroupList['h_title']} , 
+{$GroupList['h_title']} ,
 {/Des::while}
 </li>
 {/if}
@@ -3998,12 +4006,12 @@ echo " ...";
 {Des::while}{OnlineList}
 {if {$OnlineList['user_id']} == '-1'}
 {if {$OnlineList['is_bot']}}
-{$OnlineList['bot_name']} ,   
+{$OnlineList['bot_name']} ,
 {else}
 <?php
 echo $PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style'] = str_ireplace('Guest',$PowerBB->_CONF['template']['lang']['Guest_'],$PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style']).$x;
 $x += 1;
-?> ,   
+?> ,
 {/if}
 {else}
 {if {$OnlineList['username_style']} != 'Guest'}
@@ -4382,7 +4390,7 @@ $(document).ready(Ready);
 <td class="row1 pkr right_text_align">
 <!-- action_find_addons_1 -->
 {if {$section_info['active_prefix_subject']}}
-{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php
 $excludedWords = array();
 $doubleAr = $PowerBB->_CONF['template']['section_info']['prefix_subject'];
@@ -4497,7 +4505,7 @@ onclick="window.open('index.php?page=attachments&amp;add_attach=1&amp;section={$
 </td>
 </tr>
 {/if}
-<?php 
+<?php
 if ($PowerBB->_CONF['template']['write_poll'] == '1' and $PowerBB->_CONF['template']['_CONF']['group_info']['write_poll'] == '1') {  ?>
 <tr>
 <td class="row1 pkr" colspan="2">
@@ -5388,7 +5396,7 @@ width:{$columns};
 <dl class="center_text_align">
 <dt></dt>
 <dd class="v-align-t p-center">
-<?php      
+<?php
 $center_blocks_info = $PowerBB->DB->sql_query("SELECT  *   FROM " . $PowerBB->prefix."blocks" . " WHERE place_block = 'center' AND active = '1' ORDER BY sort ASC");
 while ($get_center_blocks_row = $PowerBB->DB->sql_fetch_array($center_blocks_info))
 {
@@ -5461,7 +5469,7 @@ echo($right_blocks);
 {/if}
 {if {$active_left}}
 <dd  class="v-align-t p-left">
-<?php 
+<?php
 $left_blocks_info = $PowerBB->DB->sql_query("SELECT  *   FROM " . $PowerBB->prefix."blocks" . " WHERE place_block = 'left' AND active = '1' ORDER BY sort ASC");
 while ($get_left_blocks_row = $PowerBB->DB->sql_fetch_array($left_blocks_info))
 {
@@ -7882,7 +7890,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <div class="l-left"> {$lang['Number_of_results']}
 ({$username_nm})
 {$lang['result']}</div>
-{/if}		
+{/if}
 </td>
 </tr>
 {Des::while}{MembersListReply}
@@ -7898,12 +7906,12 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <img src="{$_CONF['MembersListReply_row']['icon_path']}{$MembersListReply['icon']}" alt="" />
 {else}
 <img src="look/images/icons/i1.gif" alt="" />
-{/if}				
+{/if}
 <a href="index.php?page=post&amp;show=1&amp;id={$MembersListReply['id']}">
 {$MembersListReply['title']}
 </a>
-| 
-{$lang['LastsPostsWriter']}  
+|
+{$lang['LastsPostsWriter']}
 {if {$MembersListReply['writer']} =='Guest'}
 {$lang['Guest_']}
  {else}
@@ -7913,7 +7921,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <?php $PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['title'] = $PowerBB->Powerparse->censor_words($PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['title']); ?>
 <?php
 $PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['text'] = $PowerBB->functions->replace_strip($PowerBB->_CONF['template']['while']['MembersListReply'][$this->x_loop]['text']);
-?>          
+?>
 {if {$MembersListReply['close']}}
 | {$lang['subject_close']}
 {/if}
@@ -9984,7 +9992,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <td class="thead1 pkr pkr-b right_text_align wd98">
 <div class="r-right">{$lang['tags']}</div>
 <?php
- if(!$PowerBB->_CONF['template']['mod_toolbar'] 
+ if(!$PowerBB->_CONF['template']['mod_toolbar']
  or $PowerBB->_CONF['member_row']['username'] == $PowerBB->_CONF['template']['SubjectInfo']['writer'])
  {
 ?>
@@ -10003,7 +10011,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 {Des::while}{tags}
 <a href="index.php?page=tags&amp;show=1&amp;id={$tags['id']}">{$tags['tag']}</a> ،
 {/Des::while}
-{/if}		
+{/if}
 </td>
 </tr>
 </table>
@@ -11618,7 +11626,7 @@ $(document).ready(Ready);
 <tr class="center_text_align">
 <td class="row1 pkr right_text_align">
 {if {$section_info['active_prefix_subject']}}
-{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+{$lang['prefix_subject']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <?php
 $excludedWords = array();
 $doubleAr = $PowerBB->_CONF['template']['section_info']['prefix_subject'];
@@ -11651,7 +11659,7 @@ echo '</select>';
 <br />
 {/if}
 
-{$lang['subject_title']} : 
+{$lang['subject_title']} :
 <input name="title" id="title" type="text" value="{$SubjectInfo['title']}{$title_prev}" size="40"
 onKeyDown="countChar(this)"
 onKeyUp="countChar(this)"
@@ -15847,7 +15855,11 @@ gif, jpeg, jpg, png
 </div>
 </div>
 </div>]]></template>
+<<<<<<< HEAD
 <template name="calendar" templatetype="template" date="1451365415" username="admin" decode="0" version="3.0.2"><![CDATA[<title>{$lang['Calendar']}
+=======
+<template name="calendar" templatetype="template" date="1451365415" username="PBBoard Solutions" decode="0" version="3.0.2"><![CDATA[<title>{$lang['Calendar']}
+>>>>>>> origin/master
 {if {$_CONF['info_row']['allowed_powered']} == 1}
 - {$lang['powered']}
 {/if}</title>

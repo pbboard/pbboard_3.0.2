@@ -1720,14 +1720,7 @@ class DatabaseStruct extends PowerBBInstall
 		$InfoArray['download_path'] 			= 'download';
 		$InfoArray['def_group'] 				= 4;
 		$InfoArray['adef_group'] 				= 4;
-		if ($PowerBB->_GET['lang']=='en')
-		{
-		$InfoArray['def_style'] 				= 2;
-		}
-		else
-		{
 		$InfoArray['def_style'] 				= 1;
-		}
 		$InfoArray['board_close'] 				= 0;
 		$InfoArray['board_msg'] 				= '';
 		$InfoArray['use_list'] 					= 'xa-4c4700355e83e612';
@@ -1784,7 +1777,7 @@ class DatabaseStruct extends PowerBBInstall
 		      $InfoArray['content_dir'] 			    = 'rtl';
 		      $InfoArray['lasts_posts_bar_dir']	    = 'right';
 		      $InfoArray['special_bar_dir']	        = 'right';
-		      $InfoArray['max_online_date'] 		    = date("d/m/Y الساعة h:i a");
+		      $InfoArray['max_online_date'] 		    = date("d/m/Y h:i a");
 		      $InfoArray['chat_bar_dir'] 		        = 'right';
               $InfoArray['def_lang']			    	= '1';
 
@@ -1961,14 +1954,7 @@ class DatabaseStruct extends PowerBBInstall
 		$InfoArray['styles_list_cache'] 		= '';
 		$InfoArray['p_cache'] 		= '';
 		$InfoArray['last_time_updates']	   = time();
-		if ($PowerBB->_GET['lang']=='en')
-		{
-		$InfoArray['mobile_style_id'] 				= 2;
-		}
-		else
-		{
 		$InfoArray['mobile_style_id'] 				= 1;
-		}
 		$x = 0;
 		$i = array();
 

@@ -536,7 +536,12 @@ class PowerBBCommon
 				  $PowerBB->_CONF['info_row']['content_language'] = 'en';
 			}
 			else
+<<<<<<< HEAD
 			{				$PowerBB->template->assign('align','right');
+=======
+			{
+				$PowerBB->template->assign('align','right');
+>>>>>>> origin/master
 				$PowerBB->_CONF['info_row']['content_dir'] = 'rtl';
 				$PowerBB->_CONF['info_row']['content_language'] = 'ar';
 			}
@@ -789,7 +794,8 @@ class PowerBBCommon
 
 		// if the forum close by admin , stop the page
 		if ($PowerBB->_CONF['info_row']['board_close'])
-    	{
+    	{
+
     	     $PowerBB->_CONF['info_row']['sidebar_list_active'] = 0;
   			if ($PowerBB->_CONF['group_info']['admincp_allow'] != 1
   				and !defined('LOGIN'))
@@ -988,7 +994,8 @@ class PowerBBCommon
         //////
 
 			if ($PowerBB->_CONF['info_row']['activate_chat_bar'] == 1)
-			{				if ($PowerBB->_CONF['member_row']['posts'] < $PowerBB->_CONF['info_row']['chat_num_mem_posts']
+			{
+				if ($PowerBB->_CONF['member_row']['posts'] < $PowerBB->_CONF['info_row']['chat_num_mem_posts']
 				and $PowerBB->_CONF['group_info']['banned'])
 				{
 		          $PowerBB->template->assign('num_mem_posts',true);
@@ -1179,14 +1186,16 @@ class PowerBBCommon
                if($page == 'forum')
                {
                 if(in_array($PowerBB->_GET['id'],$sidebar_list_exclusion_forums_array))
-                {               	 $PowerBB->template->assign('on_sidebar_list_thes_page',0);
+                {
+               	 $PowerBB->template->assign('on_sidebar_list_thes_page',0);
                 }
                }
               }
 			}
 
 			if ($PowerBB->_CONF['info_row']['sidebar_list_align'] == 'left')
-			{			$PowerBB->template->assign('opposite_direction','right');
+			{
+			$PowerBB->template->assign('opposite_direction','right');
 			}
 			elseif ($PowerBB->_CONF['info_row']['sidebar_list_align'] == 'right')
 			{
