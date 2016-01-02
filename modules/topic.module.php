@@ -35,7 +35,7 @@ class PowerBBTopicMOD
 
 		$PowerBB->_GET['id'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['id'],'intval');
 
-      $hookstopic = $PowerBB->functions->get_hooks("topic");
+      eval($PowerBB->functions->get_fetch_hooks('topic'));
 
 		// If the id is empty, so stop the page
 		if (empty($PowerBB->_GET['id']))
@@ -1077,7 +1077,7 @@ class PowerBBTopicMOD
 				$this->RInfo[$this->x]['text'] = nl2br($this->RInfo[$this->x]['text']);
 			}
 
-	        $hooks_topic_bady = $PowerBB->functions->get_hooks("topic_bady");
+                 eval($PowerBB->functions->get_fetch_hooks('topic_bady'));
 
 			// Convert the smiles to image
 			$PowerBB->Powerparse->replace_smiles($this->RInfo[$this->x]['text']);
@@ -1458,8 +1458,7 @@ class PowerBBTopicMOD
 		     }
 
 
-
-         $hooks_topic_end = $PowerBB->functions->get_hooks("topic_end");
+         eval($PowerBB->functions->get_fetch_hooks('topic_end'));
 
        $PowerBB->functions->JumpForumsList();
 

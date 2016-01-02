@@ -435,8 +435,7 @@ class PowerBBReplyAddMOD
 				$PowerBB->template->assign('answer',$answer);
 		     }
 
-         $hooks = $PowerBB->functions->get_hooks("new_reply");
-
+         eval($PowerBB->functions->get_fetch_hooks('new_reply'));
 	      $PowerBB->template->display('new_reply');
 
 
@@ -1145,7 +1144,7 @@ class PowerBBReplyAddMOD
 			     		$PowerBB->functions->PBB_Create_last_posts_cache(0);
 				 }
 
-                   $code_hooks = $PowerBB->functions->get_hooks("insert_reply");
+                   eval($PowerBB->functions->get_fetch_hooks('insert_reply'));
 
 		     		if (!isset($PowerBB->_POST['ajax']))
 		     		{

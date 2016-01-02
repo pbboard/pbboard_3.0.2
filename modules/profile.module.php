@@ -49,6 +49,8 @@ class PowerBBProfileMOD
 	        }
 	     }
 
+		eval($PowerBB->functions->get_fetch_hooks('profileHooksStart'));
+
        		////////
 	    // Extra Field info
 	    $extraEmptyFields=$PowerBB->extrafield->getEmptyProfileFields();
@@ -552,6 +554,8 @@ class PowerBBProfileMOD
 				$PowerBB->template->assign('question',$question);
 				$PowerBB->template->assign('answer',$answer);
 		     }
+
+		   eval($PowerBB->functions->get_fetch_hooks('profileHooksEnd'));
 		$PowerBB->template->display('profile');
 	}
 }

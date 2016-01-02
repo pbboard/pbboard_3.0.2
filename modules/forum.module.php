@@ -739,8 +739,7 @@ class PowerBBForumMOD
 	{
 	    global $PowerBB;
 
-      $PowerBB->functions->get_hooks("forumdHooks");
-
+       eval($PowerBB->functions->get_fetch_hooks('forumdHooks'));
     }
 
 
@@ -766,7 +765,7 @@ class PowerBBForumMOD
 
 		$PowerBB->_GET['count'] = (!isset($PowerBB->_GET['count'])) ? 0 : $PowerBB->_GET['count'];
 		$PowerBB->_GET['count'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['count'],'intval');
-        $PowerBB->functions->get_hooks("forum_subjectlist_Hooks");
+         eval($PowerBB->functions->get_fetch_hooks('forum_subjectlist_Hooks'));
 
 		//if subjects numprs in Section = 0 get the masseg
        $PowerBB->template->assign('NO_SUBJECTS',$this->Section['subject_num']);

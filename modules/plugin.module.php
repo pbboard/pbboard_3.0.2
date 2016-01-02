@@ -44,8 +44,7 @@ class PowerBBPluginMOD
 
        $PowerBB->functions->ShowHeader();
 
-       $code_parse = $PowerBB->functions->get_hooks("PluginHooksMain");
-
+     eval($PowerBB->functions->get_fetch_hooks('PluginHooksMain'));
 	}
 
 	function StartUpdate()
@@ -53,7 +52,7 @@ class PowerBBPluginMOD
 		global $PowerBB;
        $PowerBB->functions->ShowHeader();
 
-       $code_parse = $PowerBB->functions->get_hooks("PluginHooksUpdate");
+      eval($PowerBB->functions->get_fetch_hooks('PluginHooksUpdate'));
 
 	}
 

@@ -3544,14 +3544,11 @@ $(".resize_img").colorbox({rel:'resize_img', width:"80%", height:"85%", scrollin
 $("#colorbox").draggable(true);
 });
 </script>
-<<<<<<< HEAD
-=======
 <script type="text/javascript">
 <?php
 echo "lang_Resize='".$PowerBB->_CONF['template']['lang']['resize_image_w_h']."';\n";
 ?>
 </script>
->>>>>>> origin/master
 <script type="text/javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
 {/if}
 ]]></template>
@@ -15855,11 +15852,7 @@ gif, jpeg, jpg, png
 </div>
 </div>
 </div>]]></template>
-<<<<<<< HEAD
-<template name="calendar" templatetype="template" date="1451365415" username="admin" decode="0" version="3.0.2"><![CDATA[<title>{$lang['Calendar']}
-=======
 <template name="calendar" templatetype="template" date="1451365415" username="PBBoard Solutions" decode="0" version="3.0.2"><![CDATA[<title>{$lang['Calendar']}
->>>>>>> origin/master
 {if {$_CONF['info_row']['allowed_powered']} == 1}
 - {$lang['powered']}
 {/if}</title>

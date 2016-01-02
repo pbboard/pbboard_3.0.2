@@ -181,7 +181,7 @@ class PowerBBTemplate
         $string = str_replace("&#39;", "'", $string);
         // CSRF protect all your forms
         //$string = str_ireplace("</form>",'<input type="hidden" name="csrf" value="{$csrf_key}" />'."\n</form>",$string);
-
+      eval($PowerBB->functions->get_fetch_hooks('template_class_start'));
 		// We have loop
 		if (preg_match('~\{Des::while}{([^[<].*?)}~',$string)
 			or preg_match('~\{Des::while::complete}~',$string))
@@ -286,6 +286,8 @@ class PowerBBTemplate
         $string = str_replace('action="index.php?page=login','name="login" action="index.php?page=login',$string);
         $string = str_replace('"index.php"','"'.$PowerBB->functions->GetForumAdress().'"',$string);
         $string = str_replace("'index.php'","'".$PowerBB->functions->GetForumAdress()."'",$string);
+        eval($PowerBB->functions->get_fetch_hooks('template_class_end'));
+
         $string = $PowerBB->sys_functions->ReplaceMysqlExtension($string);
         $string = $PowerBB->functions->rewriterule($string);
  		$write  = @eval(" ?>".$PowerBB->sys_functions->fetch_gzipped_text($string)."<?php ");
@@ -510,11 +512,41 @@ class PowerBBTemplate
 					}
                    else
                    {
-					 $text = $PowerBB->DB->sql_query("SELECT template,title,styleid FROM " . $PowerBB->prefix."template" . " WHERE title = '$template_name' AND styleid = '$style_id'");
-					 $template = $PowerBB->DB->sql_fetch_array($text);
-			        // CSRF protect all your forms
-			       // $template['template'] = str_ireplace("</form>",'<input type="hidden" name="csrf" value="[csrf_key]" />'."\n</form>",$template['template']);
-			         return $template['template'];
+					   $text = $PowerBB->DB->sql_query("SELECT template,title,styleid FROM " . $PowerBB->prefix."template" . " WHERE title = '$template_name' AND styleid = '$style_id'");
+						$template = $PowerBB->DB->sql_fetch_array($text);
+						if ($template)
+						{
+                            $template['template'] = str_replace("&#39;", "'", $template['template']);
+
+							$fp = fopen($templates_dir,'w+');
+							if (!$fp)
+							{
+							 trigger_error('ERROR::CAN_NOT_OPEN_THE_FILE',E_USER_ERROR);
+							}
+							$fw = fwrite($fp,$template['template']);
+							fclose($fp);
+
+							 if ($fw)
+							 {
+								$fp2 = fopen($templates_dir,'r');
+								if (!$fp2)
+								{
+									trigger_error('ERROR::CAN_NOT_OPEN_THE_FILE',E_USER_ERROR);
+								}
+
+								$fr2 = fread($fp2,filesize($templates_dir));
+								if (!$fr2)
+								{
+									trigger_error('ERROR::CAN_NOT_READ_FROM_THE_FILE',E_USER_ERROR);
+								}
+								$this->_CompileTemplate($fr2,$template_name);
+								fclose($fp2);
+	                         }
+                          }
+
+	                    unset($text);
+					    $text = $PowerBB->DB->sql_free_result($text);
+
                    }
 	}
 

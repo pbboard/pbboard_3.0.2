@@ -3543,14 +3543,11 @@ $(".resize_img").colorbox({rel:'resize_img', width:"80%", height:"85%", scrollin
 $("#colorbox").draggable(true);
 });
 </script>
-<<<<<<< HEAD
-=======
 <script type="text/javascript">
 <?php
 echo "lang_Resize='".$PowerBB->_CONF['template']['lang']['resize_image_w_h']."';\n";
 ?>
 </script>
->>>>>>> origin/master
 <script type="text/javascript" src="{$ForumAdress}includes/js/resize_images.js"></script>
 {/if}
 ]]></imgs_resize>

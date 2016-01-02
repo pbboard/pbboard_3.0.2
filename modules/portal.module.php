@@ -416,6 +416,7 @@ class PowerBBPortalMOD
 		} // end foreach ($catsy)
 
 		//////////
+       eval($PowerBB->functions->get_fetch_hooks('portalHooks'));
 
          $PowerBB->template->display('portal');
 

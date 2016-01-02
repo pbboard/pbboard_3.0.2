@@ -357,25 +357,7 @@ class PowerBBFixMOD
 	     $query_section_group = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['section_group'] . " WHERE section_id=".$r['id']."");
 	     $Info_section_group = $PowerBB->DB->sql_fetch_array($query_section_group);
 	     if($Info_section_group['view_section'] == false)
-	     {	      	$truncate .= 1;
-	     }
-	     else
-	     {
-			$truncate .= 0;
-
-			$CacheArr 			= 	array();
-			$CacheArr['id'] 	= 	$r['id'];
-			$cache = $PowerBB->group->UpdateSectionGroupCache($CacheArr);
-
-	     }
-
-	    }
-
-
-
-          if($truncate)
-           {
-		        $truncate_sectiongroup = $PowerBB->DB->sql_query("TRUNCATE " . $PowerBB->table['section_group'] );
+	     {                 $truncate_sectiongroup = $PowerBB->DB->sql_query("TRUNCATE " . $PowerBB->table['section_group'] );
 
 		        $query = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['section'] . " ");
 
@@ -419,17 +401,6 @@ class PowerBBFixMOD
 						}
 
 
-		                 if($sec_section and $groups['group_mod'] == 0)
-		                 {			                $groups['view_section'] = 0;
-			                $groups['view_subject'] = 0;
-			                $groups['write_reply'] = 0;
-			                $groups['write_subject'] = 0;
-			                $groups['del_own_subject'] = 0;
-			                $groups['del_own_reply'] = 0;
-			                $groups['upload_attach'] = 0;
-			                $groups['download_attach'] = 0;
-			              }
-
 		                 if($hide_subject and $sec_section == 0)
 		                 {
 			                $groups['view_section'] = 1;
@@ -470,7 +441,22 @@ class PowerBBFixMOD
 						}
 				     }
 				}
-          }
+
+	     }
+	     else
+	     {
+			$truncate = 0;
+
+			$CacheArr 			= 	array();
+			$CacheArr['id'] 	= 	$r['id'];
+			$cache = $PowerBB->group->UpdateSectionGroupCache($CacheArr);
+
+	     }
+
+	    }
+
+
+
 		$PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['updated_successfully_Please_wait']);
 		$PowerBB->functions->redirect('index.php?page=fixup&amp;update_meter=1&amp;main=1');
        }

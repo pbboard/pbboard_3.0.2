@@ -2797,6 +2797,54 @@ function gzip_encode($contents, $level=1)
 
 	}
 
+	function get_fetch_hooks($place_of_hook)
+	{
+		global $PowerBB;
+		if (!empty($place_of_hook))
+		{
+	      if($PowerBB->DISABLE_HOOKS)
+	      {
+
+				if (!defined('INSTALL'))
+				{
+
+                     $url = ("cache/HooksCache.php");
+                    if (!is_readable($url))
+					{
+					 $url = ("../cache/HooksCache.php");
+					}
+
+						@include($url);
+						$Hooks_number = sizeof($Hooks, 1);
+						if($Hooks_number > 0)
+						{
+							for ($x = 0; $x < $Hooks_number; $x++)
+							{
+
+                               if($Hooks[$place_of_hook][$x])
+                               {
+
+									$Hooksquery = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['hooks'] . " WHERE main_place = '$place_of_hook' ");
+									while ($Hooks = $PowerBB->DB->sql_fetch_array($Hooksquery))
+									{
+									$Hooks['phpcode'] = str_replace("{sq}","'", $Hooks['phpcode']);
+									$Hooks['phpcode'] = str_replace("\'","'", $Hooks['phpcode']);
+									return ($Hooks['phpcode']);
+
+									}
+                               }
+
+							}
+
+
+						 }
+
+	              }
+
+		  }
+       }
+	}
+
 	function get_hooks($place_of_hook)
 	{
 		global $PowerBB;

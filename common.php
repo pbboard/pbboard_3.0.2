@@ -9,8 +9,8 @@ exit;
 }
 
 //Generate a key, print a form:
-$key = @sha1(@microtime());
-$_SESSION['csrf'] = $key;
+$Generatekey = @sha1(@microtime());
+$_SESSION['csrf'] = $Generatekey;
 //Set no caching
 // Make sure is not cached (as it happens for example on iOS devices)
 @header("Expires: 0");
