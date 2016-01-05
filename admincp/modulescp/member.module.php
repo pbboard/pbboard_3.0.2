@@ -472,9 +472,22 @@ class PowerBBMemberMOD extends _functions
 		$ForumAdress = $PowerBB->functions->GetForumAdress();
         $ForumAdress = str_replace($PowerBB->admincpdir."/", '', $ForumAdress);
         $ForumAdress = str_replace($PowerBB->admincpdir, '', $ForumAdress);
-		$MemInfo['avater_path'] = str_ireplace("look/images/avatar",$ForumAdress."look/images/avatar",$MemInfo['avater_path']);
 
-        $PowerBB->template->assign('avater_path',$MemInfo['avater_path']);
+       if($MemInfo['avater_path'] !='')
+        {
+          if(strstr($MemInfo['avater_path'],$ForumAdress))
+          {
+		     $MemInfo['avater_path'] = str_ireplace($ForumAdress.$ForumAdress,'',$MemInfo['avater_path']);
+             $PowerBB->template->assign('avater_path',$MemInfo['avater_path']);
+          }
+          else
+          {
+		     $MemInfo['avater_path'] = str_ireplace("look/images/avatar",$ForumAdress."look/images/avatar",$MemInfo['avater_path']);
+             $PowerBB->template->assign('avater_path',$MemInfo['avater_path']);
+
+          }
+        }
+
         if($MemInfo['profile_cover_photo'] !='')
         {
           if(strstr($MemInfo['profile_cover_photo'],$ForumAdress))

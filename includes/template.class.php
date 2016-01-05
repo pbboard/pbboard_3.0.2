@@ -243,6 +243,12 @@ class PowerBBTemplate
         $first_replace = "mqtids_replace_cod";
  		$string = str_replace($first_search,$first_replace,$string);
 		}
+		if ($filename == 'headinclud')
+		{
+        $first_search = 'meta name="description" content=" ';
+        $first_replace = 'meta name="description" content="';
+ 		$string = str_replace($first_search,$first_replace,$string);
+		}
 		if ($filename == 'pm_show')
 		{
         $first_search = "ATTACH_SHOW";
