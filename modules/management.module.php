@@ -1174,7 +1174,7 @@ class PowerBBManagementMOD
 
         $PowerBB->template->assign('reason_edit',$PowerBB->_CONF['template']['SubjectInfo']['reason_edit']);
         $PowerBB->template->assign('SRInfo',$PowerBB->_CONF['template']['SubjectInfo']);
-        eval($PowerBB->functions->get_fetch_hooks('subject_edit_main'));
+        @eval($PowerBB->functions->get_fetch_hooks('subject_edit_main'));
 
 		$PowerBB->template->display('subject_edit');
 
@@ -1517,7 +1517,7 @@ class PowerBBManagementMOD
 
               // Update section's cache
                 $UpdateSectionCache = $PowerBB->functions->UpdateSectionCache($SubjectUpdate['section']);
-                eval($PowerBB->functions->get_fetch_hooks('subject_edit_start'));
+                @eval($PowerBB->functions->get_fetch_hooks('subject_edit_start'));
 
 				//$PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['Updated_successfully']);
 				 $PowerBB->functions->header_redirect('index.php?page=topic&amp;show=1&amp;id=' . $PowerBB->_GET['subject_id']);
@@ -4292,14 +4292,14 @@ class PowerBBManagementMOD
 	{
 		global $PowerBB;
 
-        eval($PowerBB->functions->get_fetch_hooks('management_a'));
+        @eval($PowerBB->functions->get_fetch_hooks('management_a'));
 	}
 
 	function _ManagementUpdateHooks()
 	{
 		global $PowerBB;
 
-        eval($PowerBB->functions->get_fetch_hooks('management_b'));
+        @eval($PowerBB->functions->get_fetch_hooks('management_b'));
 
 	}
 

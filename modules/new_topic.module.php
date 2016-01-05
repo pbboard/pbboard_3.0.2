@@ -317,7 +317,7 @@ class PowerBBTopicAddMOD
 
      	$PowerBB->template->assign('id',$PowerBB->_GET['id']);
 
-       eval($PowerBB->functions->get_fetch_hooks('new_topic_Index'));
+       @eval($PowerBB->functions->get_fetch_hooks('new_topic_Index'));
 		////////
 
 		$Admin = $PowerBB->functions->ModeratorCheck($PowerBB->_GET['id']);
@@ -432,7 +432,7 @@ class PowerBBTopicAddMOD
 		//$PowerBB->_POST['title'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_POST['title'],'sql');
         //$PowerBB->_POST['text'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_POST['text'],'sql');
         //$PowerBB->_POST['describe'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_POST['describe'],'sql');
-       eval($PowerBB->functions->get_fetch_hooks('new_topic_Start'));
+       @eval($PowerBB->functions->get_fetch_hooks('new_topic_Start'));
 
 	   if ($PowerBB->_POST['preview'])
        {
@@ -575,7 +575,7 @@ class PowerBBTopicAddMOD
 						     }
 					        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 							 {
-						        if(md5($PowerBB->_POST['code']) != $_SESSION['key'])
+						        if(md5($PowerBB->_POST['code']) != $_SESSION['captcha_key'])
 								 {
 					      		    $PowerBB->functions->ShowHeader();
 						            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
@@ -1001,7 +1001,7 @@ class PowerBBTopicAddMOD
 			     			$PowerBB->functions->redirect('index.php?page=topic&amp;show=1&amp;id=' . $PowerBB->subject->id . $PowerBB->_CONF['template']['password']);
 		     		}
                      */
-                      eval($PowerBB->functions->get_fetch_hooks('insert_subject'));
+                    $PowerBB->functions->get_hooks('insert_subject');
 
                  $PowerBB->functions->header_redirect('index.php?page=topic&amp;show=1&amp;id=' . $PowerBB->subject->id . $PowerBB->_CONF['template']['password']);
 

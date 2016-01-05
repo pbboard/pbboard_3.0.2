@@ -186,7 +186,7 @@ class PowerBBCoreMOD
 		        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 				 {
 
-			        if(md5($PowerBB->_POST['code']) != $_SESSION['key'])
+			        if(md5($PowerBB->_POST['code']) != $_SESSION['captcha_key'])
 					 {
 			            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
 				     }
@@ -311,7 +311,7 @@ class PowerBBCoreMOD
 						     }
 					        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 							 {
-						        if(md5($PowerBB->_POST['code']) != $_SESSION['key'])
+						        if(md5($PowerBB->_POST['code']) != $_SESSION['captcha_key'])
 								 {
 						            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
 							     }

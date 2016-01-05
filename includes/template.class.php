@@ -181,7 +181,7 @@ class PowerBBTemplate
         $string = str_replace("&#39;", "'", $string);
         // CSRF protect all your forms
         //$string = str_ireplace("</form>",'<input type="hidden" name="csrf" value="{$csrf_key}" />'."\n</form>",$string);
-      eval($PowerBB->functions->get_fetch_hooks('template_class_start'));
+      @eval($PowerBB->functions->get_fetch_hooks('template_class_start'));
 		// We have loop
 		if (preg_match('~\{Des::while}{([^[<].*?)}~',$string)
 			or preg_match('~\{Des::while::complete}~',$string))
@@ -286,7 +286,7 @@ class PowerBBTemplate
         $string = str_replace('action="index.php?page=login','name="login" action="index.php?page=login',$string);
         $string = str_replace('"index.php"','"'.$PowerBB->functions->GetForumAdress().'"',$string);
         $string = str_replace("'index.php'","'".$PowerBB->functions->GetForumAdress()."'",$string);
-        eval($PowerBB->functions->get_fetch_hooks('template_class_end'));
+        @eval($PowerBB->functions->get_fetch_hooks('template_class_end'));
 
         $string = $PowerBB->sys_functions->ReplaceMysqlExtension($string);
         $string = $PowerBB->functions->rewriterule($string);

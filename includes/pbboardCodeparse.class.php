@@ -178,7 +178,7 @@ class PowerBBCodeParse
             $search_array['[guest_name]'] = '#\[guest_name\](.*)\[/guest_name\]#esiU';
             $replace_array['[guest_name]'] = "\$this->PowerCode_Tag('br', '\\1' )";
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks1'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks1'));
 
 			foreach($search_array AS $tag => $regex)
 			{
@@ -332,7 +332,7 @@ class PowerBBCodeParse
 			{
 			return '';
 			}
-               eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks5'));
+               @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks5'));
 
               $string = str_replace('\\"', '"', $string);
 
@@ -384,7 +384,7 @@ class PowerBBCodeParse
             $string = str_replace('href="www.', 'href="http://www.', $string);
 
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks4'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks4'));
 
 
 			return $string;
@@ -452,7 +452,7 @@ class PowerBBCodeParse
 	             return '<div class="codemain"><pre style="float: left;" class="brush:php">'.$txt.'</pre></div>';
 	        }
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks8'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks8'));
 
 	}
 
@@ -771,7 +771,7 @@ class PowerBBCodeParse
         $text = @str_ireplace('target="_blank" rel="nofollow" href="#', 'href="#', $text);
         $text = @str_ireplace('target="_blank" rel="dofollow" href="#', 'href="#', $text);
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks3'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks3'));
 
          $text = @str_ireplace('absolute',"a*bsolute",$text);
          $text = @str_ireplace('document',"d*ocument",$text);
@@ -856,7 +856,7 @@ class PowerBBCodeParse
  			$text = @preg_replace($first_search,$first_replace,$text);
 
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks_cr'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks_cr'));
 
           // long URL, Shortening Long URLs With PHP
  	    //$text = @preg_replace('#\<a(.*)\">(.*)\</a\>#esiU',"\$this->shortenurl('\\1','\\2','44')",$text);
@@ -1216,7 +1216,7 @@ class PowerBBCodeParse
                 $link = @preg_replace('#<a href="(.*?)" (.*?)</a>#i', "$1", $link);
                 $link = @str_ireplace("&quot", '', $link);
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks6'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks6'));
 
                 $link = str_replace(array('"', "'"), array('&quot;', '&#39;'), $link);
 
@@ -1237,7 +1237,7 @@ class PowerBBCodeParse
 	                }
 				}
 
-            eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks_url'));
+            @eval($PowerBB->functions->get_fetch_hooks('BBCodeParseHooks_url'));
 
 			return $url;
         }
@@ -1330,7 +1330,7 @@ class PowerBBCodeParse
 		}
 
 		 $onload_resize_name ='ResizeIt(this,'.$PowerBB->_CONF['info_row']['default_imagesW'].','.$PowerBB->_CONF['info_row']['default_imagesH'].')';
-         eval($PowerBB->functions->get_fetch_hooks('hook_resize_images'));
+         @eval($PowerBB->functions->get_fetch_hooks('hook_resize_images'));
 
 
         if ($PowerBB->_CONF['info_row']['resize_imagesAllow']

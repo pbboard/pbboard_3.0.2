@@ -152,7 +152,7 @@ class PowerBBSection
 		           		'icon'		    	=>	$param['icon']			,
 		           		'hide_subject'		=>	$param['hide_subject']	,
 		           		'last_reply'		=>	$param['last_reply']    ,
-		           		'section_password'	=>	$param['section_password']    ,
+		           		'section_password'	=>	$param['section_password'] ,
 		           		'last_berpage_nm'	=>	$param['last_berpage_nm'],
 		           		'forum_title_color'	=>	$param['forum_title_color'],
 		           	   );
@@ -217,6 +217,7 @@ class PowerBBSection
 				$cache[$x]['moderators'] 			= 	$forums[$x]['moderators'];
 				$cache[$x]['icon'] 	        		=  	$forums[$x]['icon'];
 				$cache[$x]['hide_subject'] 	        =  	$forums[$x]['hide_subject'];
+				$cache[$x]['sec_section'] 	        =  	$forums[$x]['sec_section'];
 				$cache[$x]['section_password'] 	    =  	$forums[$x]['section_password'];
 				$cache[$x]['last_berpage_nm'] 	    =  	$forums[$x]['last_berpage_nm'];
 				$cache[$x]['last_reply'] 	        =  	$forums[$x]['last_reply'];

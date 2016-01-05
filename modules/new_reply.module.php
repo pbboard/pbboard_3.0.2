@@ -435,7 +435,7 @@ class PowerBBReplyAddMOD
 				$PowerBB->template->assign('answer',$answer);
 		     }
 
-         eval($PowerBB->functions->get_fetch_hooks('new_reply'));
+         @eval($PowerBB->functions->get_fetch_hooks('new_reply'));
 	      $PowerBB->template->display('new_reply');
 
 
@@ -550,7 +550,7 @@ class PowerBBReplyAddMOD
 						     }
 					        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 							 {
-						        if(md5($PowerBB->_POST['code']) != $_SESSION['key'])
+						        if(md5($PowerBB->_POST['code']) != $_SESSION['captcha_key'])
 								 {
 					      		    $PowerBB->functions->ShowHeader();
 						            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
@@ -592,7 +592,7 @@ class PowerBBReplyAddMOD
 						     }
 					        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 							 {
-						        if(md5($PowerBB->_POST['code']) != $_SESSION['key'])
+						        if(md5($PowerBB->_POST['code']) != $_SESSION['captcha_key'])
 								 {
 						            $PowerBB->functions->error_no_foot($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
 							     }
@@ -1144,7 +1144,7 @@ class PowerBBReplyAddMOD
 			     		$PowerBB->functions->PBB_Create_last_posts_cache(0);
 				 }
 
-                   eval($PowerBB->functions->get_fetch_hooks('insert_reply'));
+                   @eval($PowerBB->functions->get_fetch_hooks('insert_reply'));
 
 		     		if (!isset($PowerBB->_POST['ajax']))
 		     		{

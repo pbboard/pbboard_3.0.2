@@ -412,7 +412,7 @@ class PowerBBForumMOD
 							$forum['writer_photo']= $forum['writer_photo'];
 							$forum['avater_path']= $forum['avater_path'];
 							$forum['last_subject'] =  $forum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($forum['last_subject']);
-
+                            $forum['sec_section']= $forum['sec_section'];
                            }
 
                             $kay =$cat['id'];
@@ -456,6 +456,7 @@ class PowerBBForumMOD
 													$forum['writer_photo']= $sub['writer_photo'];
 													$forum['avater_path']= $sub['avater_path'];
 								                    $forum['last_subject'] =  $sub['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($sub['last_subject']);
+								                    $forum['sec_section']= $sub['sec_section'];
 								                  }
                                                }
 			                                        $forum['subject_num'] = $PowerBB->functions->with_comma($forum['subject_num']+$sub['subject_num']);
@@ -527,6 +528,7 @@ class PowerBBForumMOD
 																		$forum['writer_photo']= $sub['writer_photo'];
 																		$forum['avater_path']= $sub['avater_path'];
 													                    $forum['last_subject'] =  $subforum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($subforum['last_subject']);
+													                    $forum['sec_section']= $subforum['sec_section'];
 	                                                                   }
 				                                                 }
 
@@ -739,7 +741,7 @@ class PowerBBForumMOD
 	{
 	    global $PowerBB;
 
-       eval($PowerBB->functions->get_fetch_hooks('forumdHooks'));
+       @eval($PowerBB->functions->get_fetch_hooks('forumdHooks'));
     }
 
 
@@ -765,7 +767,7 @@ class PowerBBForumMOD
 
 		$PowerBB->_GET['count'] = (!isset($PowerBB->_GET['count'])) ? 0 : $PowerBB->_GET['count'];
 		$PowerBB->_GET['count'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['count'],'intval');
-         eval($PowerBB->functions->get_fetch_hooks('forum_subjectlist_Hooks'));
+         @eval($PowerBB->functions->get_fetch_hooks('forum_subjectlist_Hooks'));
 
 		//if subjects numprs in Section = 0 get the masseg
        $PowerBB->template->assign('NO_SUBJECTS',$this->Section['subject_num']);

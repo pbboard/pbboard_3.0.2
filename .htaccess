@@ -20,6 +20,8 @@ RewriteRule ^calendar.html index.php?page=calendar&show=1 [L]
 RewriteRule ^special_subject.html index.php?page=special_subject&index=1 [L]
 RewriteRule ^sitemap.xml index.php?page=sitemap&subject=1
 RewriteRule ^sitemap.htm(.*) index.php?page=sitemap&sitemaps=1&count=$1 [L]
+RewriteRule ^sitemap.html(.*) index.php?page=sitemap&sitemaps=1&count=$1 [L]
+RewriteRule ^sitemap_forum_([0-9]+).xml(.*) index.php?page=sitemap&section=1&id=$1 [L]
 
 RewriteRule ^t([0-9]+).html index.php?page=topic&show=1&id=$1 [L]
 RewriteRule ^t([0-9]+)&password=(.*)&count=([0-9]+) index.php?page=topic&show=1&id=$1&password=$2&count=$3 [L]
@@ -53,3 +55,17 @@ RewriteRule ^login.html index.php?page=login&sign=1 [L]
 RewriteRule ^contact.html index.php?page=send&sendmessage=1 [L]
 
 
+RewriteRule ^topic-([0-9]+).html index.php?page=topic&show=1&id=$1 [L]
+RewriteRule ^topic-([0-9]+)&password=(.*)&count=([0-9]+) index.php?page=topic&show=1&id=$1&password=$2&count=$3 [L]
+RewriteRule ^topic-([0-9]+)&count=([0-9]+) index.php?page=topic&show=1&id=$1&count=$2 [L]
+RewriteRule ^topic-([0-9]+)&last_post=1&count=([0-9]+) index.php?page=topic&show=1&id=$1&last_post=1&count=$2 [L]
+RewriteRule ^topic-([0-9]+) index.php?page=topic&show=1&id=$1 [L]
+
+RewriteRule ^forum-([0-9]+).html index.php?page=forum&show=1&id=$1 [L]
+RewriteRule ^forum-([0-9]+)&password=(.*)&count=([0-9]+) index.php?page=forum&show=1&id=$1&password=$2&count=$3 [L]
+RewriteRule ^forum-([0-9]+)&count=([0-9]+) index.php?page=forum&show=1&id=$1&count=$2 [L]
+RewriteRule ^forum-([0-9]+) index.php?page=forum&show=1&id=$1 [L]
+
+RewriteRule ^user-([0-9]+)&count=([0-9]+) index.php?page=profile&show=1&id=$1&count=$2 [L]
+RewriteRule ^user-([0-9]+).html index.php?page=profile&show=1&id=$1 [L]
+RewriteRule ^user-([0-9]+) index.php?page=profile&show=1&id=$1 [L]

@@ -136,7 +136,7 @@ class PowerBBRegisterMOD
 				$PowerBB->template->assign('answer',$answer);
 		     }
        	 }
-        eval($PowerBB->functions->get_fetch_hooks('register_form'));
+        @eval($PowerBB->functions->get_fetch_hooks('register_form'));
 
 		$PowerBB->template->display('register');
         $PowerBB->functions->GetFooter();
@@ -185,7 +185,7 @@ class PowerBBRegisterMOD
 			$PowerBB->functions->GetFooter();
       	}
 
-        eval($PowerBB->functions->get_fetch_hooks('register_start'));
+        @eval($PowerBB->functions->get_fetch_hooks('register_start'));
 
 		// Clean the username and email from white spaces
 		$PowerBB->_POST['username'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_POST['username'],'trim');
@@ -369,7 +369,7 @@ class PowerBBRegisterMOD
 		     }
 	        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 			 {
-		        if(md5($PowerBB->_POST['code']) != $_SESSION['key'])
+		        if(md5($PowerBB->_POST['code']) != $_SESSION['captcha_key'])
 				 {
 	      		    $PowerBB->functions->ShowHeader();
 		            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
@@ -440,7 +440,7 @@ class PowerBBRegisterMOD
       	$InsertArr['field']['bday_day']	            =	$PowerBB->_POST['day'];
       	$InsertArr['field']['bday_month']	        =	$PowerBB->_POST['month'];
       	$InsertArr['field']['bday_year']	        =	$PowerBB->_POST['year'];
-        eval($PowerBB->functions->get_fetch_hooks('register_Insert_Member'));
+        @eval($PowerBB->functions->get_fetch_hooks('register_Insert_Member'));
 
       	      	//extra fields insertion
       	foreach($extraFields AS $field){

@@ -91,7 +91,7 @@ class PowerBBFunctions
 							$forum['writer_photo']= $forum['writer_photo'];
 							$forum['avater_path']= $forum['avater_path'];
 							$forum['last_subject'] =  $forum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($forum['last_subject']);
-
+                            $forum['sec_section']= $forum['sec_section'];
                            }
 
                             $kay =$cat['id'];
@@ -135,6 +135,7 @@ class PowerBBFunctions
                        							    $forum['writer_photo']= $sub['writer_photo'];
                        							    $forum['avater_path']= $sub['avater_path'];
 								                    $forum['last_subject'] =  $sub['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($sub['last_subject']);
+								                    $forum['sec_section']= $sub['sec_section'];
 								                  }
                                                }
 			                                        $forum['subject_num'] = $PowerBB->functions->with_comma($forum['subject_num']+$sub['subject_num']);
@@ -207,6 +208,7 @@ class PowerBBFunctions
                                        							        $forum['writer_photo']= $sub['writer_photo'];
                                        							        $forum['avater_path']= $sub['avater_path'];
 													                    $forum['last_subject'] =  $subforum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($subforum['last_subject']);
+													                    $forum['sec_section']= $subforum['sec_section'];
 	                                                                   }
 				                                                 }
 

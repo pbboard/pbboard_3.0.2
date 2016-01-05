@@ -264,7 +264,7 @@ class PowerBBCoreMOD
 				     }
 			        if($PowerBB->_CONF['info_row']['captcha_type'] == 'captcha_IMG')
 					 {
-				        if(md5($PowerBB->_POST['code_confirm']) != $_SESSION['key'])
+				        if(md5($PowerBB->_POST['code_confirm']) != $_SESSION['captcha_key'])
 						 {
 				            $PowerBB->functions->error_no_foot($PowerBB->_CONF['template']['_CONF']['lang']['Code_that_you_enter_the_wrong']);
 					     }

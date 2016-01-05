@@ -49,7 +49,7 @@ class PowerBBProfileMOD
 	        }
 	     }
 
-		eval($PowerBB->functions->get_fetch_hooks('profileHooksStart'));
+		@eval($PowerBB->functions->get_fetch_hooks('profileHooksStart'));
 
        		////////
 	    // Extra Field info
@@ -555,7 +555,7 @@ class PowerBBProfileMOD
 				$PowerBB->template->assign('answer',$answer);
 		     }
 
-		   eval($PowerBB->functions->get_fetch_hooks('profileHooksEnd'));
+		   @eval($PowerBB->functions->get_fetch_hooks('profileHooksEnd'));
 		$PowerBB->template->display('profile');
 	}
 }
