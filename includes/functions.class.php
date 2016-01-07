@@ -708,11 +708,10 @@ class PowerBBFunctions
 		$Forum['where'] 	= 	array('id',$PowerBB->_GET['id']);
 		$Forum_rwo = $PowerBB->core->GetInfo($Forum,'section');
 		$page_address['forum'] 		= 	$Forum_rwo['title'];
-		$num = '150';
 		if($Forum_rwo['section_describe']!='')
 		{
 		  $PowerBB->template->assign('description',$PowerBB->functions->CleanText($Forum_rwo['section_describe']));
-          $PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($Forum_rwo['section_describe']));
+          $PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($Forum_rwo['title']));
 		}
 		else
 		{
@@ -744,11 +743,11 @@ class PowerBBFunctions
 		$ReplyArr = array();
 		$ReplyArr['where'] = array('id',intval($PowerBB->_GET['id']));
 		$ReplyInfo = $PowerBB->core->GetInfo($ReplyArr,'reply');
+		$num = '80';
         if ($PowerBB->functions->section_group_permission($ReplyInfo['section'],$PowerBB->_CONF['group_info']['id'],'view_subject'))
 		 {
-
 			$PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($ReplyInfo['title']));
-			$PowerBB->template->assign('description',$PowerBB->functions->CleanText($ReplyInfo['text']));
+			$PowerBB->template->assign('description',$PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($ReplyInfo['text']),$num));
 			$PowerBB->template->assign('index',1);
 		 }
 		}
@@ -764,7 +763,7 @@ class PowerBBFunctions
 				$TagArr 			= 	array();
 				$TagArr['where'] 	= 	array('subject_id',$SubjectInfo['id']);
 				$PowerBB->_CONF['template']['while']['tags'] = $PowerBB->tag->GetSubjectList($TagArr);
-				$num = '300';
+				$num = '90';
 				if($PowerBB->_CONF['template']['while']['tags'])
 				{
 				$PowerBB->template->assign('keywords',$PowerBB->_CONF['template']['while']['tags']);
@@ -774,13 +773,13 @@ class PowerBBFunctions
 				$PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($SubjectInfo['title']));
 				$PowerBB->template->assign('index',1);
 				}
-				$PowerBB->template->assign('description',$PowerBB->functions->CleanText($PowerBB->Powerparse->_wordwrap($SubjectInfo['text'],$num)));
+				$PowerBB->template->assign('description',$PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectInfo['text']),$num));
           }
 		}
 		elseif ($PowerBB->_GET['rules'] == '1')
 		{
 		$page_address['misc'] 		= 	$PowerBB->_CONF['template']['_CONF']['lang']['rules'] .' - '. $PowerBB->_CONF['info_row']['title'];
-		$num = '300';
+		$num = '80';
 		 $PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($PowerBB->_CONF['template']['_CONF']['lang']['rules']));
 		 $PowerBB->template->assign('description',$PowerBB->functions->CleanText($PowerBB->Powerparse->_wordwrap($PowerBB->_CONF['info_row']['rules'],$num)));
          $PowerBB->template->assign('index',1);
@@ -1237,6 +1236,8 @@ function CleanText($string)
  	{
  	 global $PowerBB;
 
+		$string = @str_replace(">","> ", $string);
+		$string = @str_replace("<"," <", $string);
 		$string = strip_tags($string);
 		$string = @str_replace("\r","{s}", $string);
 		$string = @str_replace("\n","{s}", $string);
@@ -1256,6 +1257,11 @@ function CleanText($string)
 		$originally_text = str_replace("'","", $originally_text);
 		$originally_text = str_replace(","," ", $originally_text);
 		$originally_text = str_replace("&nbsp;"," ", $originally_text);
+		$originally_text = str_replace("  "," ", $originally_text);
+		$originally_text = str_replace("&quot;","", $originally_text);
+		$originally_text = str_replace("&amp;quot;","", $originally_text);
+		$originally_text = str_replace("    "," ", $originally_text);
+		$originally_text = str_replace("   "," ", $originally_text);
 		return ($originally_text);
     }
  	function replace_strip($string)

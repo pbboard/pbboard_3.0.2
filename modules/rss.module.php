@@ -1,19 +1,15 @@
 <?php
-
 (!defined('IN_PowerBB')) ? die() : '';
-
 $CALL_SYSTEM				=	array();
 $CALL_SYSTEM['SUBJECT'] 	= 	true;
 $CALL_SYSTEM['SECTION'] 	= 	true;
 include('common.php');
-
 define('CLASS_NAME','PowerBBRSSMOD');
-
 class PowerBBRSSMOD
 {
 	function run()
 	{
-	global $PowerBB;
+	 global $PowerBB;
  	 if (!$PowerBB->_CONF['info_row']['active_rss'])
 	 {
 			@header("Location: index.php");
@@ -22,11 +18,9 @@ class PowerBBRSSMOD
 		$charset                =   $PowerBB->_CONF['info_row']['charset'];
 	   // $datenow                =   date("D, d M Y H:i:s");
 		$datenow                =   date(DATE_RFC2822);
-
 	$PowerBB->_GET['subject'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['subject'],'intval');
 	$PowerBB->_GET['section'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['section'],'intval');
 	$PowerBB->_GET['id'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['id'],'intval');
-
 		if ($PowerBB->_GET['subject'])
 		{
 		$Forumtitle                =   $PowerBB->_CONF['info_row']['title'];
@@ -36,23 +30,19 @@ class PowerBBRSSMOD
 		// Get section information and set it in $this->Section
 		$SecArr 		= 	array();
 		$SecArr['where'] 	= 	array('id',$PowerBB->_GET['id']);
-
 		$Section = $PowerBB->core->GetInfo($SecArr,'section');
-		$Forumtitle                =   $PowerBB->_CONF['info_row']['title'] .' - ' .$Section['title']." - " .$Section['section_describe'];
+		$Forumtitle                =   $PowerBB->_CONF['info_row']['title'] .' - ' .$PowerBB->functions->CleanText($Section['title'])." - " .$PowerBB->functions->CleanText($Section['section_describe']);
 		}
  		$PowerBB->_CONF['info_row']['title'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_CONF['info_row']['title'],'html');
 		$PowerBB->_CONF['info_row']['title'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_CONF['info_row']['title'],'sql');
-		echo "<?xml version=\"1.0\" encoding=\"$charset\"?>\n\n";
-		echo "<rss version=\"2.0\" xmlns:media=\"http://search.yahoo.com/mrss/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\">\n";
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		echo "<rss version=\"2.0\">\n";
 		echo "<channel>\n";
-		echo "	<title>" . $PowerBB->_CONF['info_row']['title'] . "</title>\n";
-		echo "	<link>" . $PowerBB->functions->GetForumAdress() . "</link>\n";
+		echo "<title>" . $PowerBB->_CONF['info_row']['title'] . " - " . $PowerBB->functions->GetForumAdress() . "</title>\n";
+		echo "<link>" . $PowerBB->functions->GetForumAdress() . "</link>\n";
+		echo "<description>".$PowerBB->_CONF['template']['_CONF']['lang']['Abstracts_another_active_topics_in'] . ":".$Forumtitle ."</description>\n";
+		echo "<generator>" . $PowerBB->_CONF['info_row']['title'] . "</generator>\n";
         echo "<pubDate>" . $datenow . "</pubDate>\n";
-		echo "	<description>".$PowerBB->_CONF['template']['_CONF']['lang']['Abstracts_another_active_topics_in'] . ":".$Forumtitle ."</description>\n";
-		echo "	<language>" . $PowerBB->_CONF['info_row']['content_language'] . "</language>\n";
-		echo "	<lastBuildDate>" . $datenow . "</lastBuildDate>\n";
-		echo "	<generator>pbboard</generator>\n";
-		echo "	<ttl>60</ttl>\n";
 		if ($PowerBB->_GET['subject'])
 		{
 			$this->_SubjectRSS();
@@ -61,7 +51,7 @@ class PowerBBRSSMOD
 		{
 			$this->_SectionRSS();
 		}
-		echo "	</channel>\n";
+		echo "</channel>\n";
 		echo "</rss>\n";
 
 
@@ -85,7 +75,7 @@ class PowerBBRSSMOD
 	$SubjectArr['order']['field'] 	= 	'write_time';
 	$SubjectArr['order']['type'] 	= 	'DESC';
 
-	$SubjectArr['limit'] 		= 	'10';
+	$SubjectArr['limit'] 		= 	'30';
 
 	$SubjectArr['proc'] 		= 	array();
 	// Ok Mr.XSS go to hell !
@@ -99,12 +89,15 @@ class PowerBBRSSMOD
 	$x	=	0;
 
 	while ($x < $size)
-	{
+	 {
 
+      	$SubjectList[$x]['title'] 	= 	$PowerBB->functions->CleanVariable($SubjectList[$x]['title'],'html');
+		$SubjectList[$x]['title'] 	= 	$PowerBB->functions->CleanVariable($SubjectList[$x]['title'],'sql');
         $SubjectList[$x]['text'] = $PowerBB->Powerparse->replace($SubjectList[$x]['text']);
-        $SubjectList[$x]['text'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['text']);
-
 		$PowerBB->Powerparse->replace_smiles($SubjectList[$x]['text']);
+        $SubjectList[$x]['text'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['text']);
+        $SubjectList[$x]['title'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['title']);
+		$SubjectList[$x]['text'] =str_ireplace("\n","<br />",$SubjectList[$x]['text']);
 
 		// $bad_characters: All ASCII characters below ASCII 32 (except 9, 10 and 13 (tab, newline and carrige return)).
 		$bad_characters = array_diff(range(chr(0), chr(31)), array(chr(9), chr(10), chr(13)));
@@ -112,29 +105,29 @@ class PowerBBRSSMOD
 		$SubjectList[$x]['title'] = str_replace($bad_characters, "", $SubjectList[$x]['title']);
        	$SubjectList[$x]['text'] = str_replace($PowerBB->_CONF['template']['_CONF']['lang']['resize_image_w_h'], "", $SubjectList[$x]['text']);
 
-		$description = strip_tags($SubjectList[$x]['text']);
+     	$description = strip_tags($SubjectList[$x]['text']);
+     	$description = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),250);
+        $SubjectList[$x]['text'] = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),300);
+
         $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
- 		$SubjectList[$x]['title'] 	= 	$PowerBB->functions->CleanVariable($SubjectList[$x]['title'],'html');
-		$SubjectList[$x]['title'] 	= 	$PowerBB->functions->CleanVariable($SubjectList[$x]['title'],'sql');
         $SubjectList[$x]['text'] = str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
-        $SubjectList[$x]['title'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['title']);
-      $SubjectList[$x]['write_date'] = $PowerBB->functions->date($SubjectList[$x]['write_date']);
 
 		$extention = "";
 		$url = "index.php?page=topic&amp;show=1&amp;id=";
 		$url = $PowerBB->functions->rewriterule($url);
-		echo "	<item>\n";
-		echo "		<title>" . $SubjectList[$x]['title'] . "</title>\n";
-		echo "		<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
-		echo '		<pubDate>' . date("r", $SubjectList[$x]['write_time']) . '</pubDate>' . "\n";
-		echo "		<description><![CDATA[" . $description . "]]></description>\n";
-		echo "		<content:encoded><![CDATA[" . $SubjectList[$x]['text'] . "]]></content:encoded>\n";
-		echo "		<dc:creator><![CDATA[" . $SubjectList[$x]['writer'] . "]]></dc:creator>\n";
-		echo "		<guid isPermaLink=\"true\">" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</guid>\n";
-		echo "	</item>\n";
+		echo "<item>";
+		echo "<title>" . $PowerBB->functions->CleanText($SubjectList[$x]['title']) . "</title>\n";
+		echo "<description>" . $description . "</description>\n";
+		echo "<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
+		echo "<generator>" . $PowerBB->functions->GetForumAdress() . " rss " .$SubjectList[$x]['writer'] . "</generator>\n";
+		echo '<pubDate>' . date("r", $SubjectList[$x]['write_time']) . '</pubDate>' . "\n";
+		//echo "<content:encoded>".$SubjectList[$x]['text']."</content:encoded>\n";
+		//echo "<dc:creator>" . $SubjectList[$x]['writer'] . "</dc:creator>\n";
+		//echo "<guid isPermaLink=\"true\">" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</guid>\n";
+		echo "</item>\n";
 
 		$x += 1;
-	}
+	  }
 	}
 
 	function _SectionRSS()
@@ -232,6 +225,9 @@ class PowerBBRSSMOD
        	$SubjectList[$x]['text'] = str_replace($PowerBB->_CONF['template']['_CONF']['lang']['resize_image_w_h'], "", $SubjectList[$x]['text']);
 
      	$description = strip_tags($SubjectList[$x]['text']);
+     	$description = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),250);
+        $SubjectList[$x]['text'] = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),300);
+
         $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
         $SubjectList[$x]['text'] = str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
 
@@ -239,15 +235,16 @@ class PowerBBRSSMOD
 		$url = "index.php?page=topic&amp;show=1&amp;id=";
 		$url = $PowerBB->functions->rewriterule($url);
 
-		echo "	<item>";
-		echo "		<title>" . $SubjectList[$x]['title'] . "</title>\n";
-		echo "		<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
-		echo '		<pubDate>' . date("r", $SubjectList[$x]['write_time']) . '</pubDate>' . "\n";
-		echo "		<description><![CDATA[" . $description . "]]></description>\n";
-		echo "		<content:encoded><![CDATA[" . $SubjectList[$x]['text'] . "]]></content:encoded>\n";
-		echo "		<dc:creator><![CDATA[" . $SubjectList[$x]['writer'] . "]]></dc:creator>\n";
-		echo "		<guid isPermaLink=\"true\">" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</guid>\n";
-		echo "	</item>\n";
+		echo "<item>";
+		echo "<title>" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "</title>\n";
+		echo "<description>" . $description . "</description>\n";
+		echo "<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
+		echo "<generator>" . $PowerBB->functions->GetForumAdress() . " rss " .$SubjectList[$x]['writer'] . "</generator>\n";
+		echo '<pubDate>' . date("r", $SubjectList[$x]['write_time']) . '</pubDate>' . "\n";
+		//echo "<content:encoded>".$SubjectList[$x]['text']."</content:encoded>\n";
+		//echo "<dc:creator>" . $SubjectList[$x]['writer'] . "</dc:creator>\n";
+		//echo "<guid isPermaLink=\"true\">" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</guid>\n";
+		echo "</item>\n";
 
 		$x += 1;
 	}

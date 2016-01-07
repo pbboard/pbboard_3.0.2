@@ -229,10 +229,10 @@ class PowerBBSitemapMOD
 				}
 				else
 	            {
-				echo '<url>';
-				echo '<loc>'. $PowerBB->functions->GetForumAdress() . $forum_sitemap . $PowerBB->_GET['id'] . ".xml" . '</loc>';
-				echo '<lastmod>0000-00-00T00:00:00+00:00</lastmod>';
-				echo '</url>'."\n";
+				//echo '<url>';
+				//echo '<loc>'. $PowerBB->functions->GetForumAdress() . $forum_sitemap . $PowerBB->_GET['id'] . ".xml" . '</loc>';
+				//echo '<lastmod>0000-00-00T00:00:00+00:00</lastmod>';
+				//echo '</url>'."\n";
 			    }
 				echo '</urlset>';
 		    }
@@ -285,10 +285,10 @@ class PowerBBSitemapMOD
 			   }
 			   else
 	           {
-				echo '<sitemap>';
-				echo '<loc>'. $PowerBB->functions->GetForumAdress() . $forum_sitemap . $catys[$catys_x]['id'] . ".xml" . '</loc>';
-				echo '<lastmod>0000-00-00T00:00:00+00:00</lastmod>';
-				echo '</sitemap>'."\n";
+				//echo '<sitemap>';
+				//echo '<loc>'. $PowerBB->functions->GetForumAdress() . $forum_sitemap . $catys[$catys_x]['id'] . ".xml" . '</loc>';
+				//echo '<lastmod>0000-00-00T00:00:00+00:00</lastmod>';
+				//echo '</sitemap>'."\n";
 			   }
 		  }
 		  $catys_x += 1;

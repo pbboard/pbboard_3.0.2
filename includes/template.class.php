@@ -286,6 +286,8 @@ class PowerBBTemplate
  		$string = str_replace($search_coordination_array,$replace_coordination_array,$string);
 		}
 
+       $string = str_replace('alt=""','alt="icon"',$string);
+       $string = str_replace("alt=''","alt='icon'",$string);
        $string = str_replace("<!--copyright-->",$PowerBB->functions->copyright(),$string);
 
         $string = str_replace("Jsvk","",$string);
