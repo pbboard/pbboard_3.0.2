@@ -442,6 +442,8 @@ class FeedParser{
 	*/
 	private function inChannel()
 	{
+		   $this->version =  'RSS 2.0';
+
 		if($this->version == 'RSS 1.0')
 		{
 			if(in_array('CHANNEL', $this->insideItem) && $this->currentTag != 'CHANNEL')
@@ -468,7 +470,9 @@ class FeedParser{
 	* @return   bool
 	*/
 	private function inItem()
-	{		if($this->version == 'RSS 1.0' || $this->version == 'RSS 2.0')
+	{
+	   $this->version =  'RSS 2.0';
+		if($this->version == 'RSS 1.0' || $this->version == 'RSS 2.0')
 		{
 			if(in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM')
 			return TRUE;

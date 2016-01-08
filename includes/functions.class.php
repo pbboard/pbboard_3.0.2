@@ -1215,7 +1215,7 @@ function Getkeywords($string)
 			  // Recreate string from array
 			  // See what we got
 			$originally_text = str_replace(" ",",", $originally_text);
-			$originally_text = str_replace(".","", $originally_text);
+			$originally_text = str_replace("..","", $originally_text);
 			$originally_text = @str_replace("{s}",",", $originally_text);
 			$originally_text = str_replace(",,",",", $originally_text);
 			$originally_text = str_replace(",,",",", $originally_text);
@@ -1247,7 +1247,7 @@ function CleanText($string)
 		// Recreate string from array
 		// See what we got
 		$originally_text = str_replace(" ",",", $originally_text);
-		$originally_text = str_replace(".","", $originally_text);
+		$originally_text = str_replace("..","", $originally_text);
 		$originally_text = str_replace("{s}",",", $originally_text);
 		$originally_text = str_replace(",,",",", $originally_text);
 		$originally_text = str_replace(",,",",", $originally_text);
@@ -2116,7 +2116,13 @@ function CleanText($string)
 	   		$type = str_replace("index.php?page=register&amp;index=1","register.html",$type);
 	   		$type = str_replace("index.php?page=login&amp;sign=1","login.html",$type);
 	   		$type = str_replace("index.php?page=send&amp;sendmessage=1","contact.html",$type);
+			$type = str_replace("index.php?page=rss&amp;subject=1","rss.xml",$type);
+			$type = str_replace("index.php?page=rss&subject=1","rss.xml",$type);
+			$type = str_replace("index.php?page=rss&amp;section=1&amp;id=","rss_forum_",$type);
+			$type = str_replace("index.php?page=rss&section=1&id=","rss_forum_",$type);
+            $type = @preg_replace('#href="rss_forum_(.*?)"#i', 'href="rss_forum_$1.xml"', $type);
             $type = @preg_replace('#href="sitemap_forum(.*?)"#i', 'href="sitemap_forum_$1.xml"', $type);
+
 	   	}
       }
 	   return $type;

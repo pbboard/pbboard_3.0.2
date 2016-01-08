@@ -416,6 +416,12 @@ class PowerBBTopicMOD
  		$PowerBB->_CONF['template']['Info']['write_time'] = $PowerBB->functions->date($PowerBB->_CONF['template']['ReplyInfo']['write_time']);
 		$PowerBB->_CONF['template']['Info']['actiondate'] = $PowerBB->functions->date($PowerBB->_CONF['template']['ReplyInfo']['actiondate']);
 
+		// Make register date in nice format to show it
+		if (is_numeric($PowerBB->_CONF['template']['ReplierInfo']['register_date']))
+		{
+			$PowerBB->_CONF['template']['ReplierInfo']['register_date'] = $PowerBB->functions->year_date($PowerBB->_CONF['template']['ReplierInfo']['register_date']);
+		}
+
 
  	}
 

@@ -114,7 +114,7 @@ class PowerBBSitemapMOD
 		{
 		    $forum_url              =   $PowerBB->functions->GetForumAdress();
 			$charset                =   $PowerBB->_CONF['info_row']['charset'];
-			header('Content-Type: text/xml; charset="utf-8');
+			header('Content-Type: text/xml; charset=utf-8');
 			echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 			$this->_SubjectSitemap();
 			echo '</sitemapindex>';
@@ -187,7 +187,7 @@ class PowerBBSitemapMOD
 				$url = "index.php?page=topic&amp;show=1&amp;id=";
 				$forumurl = "index.php?page=forum&amp;show=1&amp;id=";
 				$url = $PowerBB->functions->rewriterule($url);
-				header('Content-Type: text/xml; charset="utf-8');
+				header('Content-Type: text/xml; charset=utf-8');
 				echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 				// Clean id from any strings
 				$SubjectArr = array();

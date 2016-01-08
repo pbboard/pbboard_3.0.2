@@ -18,6 +18,10 @@ RewriteRule ^team.html index.php?page=team&show=1 [L]
 RewriteRule ^today_subjects(.*) index.php?page=latest&today=1&count=$1 [L]
 RewriteRule ^calendar.html index.php?page=calendar&show=1 [L]
 RewriteRule ^special_subject.html index.php?page=special_subject&index=1 [L]
+
+RewriteRule ^rss_forum_(.*).xml index.php?page=rss&section=1&id=$1 [L]
+RewriteRule ^rss.xml index.php?page=rss&subject=1
+
 RewriteRule ^sitemap.xml index.php?page=sitemap&subject=1
 RewriteRule ^sitemap.htm(.*) index.php?page=sitemap&sitemaps=1&count=$1 [L]
 RewriteRule ^sitemap.html(.*) index.php?page=sitemap&sitemaps=1&count=$1 [L]

@@ -6135,7 +6135,7 @@ color: #000000;
 <div class="a-center">
 <table class="wd80 brd1 clpc0">
 <tr>
-<td class="right wd78">
+<td class="title_n right wd78">
 {$_CONF['info_row']['title']}
 <br />
 {$lang['copy_Print_topic']}
@@ -6147,6 +6147,9 @@ href="index.php?page=topic&amp;show=1&amp;id={$Info['subject_id']}">
 {$lang['Watch_the_original_subject']}
 </a>
 </td>
+<tr>
+</tr>
+<tr>
 <td class="left_text_align wd2">
 <script type="text/javascript">if (window.print) {
 document.write('<form> '
@@ -6160,23 +6163,29 @@ document.write('<form> '
 </div>
 <br />
 <div class="a-center">
-{$Info['title']}
+<div class="title_n">
+<b>{$Info['title']} </b>
+</div>
 <table class="border wd80 brd1 clp8 clpc1">
 <tr>
 <td class="page wd80">
-<table class="wd100 brd0 clp0 clpc1">
+<table class="wd80 brd0 clp0 clpc1">
 <tr class="va-b">
-<td style="font-size: 14pt;">{$Info['writer']}</td>
+<td class="title_n"><b>{$Info['writer']}</b></td>
 <td class="smallfont left_text_align">{$Info['native_write_time']}</td>
 </tr>
 </table>
-<hr></hr>
-
+<div class="row4">
+</div>
+<div class="text">
 {$Info['text']}
+</div>
 </td>
 </tr>
 </table>
-{$_CONF['info_row']['title']}
+<div class="title_n">
+<b>{$_CONF['info_row']['title']}</b>
+</div>
 </div>
 <br />]]></print_subject>
 <profile><![CDATA[	{template}address_bar_part1{/template}
@@ -15134,10 +15143,6 @@ document.write('<input type="button" value="{$lang['login']}" id="login_id" />')
 </form>
 <br/>]]></login_admittance>
 <show_post><![CDATA[{template}address_bar_part1{/template}
-<a href="index.php?page=forum&amp;show=1&amp;id={$sec_main_id}">
-{$sec_main_title}
-</a>
-<div class="btn-nav"></div>
 <a href="index.php?page=forum&amp;show=1&amp;id={$section_info['id']}{$password}">
 {$section_info['title']}
 </a>
@@ -15148,92 +15153,139 @@ document.write('<input type="button" value="{$lang['login']}" id="login_id" />')
 ({$Info['reply_number']})" name="{$Info['reply_id']}" href="#{$Info['reply_id']}">
 {$subject_title}</a>
 {template}address_bar_part2{/template}<br />
-<table class="border pkr pkr-b wd98 brd1 clpc0 a-center">
-<tr class="center_text_align">
-<td class="tcat pkr" colspan="2">
-<a target="_blank" href="index.php?page=topic&amp;show=1&amp;id={$SubjectInfo['id']}&amp;count={$Info['count']}#{$Info['reply_id']}">{$lang['show_post_normal']}</a>
-</td>
-</tr>
-<tr class="center_text_align">
-<td class="thead pkr pkr-b wd100">
+<!-- table --><div style="width:98%; border-spacing:1px;" class="table mrgTable pkr-b border">
+<dl class="center_text_align">
+<dt></dt>
+<dd class="tcat pkr wd100">
+<div class="center_text_align">
+<a href="index.php?page=topic&amp;show=1&amp;id={$SubjectInfo['id']}&amp;count={$Info['count']}#{$Info['reply_id']}">{$lang['show_post_normal']}</a>
+</div>
+</dd>
+</dl>
+<dl class="center_text_align">
+<dt></dt>
+<dd class="thead pkr pkr-b wd100">
 <div class="r-right">
+{$Info['write_time']}
 </div>
 <div class="l-left">
-{$Info['write_time']}
+<a title="{$lang['view_single_post']}" href="index.php?page=post&amp;show=1&amp;id={$Info['reply_id']}&amp;num={$Info['reply_number']}">
+<img class="brd0" src="{$image_path}/open.gif"
+alt="{$lang['view_single_post']}" />
+</a>
 [<a title="{$lang['post']}
-({$Info['reply_number']})" name="{$Info['reply_id']}" href="#{$Info['reply_id']}">#{$Info['reply_number']}</a>]
+({$Info['reply_number']})" name="{$Info['reply_id']}" href="#{$Info['reply_id']}">{$Info['reply_number']}</a>]
+{if !{$mod_toolbar}}
+<input type="checkbox" name="check[]" value="{$Info['reply_id']}" />
+{/if}
 </div>
-</td>
-</tr>
-<tr class="center_text_align">
-<td class="row5 pkr wd100">
+</dd>
+</dl>
+<dl class="center_text_align">
+<dt></dt>
+<dd class="row5 pkr pkr-b">
 <div onclick="switchBlock('menu_{$Info['reply_id']}');">
 {template}writer_info{/template}
 </div>
-</td>
-</tr>
-<tr class="center_text_align">
-<td class="row4 wd100">
+</dd>
+</dl>
+<dl class="center_text_align">
+<dt></dt>
+<dd class="row4 pkr pkr-b">
 <div class="r-right">
 <img alt="{$Info['icon']}" src="{$Info['icon']}" />
 {$subject_title}
 </div>
 <div class="l-left">
 </div>
-</td>
-</tr>
-<tr class="center_text_align">
-<td class="{$class_reply} right_text_align wd82 va-t" colspan="2"
-onclick="switchBlock('menu_{$Info['reply_id']}');">
+</dd>
+</dl>
+<dl>
+<dt></dt>
+<dd class="tbar_writer_info" style="vertical-align: top;">
+{get_hook}show_reply_text{/get_hook}
 <div class="text">{$Info['text']}</div>
 {if {$Info['attach_reply']}}
 {template}attach_show{/template}
 {/if}
-
 {if {$Info['action_by']} != ''}
 <br />
 <br />
 <div class="action_by center_text_align">
 <i>
 {$lang['action_by_reply']}
-{$Info['action_by']}<br />
+{$Info['action_by']}
+<br />
 {$lang['last_date']}
 {$Info['actiondate']}
 </i>
 </div>
 <br />
 {/if}
-
 {if {$Info['reason_edit']} != ''}
 <div class="reason_edit">
-<b>{$lang['reason_edit']}
-{$Info['reason_edit']}</b>
+<b>
+{$lang['reason_edit']}
+{$Info['reason_edit']}
+</b>
 </div>
 <br />
-{/if}	</td>
-</tr>
-<tr class="right_text_align">
-<td class="row1 pkr center_text_align wd100">
-<table class="wd100 brd0 clp0" style="border-collapse: collapse" id="table1">
-<tr>
-<td class="wd82">
-<div class="r-right">	</div>
+{/if}
+{get_hook}show_reply_down_text{/get_hook}
+{if {$ReplierInfo['user_sig']} != ''}
+{template}signature_show{/template}
+{/if}
+</dd>
+</dl>
+<dl>
+<dt></dt>
+<dd class="row1 pkr pkr-b a-center">
+<!-- table --><div style="width:100%; border-collapse: collapse;" class="table">
+<dl>
+<dt></dt>
+<dd>
+<div class="r-right">
+{if {$_CONF['member_permission']}}
+{if {$ReplierInfo['username']} !=''}
+{if {$_CONF['member_row']['username']} != {$ReplierInfo['username']}}
+{if {$_CONF['info_row']['reputationallw']} == 1}
+<a href="javascript:switchMenuNone('{$Info['reply_number']}replyreputation')"
+title="{$lang['add_reputation_to']}
+{$ReplierInfo['username']}">
+<img class="brd0" alt="{$lang['add_reputation_to']}
+{$ReplierInfo['username']}"
+src="{$image_path}/reputation.gif" />
+</a>
+{template}reply_reputation{/template}
+{/if}
+{/if}
+{/if}
+<a title="{$lang['reporting_for_post']}"
+href="index.php?page=report&amp;index=1&amp;subject_id={$Info['subject_id']}&amp;reply_id={$Info['reply_id']}&amp;count={$Info['count']}#{$Info['reply_id']}">
+<img alt="{$lang['reporting_for_post']}"
+class="brd0" src="{$image_path}/report.gif" />
+</a>
+{/if}
+</div>
+{if {$_CONF['member_permission']}}
 <div class="l-left">
 <ul class="post_controls">
 <li>
-<a href="index.php?page=new_reply&amp;index=1&amp;id={$subject_id}{$password}
-&amp;qu_Reply={$Info['reply_id']}&amp;user={$Info['username']}" class="Button_secondary"
+<a href="index.php?page=new_reply&amp;index=1&amp;id={$subject_id}
+&amp;qu_Reply={$Info['reply_id']}&amp;user={$ReplierInfo['username']}" class="Button_secondary"
 title="{$lang['qu_reply']}">
-{$lang['quote']}</a>
+{$lang['quote']}
+</a>
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
+{/if}
+</dd>
+</dl>
+</div><!-- /table -->
+</dd>
+</dl>
+</div><!-- /table -->
 <br />]]></show_post>
 <usercp_control_profile_coordination><![CDATA[<title> {$lang['profile_coordination']} -
 {$_CONF['info_row']['title']}</title>{template}address_bar_part1{/template}
