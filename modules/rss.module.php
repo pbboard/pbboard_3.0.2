@@ -45,7 +45,7 @@ class PowerBBRSSMOD
 		echo "<atom:link href=\"http://".$PowerBB->_SERVER['HTTP_HOST'].$atomLink."\" rel=\"self\" type=\"application/rss+xml\" />\n";
 		echo "<title>" . $PowerBB->_CONF['info_row']['title'] . " - " . $PowerBB->functions->GetForumAdress() . "</title>\n";
 		echo "<link>" . $PowerBB->functions->GetForumAdress() . "</link>\n";
-		echo "<description>".$PowerBB->_CONF['template']['_CONF']['lang']['Abstracts_another_active_topics_in'] . ":".$Forumtitle ."</description>\n";
+		echo "<description><![CDATA[".$PowerBB->_CONF['template']['_CONF']['lang']['Abstracts_another_active_topics_in'] . ":".$Forumtitle ."]]></description>\n";
 		echo "<generator>" . $PowerBB->_CONF['info_row']['title'] . "</generator>\n";
         echo "<pubDate>" . $datenow . "</pubDate>\n";
 		if ($PowerBB->_GET['subject'])
@@ -121,7 +121,6 @@ class PowerBBRSSMOD
         $SubjectList[$x]['text'] = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),300);
         $description = str_ireplace(" .","", $description);
         $description = str_ireplace(". ","", $description);
-
         $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
         $SubjectList[$x]['text'] = str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
 
@@ -131,7 +130,7 @@ class PowerBBRSSMOD
 
 		echo "<item>";
 		echo "<title>" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "</title>\n";
-		echo "<description>" . trim($description) . "</description>\n";
+		echo "<description><![CDATA[" . trim($description) . "]]></description>\n";
 		echo "<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
 		//echo "<generator>" . $PowerBB->functions->GetForumAdress() . " rss " .$SubjectList[$x]['writer'] . "</generator>\n";
 		echo '<pubDate>' . date("r", $PowerBB->functions->CleanText($SubjectList[$x]['write_time'])) . '</pubDate>' . "\n";
@@ -261,7 +260,7 @@ class PowerBBRSSMOD
 
 		echo "<item>";
 		echo "<title>" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "</title>\n";
-		echo "<description>" . trim($description). "</description>\n";
+		echo "<description><![CDATA[" . trim($description) . "]]></description>\n";
 		echo "<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
 		//echo "<generator>" . $PowerBB->functions->GetForumAdress() . " rss " .$SubjectList[$x]['writer'] . "</generator>\n";
 		echo '<pubDate>' . date("r", $PowerBB->functions->CleanText($SubjectList[$x]['write_time'])) . '</pubDate>' . "\n";
