@@ -43,7 +43,7 @@ class PowerBBRSSMOD
 		$atomLink = $PowerBB->_SERVER['REQUEST_URI'];
 		$atomLink = str_replace("&","&amp;",$atomLink);
 		echo "<atom:link href=\"http://".$PowerBB->_SERVER['HTTP_HOST'].$atomLink."\" rel=\"self\" type=\"application/rss+xml\" />\n";
-		echo "<title>" . $PowerBB->_CONF['info_row']['title'] . " - " . $PowerBB->functions->GetForumAdress() . "</title>\n";
+		echo "<title><![CDATA[" . $PowerBB->_CONF['info_row']['title'] . " - " . $PowerBB->functions->GetForumAdress() . "]]></title>\n";
 		echo "<link>" . $PowerBB->functions->GetForumAdress() . "</link>\n";
 		echo "<description><![CDATA[".$PowerBB->_CONF['template']['_CONF']['lang']['Abstracts_another_active_topics_in'] . ":".$Forumtitle ."]]></description>\n";
 		echo "<generator>" . $PowerBB->_CONF['info_row']['title'] . "</generator>\n";
@@ -129,7 +129,7 @@ class PowerBBRSSMOD
 		$url = $PowerBB->functions->rewriterule($url);
 
 		echo "<item>";
-		echo "<title>" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "</title>\n";
+		echo "<title><![CDATA[" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "]]></title>\n";
 		echo "<description><![CDATA[" . trim($description) . "]]></description>\n";
 		echo "<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
 		//echo "<generator>" . $PowerBB->functions->GetForumAdress() . " rss " .$SubjectList[$x]['writer'] . "</generator>\n";
@@ -259,7 +259,7 @@ class PowerBBRSSMOD
 		$url = $PowerBB->functions->rewriterule($url);
 
 		echo "<item>";
-		echo "<title>" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "</title>\n";
+		echo "<title><![CDATA[" . $PowerBB->functions->CleanText($SubjectList[$x]['title'])  . "]]></title>\n";
 		echo "<description><![CDATA[" . trim($description) . "]]></description>\n";
 		echo "<link>" . $PowerBB->functions->GetForumAdress() . $url . $SubjectList[$x]['id'] . $extention . "</link>\n";
 		//echo "<generator>" . $PowerBB->functions->GetForumAdress() . " rss " .$SubjectList[$x]['writer'] . "</generator>\n";
