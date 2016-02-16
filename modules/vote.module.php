@@ -37,7 +37,7 @@ class PowerBBCoreMOD
 		{
 			$this->_StartShowVotes();
 		}
-		if ($PowerBB->_GET['poll_close'])
+		elseif ($PowerBB->_GET['poll_close'])
 		{
 			$this->_StartPollClose();
 		}

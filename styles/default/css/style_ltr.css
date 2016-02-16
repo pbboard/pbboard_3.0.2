@@ -2788,7 +2788,7 @@ border: 1px solid #EBEBEB;
 .title_n{
 font-family: "Droid Arabic Kufi","tahoma",sans-serif;
 font-size: 11px;
-font-weight: normal;
+font-weight: bold;
 padding-top:8px;
 padding-right:8px;
 }
@@ -3141,8 +3141,8 @@ background-color: #FFFFFF;
 background-image:url('../images/bullet.png');
 background-repeat: no-repeat;
 background-position:top 4px left 0px;
-background-position-x: 98%;
-background-position-y: 50%;
+background-position-x: 2px;
+background-position-y: 4px;
 padding-right:0px;
 padding-left:22px;
 padding-top:2px;
@@ -4124,7 +4124,7 @@ overflow-y: auto;
 float: right;
 }
 img{
-max-width:100%;
+max-width:auto;
 }
 .table {
 display:table!important;

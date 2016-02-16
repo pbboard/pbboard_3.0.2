@@ -92,9 +92,11 @@ class PowerBBRSSMOD
 
 	$size 	= 	sizeof($SubjectList);
 	$x	=	0;
-
 	while ($x < $size)
-	 {
+	 {        $SubjectList[$x]['text'] = @preg_replace('#<img .*src="(.*)".*>#iUe', "'{img_s}'.trim('$1').'{img_e}'", $SubjectList[$x]['text']);
+		//$SubjectList[$x]['text'] =@str_ireplace("[img]",'<img src="',$SubjectList[$x]['text']);
+		//$SubjectList[$x]['text'] =@str_ireplace("[/img]",'">',$SubjectList[$x]['text']);
+       // $SubjectList[$x]['text'] = @preg_replace('#<img .*src="(.*)".*>#iUe',"'{img_s}img src='.trim('$1').'{img_e}'", $SubjectList[$x]['text']);
 	    $_searchBB = '#\[(.*)\]#esiU';
 	    $_replaceBB = "";
 		$SubjectList[$x]['text'] = @preg_replace($_searchBB,$_replaceBB,$SubjectList[$x]['text']);
@@ -103,7 +105,7 @@ class PowerBBRSSMOD
 
        $SubjectList[$x]['text'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['text']);
         $SubjectList[$x]['title'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['title']);
-		$SubjectList[$x]['text'] =str_ireplace("\n","<br />",$SubjectList[$x]['text']);
+		$SubjectList[$x]['text'] =@str_ireplace("\n","<br />",$SubjectList[$x]['text']);
 
 		$_search = '#\&(.*)\;#esiU';
 		$_replace = "";
@@ -115,14 +117,19 @@ class PowerBBRSSMOD
 		$SubjectList[$x]['title'] = str_replace($bad_characters, "", $SubjectList[$x]['title']);
        	$SubjectList[$x]['text'] = str_replace($PowerBB->_CONF['template']['_CONF']['lang']['resize_image_w_h'], "", $SubjectList[$x]['text']);
 		$SubjectList[$x]['text'] =str_replace("الموضوع الأصلي","",$SubjectList[$x]['text']);
-
+        $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
+        $SubjectList[$x]['text'] = @str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
 
      	$description = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),250);
         $SubjectList[$x]['text'] = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),300);
-        $description = str_ireplace(" .","", $description);
-        $description = str_ireplace(". ","", $description);
-        $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
-        $SubjectList[$x]['text'] = str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
+        $description = str_replace(" .","", $description);
+        $description = str_replace(". ","", $description);
+
+        //$description = @str_ireplace("{img_s}img src=",'<img src="', $description);
+        //$description = @str_ireplace("{img_s}","<", $description);
+        //$description = @str_ireplace("{img_e}",'" alt="">', $description);
+       $description = str_replace("{img_s}",'[img]', $description);
+       $description = str_replace("{img_e}",'[/img]', $description);
 
 		$extention = "";
 		$url = "index.php?page=topic&amp;show=1&amp;id=";
@@ -222,6 +229,10 @@ class PowerBBRSSMOD
 
 	while ($x < $size)
 	{
+       $SubjectList[$x]['text'] = @preg_replace('#<img .*src="(.*)".*>#iUe', "'{img_s}'.trim('$1').'{img_e}'", $SubjectList[$x]['text']);
+		//$SubjectList[$x]['text'] =@str_ireplace("[img]",'<img src="',$SubjectList[$x]['text']);
+		//$SubjectList[$x]['text'] =@str_ireplace("[/img]",'">',$SubjectList[$x]['text']);
+        //$SubjectList[$x]['text'] = @preg_replace('#<img .*src="(.*)".*>#iUe',"'{img_s}img src='.trim('$1').'{img_e}'", $SubjectList[$x]['text']);
 
 	    $_searchBB = '#\[(.*)\]#esiU';
 	    $_replaceBB = "";
@@ -231,7 +242,7 @@ class PowerBBRSSMOD
 
         $SubjectList[$x]['text'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['text']);
         $SubjectList[$x]['title'] = $PowerBB->Powerparse->censor_words($SubjectList[$x]['title']);
-		$SubjectList[$x]['text'] =str_ireplace("\n","<br />",$SubjectList[$x]['text']);
+		$SubjectList[$x]['text'] =@str_ireplace("\n","<br />",$SubjectList[$x]['text']);
 		$SubjectList[$x]['text'] =str_replace($PowerBB->_CONF['template']['_CONF']['lang']['the_original_topic'],"",$SubjectList[$x]['text']);
 
 		$_search = '#\&(.*)\;#esiU';
@@ -245,14 +256,18 @@ class PowerBBRSSMOD
 		$SubjectList[$x]['title'] = str_replace($bad_characters, "", $SubjectList[$x]['title']);
        	$SubjectList[$x]['text'] = str_replace($PowerBB->_CONF['template']['_CONF']['lang']['resize_image_w_h'], "", $SubjectList[$x]['text']);
 		$SubjectList[$x]['text'] =str_replace("الموضوع الأصلي","",$SubjectList[$x]['text']);
+        $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
+        $SubjectList[$x]['text'] = @str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
 
      	$description = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),250);
         $SubjectList[$x]['text'] = $PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($SubjectList[$x]['text']),300);
-        $description = str_ireplace(" .","", $description);
-        $description = str_ireplace(". ","", $description);
-
-        $censorwords = preg_split('#[ \r\n\t]+#', $PowerBB->_CONF['info_row']['censorwords'], -1, PREG_SPLIT_NO_EMPTY);
-        $SubjectList[$x]['text'] = str_ireplace($censorwords,'**', $SubjectList[$x]['text']);
+        $description = str_replace(" .","", $description);
+        $description = str_replace(". ","", $description);
+        //$description = @str_ireplace("{img_s}img src=",'<img src="', $description);
+       //$description = @str_ireplace("{img_s}","<", $description);
+       //$description = @str_ireplace("{img_e}",'" alt="">', $description);
+       $description = str_replace("{img_s}",'[img]', $description);
+       $description = str_replace("{img_e}",'[/img]', $description);
 
 		$extention = "";
 		$url = "index.php?page=topic&amp;show=1&amp;id=";

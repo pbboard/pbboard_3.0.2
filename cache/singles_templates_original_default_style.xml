@@ -2275,24 +2275,34 @@ title="{$lang['time_logged_online']}
 </tr>
 </table><br />
 ]]></forum_password>
-<forum_perpage_reply><![CDATA[<?php      	$subject_id = $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id'];
+<forum_perpage_reply><![CDATA[<?php
+
+if($PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['stick']
+or $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['stick'])
+{
+$subject_id = $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id'];
+}
+else
+{
+$subject_id = $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id'];
+}
 $PagerReplyNumArr = $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['reply_number'];
 ?>
 <!-- start perpage subject_list  -->
 <span dir="rtl">(
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=0">1</a>
 </span><span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 {$_CONF['info_row']['perpage']}">2</a>
 </span>	<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']+ $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']) {  ?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']+ $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']; ?>
 ">3</a>
@@ -2301,7 +2311,7 @@ $PagerReplyNumArr = $PowerBB->_CONF['template']['while']['subject_list'][$this->
 <?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 3) {  ?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 3; ?>
 ">4</a>
@@ -2310,7 +2320,7 @@ $PagerReplyNumArr = $PowerBB->_CONF['template']['while']['subject_list'][$this->
 <?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 4) {  ?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 4; ?>
 ">5</a>
@@ -2319,7 +2329,7 @@ $PagerReplyNumArr = $PowerBB->_CONF['template']['while']['subject_list'][$this->
 <?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 5) {  ?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 5; ?>
 ">6</a>
@@ -2328,7 +2338,7 @@ $PagerReplyNumArr = $PowerBB->_CONF['template']['while']['subject_list'][$this->
 <?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 6) {  ?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 6; ?>
 ">7</a>
@@ -2337,7 +2347,7 @@ $PagerReplyNumArr = $PowerBB->_CONF['template']['while']['subject_list'][$this->
 <?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 7) {  ?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 7; ?>
 ">8</a>
@@ -2352,7 +2362,7 @@ $perpage_r = $round0_r*$PowerBB->_CONF['template']['_CONF']['info_row']['perpage
 $countpage = $perpage_r;?>
 <span class="perpage">
 <a href="index.php?page=topic&amp;show=1&amp;id=
-<?php echo $PowerBB->_CONF['template']['while']['subject_list'][$this->x_loop]['id']; ?>
+<?php echo $subject_id; ?>
 &amp;password={$password}&amp;count=
 <?php echo $countpage; ?>
 ">{$lang['Lastperpage']}</a>
@@ -5860,6 +5870,8 @@ $title = $PowerBB->Powerparse->_wordwrap($title,$num);?>
 <?php
 $x = 1;
 $images = array();
+$PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text'] = $PowerBB->Powerparse->censor_words($PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text']);
+
 $PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text'] = stripslashes($PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text']);
 preg_match_all('/src=([\'"])?((?(1).*?|\S+))(?(1)\1)/', $PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text'], $images);
 foreach ($images[2] as $src)
@@ -5881,7 +5893,7 @@ echo '<img class="brd0" width="200" height="200" src="look/portal/images/traffic
 <td class="row1 pkr va-t">
 <?php
 $num = $PowerBB->_CONF['template']['_CONF']['info_row']['portal_news_along'];
-$text = $PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text'];
+$text = $PowerBB->Powerparse->replace($PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['text']);
 $text = $PowerBB->functions->words_count_replace_strip_tags_html2bb($text,$num);
 $text = $PowerBB->Powerparse->html2bb($text);
 $PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['native_write_time'] = $PowerBB->sys_functions->time_ago($PowerBB->_CONF['template']['while']['LastNews_subjectList'][$this->x_loop]['native_write_time']);
@@ -8223,7 +8235,7 @@ imgChange.className = "collapsed";
 <li class="sub_forums pkr-b">
 <div class="forum-icon pkr-b">
 {if {$forum['use_section_picture']} and {$forum['sectionpicture_type']}== 1}
-<span class="section_picture pkr" title="{$lang['section_picture']}"><img src="{$forum['section_picture']}" alt="{$lang['section_picture']}" /></span>
+<span class="section_picture" title="{$lang['section_picture']}"><img src="{$forum['section_picture']}" alt="{$lang['section_picture']}" /></span>
 {else}
 <span class="{$forum['forum_icon']} pkr" title="{$forum['forum_icon_alt']}"></span>
 {/if}
