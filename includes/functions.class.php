@@ -136,7 +136,7 @@ class PowerBBFunctions
 														}
 														$forum_url = "index.php?page=forum&amp;show=1&amp;id=";
 														$forum['sub'] .= '<li class="home-sub-forums">';
-														$forum['sub'] .= '<a class="sub-forums-title" href="'.$PowerBB->functions->rewriterule($forum_url).$sub['id'].'">'.$sub['title'].'</a>';
+														$forum['sub'] .= ' <a class="sub-forums-title" style="padding-right:11px;" href="'.$PowerBB->functions->rewriterule($forum_url).$sub['id'].'"> '.$sub['title'].'</a>';
 														$forum['sub'] .= "</li>";
 														$t_sub=$t_sub+1;
 											        }
@@ -1019,9 +1019,17 @@ class PowerBBFunctions
 		$url = @preg_replace('#/.*(.*).php/.*#iUe', "", $url);
 		$url = @preg_replace('#(.*).php.*#iUe', "", $url);
 		// Get server port
-		$port = intval($PowerBB->_SERVER['SERVER_PORT']);
-		$port = in_array($port, array(80, 443)) ? '' : ':' . $port;
-		$scheme = ((':443' == $port) OR (isset($PowerBB->_SERVER['HTTPS']) AND $PowerBB->_SERVER['HTTPS'] AND ($PowerBB->_SERVER['HTTPS'] != 'off'))) ? 'https://' : 'http://'.$url;
+		if (isset($PowerBB->_SERVER['HTTPS']) &&
+		    ($PowerBB->_SERVER['HTTPS'] == 'on' || $PowerBB->_SERVER['HTTPS'] == 1) ||
+		    isset($PowerBB->_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+		    $PowerBB->_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+		  $protocol = 'https://';
+		}
+		else {
+		  $protocol = 'http://';
+		}
+
+		$scheme = $protocol.$url;
  		return $scheme;
  	}
 	/**

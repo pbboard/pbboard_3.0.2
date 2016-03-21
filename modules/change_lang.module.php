@@ -39,14 +39,14 @@ class PowerBBChangeLangMOD
 
 				$change = $PowerBB->core->Update($LangArr,'member');
                 ob_start();
-                setcookie("PowerBB_lang", $PowerBB->_GET['id'], time()+3600);
+                setcookie("PowerBB_lang", $PowerBB->_GET['id'], time()+2592000);
                 ob_end_flush();
 			}
 			else
 			{
 
                 ob_start();
-                setcookie("PowerBB_lang", $PowerBB->_GET['id'], time()+3600);
+                setcookie("PowerBB_lang", $PowerBB->_GET['id'], time()+2592000);
                 ob_end_flush();
 				$change = 1;
 

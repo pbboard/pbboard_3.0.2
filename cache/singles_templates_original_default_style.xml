@@ -9175,7 +9175,7 @@ title="{$lang['no_photo']}" width="80" height="80" />
 {/if}
 </td>
 <td class="row1 pkr wd40">
-<img src="{$image_path}/bar_right.gif" width="4" height="11" alt="" /><img src="{$image_path}/bar.gif" alt="" width="{$Vote}" height="11" /><img src="{$image_path}/bar_left.gif" alt="" width="4" height="11" />
+<img src="{$image_path}/bar_right.gif" width="4" height="11" alt="" /><img src="{$image_path}/bar.gif" alt="" style="width:{$Vote}%;" height="11" /><img src="{$image_path}/bar_left.gif" alt="" width="4" height="11" />
 </td>
 <td class="row1 pkr center_text_align wd12">
 {$lang['votes']} {$Vote}
@@ -10036,9 +10036,7 @@ eval("form.elements[" + i + "].checked = form.elements[0].checked");
 <show_votes><![CDATA[<tr class="center_text_align va-t">
 <td class="row1 pkr wd10">{$answers}</td>
 <td class="row1 pkr wd15">
-<img src="{$image_path}/bar_right.gif" title="{$Vote}%" width="4" height="11" alt="" />
-<img src="{$image_path}/bar.gif" title="{$Vote}%" width="{$Vote}" height="11" alt="" />
-<img src="{$image_path}/bar_left.gif" title="{$Vote}%" width="4" height="11" alt="" />
+<img src="{$image_path}/bar_right.gif" title="{$Vote}%" width="4" height="11" alt="" /><img src="{$image_path}/bar.gif" title="{$Vote}%" style="width:{$Vote}%;" height="11" alt="" /><img src="{$image_path}/bar_left.gif" title="{$Vote}%" width="4" height="11" alt="" />
 </td>
 <td class="row1 pkr wd49">
 {Des::while}{VoteList}

@@ -37,14 +37,14 @@ class PowerBBChangeStyleMOD
                $Style_id = $PowerBB->_GET['id'];
 
                 ob_start();
-                setcookie("PowerBB_style", $Style_id, time()+3600);
+                setcookie("PowerBB_style", $Style_id, time()+2592000);
                 ob_end_flush();
 			}
 			else
 			{
 				$Style_id = $PowerBB->_GET['id'];
                 ob_start();
-                setcookie("PowerBB_style", $Style_id, time()+3600);
+                setcookie("PowerBB_style", $Style_id, time()+2592000);
                 ob_end_flush();
 		                if (strstr($PowerBB->_SERVER['HTTP_REFERER'],$PowerBB->functions->GetForumAdress()))
 						{
