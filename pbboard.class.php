@@ -144,10 +144,22 @@ class PowerBB extends Engine
 		$LangArr['where'][0]['value'] 		= 	$languageid;
 
 		$LangRows = $this->records->GetInfo($LangArr);
-
+        if ($LangRows)
+        {
 		$languageid = $LangRows['id'];
 		$this->_CONF['LangId'] = $languageid;
 		$this->_CONF['LangDir'] = $LangRows['lang_path'];
+        }
+        else
+        {
+			$def_language = $this->_CONF['info_row']['def_lang'];
+			ob_start();
+			setcookie("PowerBB_lang", $def_language, time()+2592000);
+			ob_end_flush();
+			//$this->functions->redirect2('index.php');
+			exit;
+
+        }
        }
 
 		$arr 				            = 	array();

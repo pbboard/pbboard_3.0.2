@@ -151,8 +151,16 @@ class PowerBBTemplate
 								$this->_CompileTemplate($fr2,$template_name);
 								fclose($fp2);
 	                         }
-                          }
-
+                        }
+                        else
+                        {
+                         $def_style = $PowerBB->_CONF['info_row']['def_style'];
+							ob_start();
+							setcookie("PowerBB_style", $def_style, time()+2592000);
+							ob_end_flush();
+							//$PowerBB->functions->redirect2('index.php');
+							exit;
+                         }
 	                    unset($text);
 					    $text = $PowerBB->DB->sql_free_result($text);                   }
 

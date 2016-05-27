@@ -295,7 +295,7 @@ class PowerBBReplyAddMOD
         // View 10 replys Inverse in template new_reply
          if (!empty($PowerBB->_GET['id']))
          {
-         $ReplyArr = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = " . $PowerBB->_GET['id'] . " ORDER by ID DESC limit 10 ");
+         $ReplyArr = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = " . $PowerBB->_GET['id'] . " and delete_topic <>1 and review_reply <>1 ORDER by ID DESC limit 10 ");
          while ($GeReplyInfo = $PowerBB->DB->sql_fetch_array($ReplyArr))
          {
             $GeReplyInfo['text'] = $PowerBB->Powerparse->replace($GeReplyInfo['text']);
@@ -444,7 +444,7 @@ class PowerBBReplyAddMOD
         // View 10 replys Inverse in template new_reply
           if (!empty($PowerBB->_GET['id']))
          {
-         $ReplyArr = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = " . $PowerBB->_GET['id'] . " ORDER by ID DESC limit 10 ");
+         $ReplyArr = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = " . $PowerBB->_GET['id'] . " and delete_topic <>1 and review_reply <>1 ORDER by ID DESC limit 10 ");
          while ($GeReplyInfo = $PowerBB->DB->sql_fetch_array($ReplyArr))
          {
             $GeReplyInfo['text'] = $PowerBB->Powerparse->replace($GeReplyInfo['text']);

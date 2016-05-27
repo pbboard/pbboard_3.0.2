@@ -2122,10 +2122,6 @@ doc.src = "includes/captcha.php" + "?act=" + clicks;
 {$sec_address_title}
 </a>
 <div class="btn-nav"></div>
-{else}
-<a href="index.php?page=forum&amp;show=1&amp;id={$sec_main_id}">
-{$sec_main_title}
-</a>
 {/if}
 {if !{$section_parent} == '0'}
 <div class="btn-nav"></div>
@@ -6028,15 +6024,22 @@ index.php?page=topic&amp;show=1&amp;id={$LastsPostsInfo['id']}">
 <br />
 <hr>
 </span>
+<?php $x = 1; ?>
 {Des::while}{OnlineList}
 {if {$OnlineList['user_id']} == '-1'}
-{if {$OnlineList['is_bot']} == '1'}
-{$OnlineList['bot_name']}
+{if {$OnlineList['is_bot']}}
+{$OnlineList['bot_name']} ,
 {else}
-<?php echo $PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style'] = str_ireplace('Guest',$PowerBB->_CONF['template']['lang']['Guest_'],$PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style']); ?>،
+<?php
+echo $PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style'] = str_ireplace('Guest',$PowerBB->_CONF['template']['lang']['Guest_'],$PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username_style']).$x;
+$x += 1;
+?> ,
 {/if}
 {else}
-<?php echo $PowerBB->functions->GetUsernameStyle($PowerBB->_CONF['template']['while']['OnlineList'][$this->x_loop]['username']);?> ،
+{if {$OnlineList['username_style']} != 'Guest'}
+<a href="index.php?page=profile&amp;show=1&amp;id={$OnlineList['user_id']}"
+title="{$lang['time_logged_online']}{$OnlineList['logged']}">{$OnlineList['username_style']}</a>،
+{/if}
 {/if}
 {/Des::while}
 {if {$_CONF['info_row']['show_onlineguest']} == 1}
@@ -6119,7 +6122,13 @@ $num = '100';
 $text = $PowerBB->_CONF['template']['Info']['text'];
 $text = $PowerBB->functions->words_count_replace_strip_tags_html2bb($text,$num);
 ?>
+<link rel="stylesheet" href="{$ForumAdress}look/fonts/font-awesome.min.css" />
+<link rel="stylesheet" href="{$ForumAdress}look/fonts/fonts.css" />
 <meta name="description" content=" <?php echo $text?>" />
+<script type="text/javascript" src="{$ForumAdress}includes/js/shCore.js"></script>
+<script type="text/javascript" src="{$ForumAdress}includes/js/shBrushPhp.js"></script>
+<script type="text/javascript">SyntaxHighlighter.config.bloggerMode = true; SyntaxHighlighter.all();</script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style type="text/css">
@@ -6139,7 +6148,19 @@ background-color: #EEEEEE;
 {
 background-color: #FFFFFF;
 color: #000000;
-}</style>
+}
+
+.text {
+    font-size: 15px;
+    border: 2px;
+    padding: 5px;
+    line-height: 33px;
+}
+.codemain {
+width: 200px;
+}
+</style>
+
 <title>{$_CONF['info_row']['title']} - {$Info['title']} -
 {$lang['Print_topic']}
 </title>
