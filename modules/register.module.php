@@ -693,7 +693,7 @@ class PowerBBRegisterMOD
 
 			if (empty($PowerBB->_POST['username']))
 			{
-			 $PowerBB->functions->header_redirect('index.php?page=register&index=1');
+			 $this->_AjaxTxtRed($PowerBB->_CONF['template']['_CONF']['lang']['You_can_register_this_numbrs_name']);
 			}
 			  // Clean the username from white spaces
 			if(is_numeric($PowerBB->_POST['username']))

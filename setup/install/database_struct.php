@@ -649,7 +649,7 @@ class DatabaseStruct extends PowerBBInstall
 		$this->_TempArr['CreateArr']['table_name'] 	= 	$PowerBB->table['extension'];
 		$this->_TempArr['CreateArr']['fields'] 		= 	array();
 		$this->_TempArr['CreateArr']['fields'][] 	= 	'id INT( 9 ) NOT NULL AUTO_INCREMENT PRIMARY KEY';
-		$this->_TempArr['CreateArr']['fields'][] 	= 	'Ex VARCHAR( 5 ) NOT NULL';
+		$this->_TempArr['CreateArr']['fields'][] 	= 	'Ex VARCHAR( 12 ) NOT NULL';
 		$this->_TempArr['CreateArr']['fields'][] 	= 	'max_size VARCHAR( 20 ) NOT NULL';
 		$this->_TempArr['CreateArr']['fields'][] 	= 	'mime_type VARCHAR( 255 ) NOT NULL';
 

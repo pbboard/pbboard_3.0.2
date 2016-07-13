@@ -21,7 +21,7 @@
  */
 
 CKEDITOR.dialog.add('jwplayer', function (editor){
-	CKEDITOR.scriptLoader.load(['http://localhost/3022/applications/core/jwplayer/images/jwplayer/jwplayer.js','http://localhost/3022/applications/core/jwplayer/images/jwplayer/jwplayer.html5.js']);
+	CKEDITOR.scriptLoader.load(['../../../../../applications/core/jwplayer/images/jwplayer/jwplayer.js','../../../../../applications/core/jwplayer/images/jwplayer/jwplayer.html5.js']);
 
 	function UpdatePreview(){
 		var fileUrl = CKEDITOR.dialog.getCurrent().getContentElement('tab1', 'video_url').getValue();

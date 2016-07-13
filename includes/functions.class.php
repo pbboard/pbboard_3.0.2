@@ -733,7 +733,7 @@ class PowerBBFunctions
 			$MemberArr['where'] 	= 	array('id',$PowerBB->_GET['id']);
 			}
 		   $MemInfo = $PowerBB->core->GetInfo($MemberArr,'member');
-		$page_address['profile'] 		= 	$MemInfo['username'];
+		$page_address['profile'] 		= 	$PowerBB->_CONF['template']['_CONF']['lang']['View_Member_Profile']." - ".$MemInfo['username'];
 		 $PowerBB->template->assign('keywords',$PowerBB->functions->CleanText($MemInfo['username']).",".$PowerBB->functions->CleanText($MemInfo['user_title']).",".$PowerBB->_CONF['info_row']['title']);
 		 $PowerBB->template->assign('description',$PowerBB->functions->CleanText($MemInfo['username'])." : ".$PowerBB->functions->CleanText($MemInfo['user_title']));
          $PowerBB->template->assign('index',1);
@@ -746,6 +746,7 @@ class PowerBBFunctions
 		$num = '80';
         if ($PowerBB->functions->section_group_permission($ReplyInfo['section'],$PowerBB->_CONF['group_info']['id'],'view_subject'))
 		 {
+		    $page_address['post'] 		= 	$PowerBB->functions->CleanText($ReplyInfo['title'])." - ".$PowerBB->_CONF['template']['_CONF']['lang']['view_single_post']." - ".$PowerBB->_CONF['info_row']['title'];
 			$PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($ReplyInfo['title']));
 			$PowerBB->template->assign('description',$PowerBB->Powerparse->_wordwrap($PowerBB->functions->CleanText($ReplyInfo['text']),$num));
 			$PowerBB->template->assign('index',1);
@@ -759,7 +760,7 @@ class PowerBBFunctions
 		$PowerBB->template->assign('Subject_Info_Row',$SubjectInfo);
 		if ($PowerBB->functions->section_group_permission($SubjectInfo['section'],$PowerBB->_CONF['group_info']['id'],'view_subject'))
 		 {
-				$page_address['topic'] 		= 	$PowerBB->Powerparse->censor_words($SubjectInfo['prefix_subject'].' '.$SubjectInfo['title']);
+				$page_address['topic'] 		= 	$PowerBB->_CONF['info_row']['title']." - ".$PowerBB->Powerparse->censor_words($SubjectInfo['prefix_subject'].' '.$SubjectInfo['title']);
 				$TagArr 			= 	array();
 				$TagArr['where'] 	= 	array('subject_id',$SubjectInfo['id']);
 				$PowerBB->_CONF['template']['while']['tags'] = $PowerBB->tag->GetSubjectList($TagArr);
