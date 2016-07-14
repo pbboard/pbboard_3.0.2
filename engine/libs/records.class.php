@@ -406,6 +406,8 @@ class PowerBBRecords
  	 	   $r['tag'] = str_replace('&amp;','&',$r['tag']);
  	 	   $r['tag'] = str_replace('&#39;',"'",$r['tag']);
  	 	   $r['title'] = str_replace('&#39;',"'",$r['title']);
+ 	 	   $r['title'] = htmlspecialchars($r['title']);
+
  	 		$rows[$x] = $r;
 
  	 		if (!empty($param['proc'])

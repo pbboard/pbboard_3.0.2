@@ -217,9 +217,8 @@ class PowerBBCoreMOD
 		   			{
 		   			  if (!empty($tag))
 						{
-
 		   				$CheckArr 			= 	array();
-		   				$CheckArr['where'] 	= 	array('tag',$tag);
+		   				$CheckArr['where'] 	= 	array('tag',$PowerBB->functions->CleanVariable($PowerBB->functions->CleanVariable($PowerBB->functions->CleanVariable($tag,'trim'),'html'),'sql'));
 
 		   				$tag_id = 1;
 
@@ -233,7 +232,7 @@ class PowerBBCoreMOD
 
 		   				$InsertArr['field']['tag_id'] 			= 	$tag_id;
 		   				$InsertArr['field']['subject_id'] 		=	$PowerBB->_POST['subjectid'];
-		   				$InsertArr['field']['tag'] 				= 	$PowerBB->functions->CleanVariable($tag,'html');
+		   				$InsertArr['field']['tag'] 				= 	$PowerBB->functions->CleanVariable($PowerBB->functions->CleanVariable($PowerBB->functions->CleanVariable($tag,'trim'),'html'),'sql');
 		   				$InsertArr['field']['subject_title'] 	= 	$Subjectinfo['title'];
 
 		   				// Note, this function is from tag system not subject system
@@ -246,7 +245,7 @@ class PowerBBCoreMOD
 		   					$UpdateArr 			= 	array();
 		   					$UpdateArr['field']	=	array();
 
-		   					$UpdateArr['field']['tag'] 	= 	$PowerBB->functions->CleanVariable($tag,'html');
+		   					$UpdateArr['field']['tag'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->functions->CleanVariable($PowerBB->functions->CleanVariable($tag,'trim'),'html'),'sql');;
 		   					$UpdateArr['where']				=	array('id',$Tag['id']);
 
 		   					$update = $PowerBB->tag_subject->UpdateSubject($UpdateArr);
