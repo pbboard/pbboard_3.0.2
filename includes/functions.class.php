@@ -760,7 +760,8 @@ class PowerBBFunctions
 		$PowerBB->template->assign('Subject_Info_Row',$SubjectInfo);
 		if ($PowerBB->functions->section_group_permission($SubjectInfo['section'],$PowerBB->_CONF['group_info']['id'],'view_subject'))
 		 {
-				$page_address['topic'] 		= 	$PowerBB->_CONF['info_row']['title']." - ".$PowerBB->Powerparse->censor_words($SubjectInfo['prefix_subject'].' '.$SubjectInfo['title']);
+				$page_address['topic']         =     $PowerBB->Powerparse->censor_words($SubjectInfo['prefix_subject'].' '.$SubjectInfo['title']." - ".$PowerBB->_CONF['info_row']['title']);
+
 				$TagArr 			= 	array();
 				$TagArr['where'] 	= 	array('subject_id',$SubjectInfo['id']);
 				$PowerBB->_CONF['template']['while']['tags'] = $PowerBB->tag->GetSubjectList($TagArr);

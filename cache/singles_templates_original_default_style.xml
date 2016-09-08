@@ -1624,6 +1624,7 @@ config.jwplayerLanguage = "{$_CONF['info_row']['content_language']}";
 config.extraPlugins = 'code,quote,youtube,jwplayer';
 config.removePlugins = 'contextmenu,liststyle,tabletools';
 config.enterMode = CKEDITOR.ENTER_BR;
+config.pasteFilter = null;
 config.contentsCss = '{$ForumAdress}look/fonts/fonts.css';
 config.font_names = 'Droid Arabic Kufi;' + config.font_names;
 config.font_defaultLabel = 'Droid Arabic Kufi';
@@ -1908,11 +1909,12 @@ config.jwplayerLanguage = "{$_CONF['info_row']['content_language']}";
 config.extraPlugins = 'code,quote,youtube,jwplayer';
 config.removePlugins = 'contextmenu,liststyle,tabletools';
 config.enterMode = CKEDITOR.ENTER_BR;
+config.pasteFilter = null;
 config.contentsCss = '{$ForumAdress}look/fonts/fonts.css';
 config.font_names = 'Droid Arabic Kufi;' + config.font_names;
 config.font_defaultLabel = 'Droid Arabic Kufi';
 config.fontSize_defaultLabel = '15px';
-config.allowedContent = true;
+config.pasteFilter = null;
 };
 </script>
 <textarea cols="50" id="box_text" name="text" rows="5"> </textarea>
@@ -2369,6 +2371,98 @@ $countpage = $perpage_r;?>
 <?php
 unset($PagerReplyNumArr);
 ?>]]></forum_perpage_reply>
+<forum_stick_perpage_reply><![CDATA[<?php
+$subject_id = $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id'];
+$PagerReplyNumArr = $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['reply_number'];
+?>
+<!-- start perpage stick_subject_list  -->
+<span dir="rtl">
+(
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=0">1</a>
+</span>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>&amp;password={$password}&amp;
+count={$_CONF['info_row']['perpage']}">2</a>
+</span>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']+ $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']+ $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']; ?>
+">3</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 3) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 3; ?>
+">4</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 4) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 4; ?>
+">5</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 5) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 5; ?>
+">6</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 6) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 6; ?>
+">7</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 7) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 7; ?>
+">8</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 8) {
+$ss_r = $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']/2+1;
+$roun_ss_r = round($ss_r, 0);
+$reply_number_r = $PagerReplyNumArr-$roun_ss_r;
+$pagenum_r = $reply_number_r/$PowerBB->_CONF['template']['_CONF']['info_row']['perpage'];
+$round0_r = round($pagenum_r, 0);
+$perpage_r = $round0_r*$PowerBB->_CONF['template']['_CONF']['info_row']['perpage'];
+$countpage = $perpage_r;
+?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $countpage; ?>
+">{$lang['Lastperpage']}</a>
+</span>
+<?php } ?>
+)</span>
+<!-- end perpage stick_subject_list  -->
+<?php
+unset($PagerReplyNumArr);
+?>]]></forum_stick_perpage_reply>
 <forum_subject_table><![CDATA[<script type='text/javascript'>
 function AjaxTitle()
 {
@@ -2701,7 +2795,7 @@ src="{$image_path}/open.gif" /></a>
 
 
 {if {$stick_subject_list['reply_number']} > {$_CONF['info_row']['perpage']}}
-{template}forum_perpage_reply{/template}
+{template}forum_stick_perpage_reply{/template}
 <img alt="" src="{$image_path}/multipage.gif"
 title="{$lang['subject_multipage']}" class="l-left f_perpage" />
 {/if}
@@ -14737,6 +14831,7 @@ config.defaultLanguage = "{$_CONF['info_row']['content_language']}";
 config.extraPlugins = 'code,quote';
 config.removePlugins = 'contextmenu,liststyle,tabletools';
 config.enterMode = CKEDITOR.ENTER_BR;
+config.pasteFilter = null;
 };
 </script>
 <textarea cols="50" id="box_text" name="text" rows="5">{$pagetext}</textarea>
