@@ -316,12 +316,31 @@ class PowerBBCore
 				$cache[$x]['visitor'] 		            = 	$Posts[$x]['visitor'];
 				$cache[$x]['last_replier'] 		        = 	$Posts[$x]['last_replier'];
 				$cache[$x]['sec_subject'] 		        = 	$Posts[$x]['sec_subject'];
-				$cache[$x]['last_replier'] 		        = 	$Posts[$x]['last_replier'];
 				$cache[$x]['review_subject'] 		    = 	$Posts[$x]['review_subject'];
 				$cache[$x]['prefix_subject'] 		    = 	$Posts[$x]['prefix_subject'];
 				$cache[$x]['native_write_time'] 		= 	$Posts[$x]['native_write_time'];
 				$cache[$x]['special'] 		            = 	$Posts[$x]['special'];
 				$cache[$x]['attach_subject'] 		    = 	$Posts[$x]['attach_subject'];
+
+				if ($Posts[$x]['last_replier']!='')
+				{
+				$last_writer = $Posts[$x]['last_replier'];
+				}
+				else
+				{
+				$last_writer = $Posts[$x]['writer'];
+				}
+
+ 				$MemberArr 							= 	array();
+ 				$MemberArr['get_from'] 				= 	'db';
+ 				$MemberArr['where'] 					= 	array('username',$last_writer);
+				$rows = $this->Engine->member->GetMemberInfo($MemberArr);
+
+
+
+				$cache[$x]['last_writer_id'] 	    = 	$rows['id'];
+				$cache[$x]['avater_path'] 		    = 	$rows['avater_path'];
+				$cache[$x]['username_style_cache']  = 	$rows['username_style_cache'];
 
 				$x += 1;
 			}
@@ -334,6 +353,26 @@ class PowerBBCore
 		{
 		return  false;
 		}
+ 	}
+
+     /**
+ 	 * Get the Server Protocol http or https
+ 	 */
+ 	function GetServerProtocol()
+ 	{
+ 		global $PowerBB;
+		// Get server port
+		if (isset($PowerBB->_SERVER['HTTPS']) &&
+		    ($PowerBB->_SERVER['HTTPS'] == 'on' || $PowerBB->_SERVER['HTTPS'] == 1) ||
+		    isset($PowerBB->_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+		    $PowerBB->_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+		  $protocol = 'https://';
+		}
+		else {
+		  $protocol = 'http://';
+		}
+
+ 		return $protocol;
  	}
 
 }

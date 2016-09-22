@@ -30,6 +30,10 @@ class PowerBBPluginMOD
 			{
 				$this->StartUpdate();
 			}
+			elseif ($PowerBB->_GET['hook'])
+			{
+				$this->Starthook_no_Header();
+			}
 			else
 			{
 				@header("Location: index.php");
@@ -45,6 +49,7 @@ class PowerBBPluginMOD
        $PowerBB->functions->ShowHeader();
 
      @eval($PowerBB->functions->get_fetch_hooks('PluginHooksMain'));
+     exit;
 	}
 
 	function StartUpdate()
@@ -54,8 +59,16 @@ class PowerBBPluginMOD
 
       @eval($PowerBB->functions->get_fetch_hooks('PluginHooksUpdate'));
 
+     exit;
 	}
 
+	function Starthook_no_Header()
+	{
+		global $PowerBB;
+
+      @eval($PowerBB->functions->get_fetch_hooks('Plugin_no_Header'));
+      exit;
+	}
 
 }
 

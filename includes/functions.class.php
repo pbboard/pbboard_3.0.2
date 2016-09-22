@@ -212,13 +212,16 @@ class PowerBBFunctions
 							 {
 	                           $forum['avater_path'] = $forum['avater_path'];
 	                         }
+
+
+
                              $user_id =  $forum['last_writer_id'];
 	                        if ($username == $PowerBB->_CONF['template']['_CONF']['lang']['Guestp']
 	                         or $username == 'Guest')
 							{
 							   if ($PowerBB->_CONF['info_row']['allow_avatar'])
 							    {
-								 $forum['writer_photo'] = $PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
+								 $forum['writer_photo'] = $this->GetForumAdress()."/".$PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
 								}
 								 $forum['username'] = $PowerBB->_CONF['template']['_CONF']['lang']['Guest_'];
 								 $forum['last_writer'] = $PowerBB->_CONF['template']['_CONF']['lang']['Guest_'];
@@ -229,7 +232,7 @@ class PowerBBFunctions
 							    {
 	                               if (empty($forum['avater_path']))
 	                               {
-									$forum['writer_photo'] = $PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
+									$forum['writer_photo'] = $this->GetForumAdress()."/".$PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
 								   }
 								   else
 	                               {
@@ -261,6 +264,30 @@ class PowerBBFunctions
       	                        $forum['last_writer'] = $PowerBB->functions->rewriterule($username_style);
 						      }
 							}
+
+
+								if (@!strstr($forum['writer_photo'],'http')
+									or @!strstr($forum['writer_photo'],'www.'))
+								{
+									if (@strstr($forum['writer_photo'],'download/avatar/')
+									or @strstr($forum['writer_photo'],'look/images/avatar/'))
+									{
+									 $forum['writer_photo'] = $this->GetForumAdress().$forum['writer_photo'];
+									}
+								}
+
+                            if ($this->GetServerProtocol() == 'https://')
+							 {
+                              $https_  = "https://".$PowerBB->_SERVER['HTTP_HOST'];
+                              $httpswww_  = "https://www.".$PowerBB->_SERVER['HTTP_HOST'];
+                              $http_  = "http://".$PowerBB->_SERVER['HTTP_HOST'];
+                              $http_www_  = "http://www.".$PowerBB->_SERVER['HTTP_HOST'];
+
+	       					  $forum['writer_photo'] = str_replace($http_, $https_, $forum['writer_photo']);
+							  $forum['writer_photo'] = @str_ireplace($http_, $https_, $forum['writer_photo']);
+	       					  $forum['writer_photo'] = str_replace($http_www_, $httpswww_, $forum['writer_photo']);
+							  $forum['writer_photo'] = @str_ireplace($http_www_, $httpswww_, $forum['writer_photo']);
+                             }
 	                          //
 						  // Get the moderators list as a _link_ and store it in $forum['moderators_list']
 		                   if ($PowerBB->_CONF['info_row']['no_moderators'])
@@ -743,7 +770,7 @@ class PowerBBFunctions
 		$ReplyArr = array();
 		$ReplyArr['where'] = array('id',intval($PowerBB->_GET['id']));
 		$ReplyInfo = $PowerBB->core->GetInfo($ReplyArr,'reply');
-		$num = '80';
+		$num = '155';
         if ($PowerBB->functions->section_group_permission($ReplyInfo['section'],$PowerBB->_CONF['group_info']['id'],'view_subject'))
 		 {
 		    $page_address['post'] 		= 	$PowerBB->functions->CleanText($ReplyInfo['title'])." - ".$PowerBB->_CONF['template']['_CONF']['lang']['view_single_post']." - ".$PowerBB->_CONF['info_row']['title'];
@@ -765,7 +792,7 @@ class PowerBBFunctions
 				$TagArr 			= 	array();
 				$TagArr['where'] 	= 	array('subject_id',$SubjectInfo['id']);
 				$PowerBB->_CONF['template']['while']['tags'] = $PowerBB->tag->GetSubjectList($TagArr);
-				$num = '90';
+				$num = '155';
 				if($PowerBB->_CONF['template']['while']['tags'])
 				{
 				$PowerBB->template->assign('keywords',$PowerBB->_CONF['template']['while']['tags']);
@@ -781,7 +808,7 @@ class PowerBBFunctions
 		elseif ($PowerBB->_GET['rules'] == '1')
 		{
 		$page_address['misc'] 		= 	$PowerBB->_CONF['template']['_CONF']['lang']['rules'] .' - '. $PowerBB->_CONF['info_row']['title'];
-		$num = '80';
+		$num = '155';
 		 $PowerBB->template->assign('keywords',$PowerBB->functions->Getkeywords($PowerBB->_CONF['template']['_CONF']['lang']['rules']));
 		 $PowerBB->template->assign('description',$PowerBB->functions->CleanText($PowerBB->Powerparse->_wordwrap($PowerBB->_CONF['info_row']['rules'],$num)));
          $PowerBB->template->assign('index',1);
@@ -1034,6 +1061,26 @@ class PowerBBFunctions
 		$scheme = $protocol.$url;
  		return $scheme;
  	}
+
+ 	/**
+ 	 * Get the Server Protocol http or https
+ 	 */
+ 	function GetServerProtocol()
+ 	{
+ 		global $PowerBB;
+		// Get server port
+		if (isset($PowerBB->_SERVER['HTTPS']) &&
+		    ($PowerBB->_SERVER['HTTPS'] == 'on' || $PowerBB->_SERVER['HTTPS'] == 1) ||
+		    isset($PowerBB->_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+		    $PowerBB->_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+		  $protocol = 'https://';
+		}
+		else {
+		  $protocol = 'http://';
+		}
+
+ 		return $protocol;
+ 	}
 	/**
  	 * Get the Mian folder forum url adress
  	 */
@@ -1272,6 +1319,10 @@ function CleanText($string)
 		$originally_text = str_replace("&amp;quot;","", $originally_text);
 		$originally_text = str_replace("    "," ", $originally_text);
 		$originally_text = str_replace("   "," ", $originally_text);
+
+	    $pattern = '|[[\/\!]*?[^\[\]]*?]|si';
+	    $replace = '';
+        $originally_text = preg_replace($pattern, $replace, $originally_text);
 		return ($originally_text);
     }
  	function replace_strip($string)
@@ -2666,7 +2717,7 @@ function gzip_encode($contents, $level=1)
 	{
 	   global $PowerBB;
         $Version = 'Version '. $PowerBB->_CONF['info_row']['MySBB_version'];
-    	$copy = 'Powered by <a target="_blank" href="http://www.pbboard.info">PBBoard</a> ©' .$Version;
+    	$copy = 'Powered by <a target="_blank" href="https://www.pbboard.info">PBBoard</a> ©' .$Version;
 		return $copy;
 	}
 	function Update_Cache_groups()
@@ -2852,7 +2903,7 @@ function gzip_encode($contents, $level=1)
 			else
 			{
 			$JS_Notification = 1;
-			$morinfrmosn ="http://www.pbboard.info";
+			$morinfrmosn ="https://www.pbboard.info";
 			$Result = $PowerBB->_CONF['template']['_CONF']['lang']['there_is_newer_version1'].$LatestVersion.$PowerBB->_CONF['template']['_CONF']['lang']['there_is_newer_version2'].$morinfrmosn.$PowerBB->_CONF['template']['_CONF']['lang']['there_is_newer_version3'];
 			}
 		}

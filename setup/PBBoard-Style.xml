@@ -1546,7 +1546,7 @@ echo "</dl><dl><dt></dt>";
 <option value="31">31</option>
 </select> &nbsp;</td>
 <td>
-<input name="year" id="bd_year" type="text" size="4" dir="ltr" /> &nbsp;
+<input name="year" id="bd_year" type="text" size="4" dir="ltr" maxlength="4" /> &nbsp;
 </td>
 </tr>
 </table>
@@ -1625,6 +1625,7 @@ config.jwplayerLanguage = "{$_CONF['info_row']['content_language']}";
 config.extraPlugins = 'code,quote,youtube,jwplayer';
 config.removePlugins = 'contextmenu,liststyle,tabletools';
 config.enterMode = CKEDITOR.ENTER_BR;
+config.pasteFilter = null;
 config.contentsCss = '{$ForumAdress}look/fonts/fonts.css';
 config.font_names = 'Droid Arabic Kufi;' + config.font_names;
 config.font_defaultLabel = 'Droid Arabic Kufi';
@@ -1909,11 +1910,12 @@ config.jwplayerLanguage = "{$_CONF['info_row']['content_language']}";
 config.extraPlugins = 'code,quote,youtube,jwplayer';
 config.removePlugins = 'contextmenu,liststyle,tabletools';
 config.enterMode = CKEDITOR.ENTER_BR;
+config.pasteFilter = null;
 config.contentsCss = '{$ForumAdress}look/fonts/fonts.css';
 config.font_names = 'Droid Arabic Kufi;' + config.font_names;
 config.font_defaultLabel = 'Droid Arabic Kufi';
 config.fontSize_defaultLabel = '15px';
-config.allowedContent = true;
+config.pasteFilter = null;
 };
 </script>
 <textarea cols="50" id="box_text" name="text" rows="5"> </textarea>
@@ -2370,6 +2372,98 @@ $countpage = $perpage_r;?>
 <?php
 unset($PagerReplyNumArr);
 ?>]]></template>
+<template name="forum_stick_perpage_reply" templatetype="template" date="1455630896" username="PBBoard Solutions" decode="0" version="3.0.2"><![CDATA[<?php
+$subject_id = $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id'];
+$PagerReplyNumArr = $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['reply_number'];
+?>
+<!-- start perpage stick_subject_list  -->
+<span dir="rtl">
+(
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=0">1</a>
+</span>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>&amp;password={$password}&amp;
+count={$_CONF['info_row']['perpage']}">2</a>
+</span>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']+ $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']+ $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']; ?>
+">3</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 3) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 3; ?>
+">4</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 4) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 4; ?>
+">5</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 5) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 5; ?>
+">6</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 6) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 6; ?>
+">7</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 7) {  ?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 7; ?>
+">8</a>
+</span>
+<?php } ?>
+<?php if ($PagerReplyNumArr > $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']* 8) {
+$ss_r = $PowerBB->_CONF['template']['_CONF']['info_row']['perpage']/2+1;
+$roun_ss_r = round($ss_r, 0);
+$reply_number_r = $PagerReplyNumArr-$roun_ss_r;
+$pagenum_r = $reply_number_r/$PowerBB->_CONF['template']['_CONF']['info_row']['perpage'];
+$round0_r = round($pagenum_r, 0);
+$perpage_r = $round0_r*$PowerBB->_CONF['template']['_CONF']['info_row']['perpage'];
+$countpage = $perpage_r;
+?>
+<span class="perpage">
+<a href="index.php?page=topic&amp;show=1&amp;id=
+<?php echo $PowerBB->_CONF['template']['while']['stick_subject_list'][$this->x_loop]['id']; ?>
+&amp;password={$password}&amp;count=
+<?php echo $countpage; ?>
+">{$lang['Lastperpage']}</a>
+</span>
+<?php } ?>
+)</span>
+<!-- end perpage stick_subject_list  -->
+<?php
+unset($PagerReplyNumArr);
+?>]]></template>
 <template name="forum_subject_table" templatetype="template" date="1455630896" username="PBBoard Solutions" decode="0" version="3.0.2"><![CDATA[<script type='text/javascript'>
 function AjaxTitle()
 {
@@ -2702,7 +2796,7 @@ src="{$image_path}/open.gif" /></a>
 
 
 {if {$stick_subject_list['reply_number']} > {$_CONF['info_row']['perpage']}}
-{template}forum_perpage_reply{/template}
+{template}forum_stick_perpage_reply{/template}
 <img alt="" src="{$image_path}/multipage.gif"
 title="{$lang['subject_multipage']}" class="l-left f_perpage" />
 {/if}
@@ -13043,7 +13137,7 @@ doc.src = "includes/captcha.php" + "?act=" + clicks;
 {/if}
 </select> &nbsp;</td>
 <td>
-<input name="year" id="bd_year" type="text" size="3" value="{$_CONF['rows']['member_row']['bday_year']}" dir="ltr"/> &nbsp;
+<input name="year" id="bd_year" type="text" size="3" maxlength="4" value="{$_CONF['rows']['member_row']['bday_year']}" dir="ltr"/> &nbsp;
 </td>
 </tr>
 </table>]]></template>
@@ -14738,6 +14832,7 @@ config.defaultLanguage = "{$_CONF['info_row']['content_language']}";
 config.extraPlugins = 'code,quote';
 config.removePlugins = 'contextmenu,liststyle,tabletools';
 config.enterMode = CKEDITOR.ENTER_BR;
+config.pasteFilter = null;
 };
 </script>
 <textarea cols="50" id="box_text" name="text" rows="5">{$pagetext}</textarea>
@@ -15837,30 +15932,72 @@ title="{$lang['qu_reply']}">
 {Des::while}{lastPostsList}
 {if {$lastPostsList['title']} != ''}
 {if {$lastPostsList['review_subject']} == 0 and {$lastPostsList['sec_subject']} == 0}
-<li class="last_posts">
-<div class="last_subjectid">
 <?php
 $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['title'] =  $PowerBB->Powerparse->_wordwrap($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['title'],'30');
 if ($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['last_replier']!='')
 {
 $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['writer'] = $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['last_replier'];
 }
+
 ?>
-<span class="last_p">&nbsp;</span>&nbsp;
+<li class="last_posts" style="padding: 0px 6px 10px 0px; margin: 1px; border-bottom: 0px dotted #CFCFCF !important;">
+<ul class="PBBList_reset">
+{if {$_CONF['info_row']['allow_avatar']}}
+<li class="Photo_lastPoster pkr-b" style="display:inline-block; margin-top:-3px; padding:2px; border: 1px solid rgb(165,227,228); width: 32px; height: 32px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px;">
 <a title="{$lang['last_writer']}
-{$lastPostsList['writer']}" href="index.php?page=topic&amp;show=1&amp;id={$lastPostsList['id']}">
-{$lastPostsList['title']}</a></div>
+{$lastPostsList['writer']}" href="index.php?page=profile&amp;show=1&amp;id={$lastPostsList['last_writer_id']}">
+{if {$lastPostsList['avater_path']} != ''}
+<?php
+if (@!strstr($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'],'http')
+	or @!strstr($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'],'www.'))
+{
+	if (@strstr($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'],'download/avatar/')
+	or @strstr($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'],'look/images/avatar/'))
+	{
+	$PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'] = $PowerBB->_CONF['template']['ForumAdress'].$PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'];
+    $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'] = str_replace($PowerBB->_CONF['template']['ForumAdress'].$PowerBB->_CONF['template']['ForumAdress'], $PowerBB->_CONF['template']['ForumAdress'], $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path']);
+	}
+}
+
+if ($PowerBB->functions->GetServerProtocol() == 'https://')
+{
+$https_  = "https://".$PowerBB->_SERVER['HTTP_HOST'];
+$httpswww_  = "https://www.".$PowerBB->_SERVER['HTTP_HOST'];
+$http_  = "http://".$PowerBB->_SERVER['HTTP_HOST'];
+$http_www_  = "http://www.".$PowerBB->_SERVER['HTTP_HOST'];
+
+$PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'] = str_replace($http_, $https_, $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path']);
+$PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'] = @str_ireplace($http_, $https_, $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path']);
+$PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'] = str_replace($http_www_, $httpswww_, $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path']);
+$PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path'] = @str_ireplace($http_www_, $httpswww_, $PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['avater_path']);
+}
+?>
+<span class="brd0" style="width: 32px; height: 32px; background-image: url({$lastPostsList['avater_path']});width: 32px; height: 32px; background-position: center; background-repeat: no-repeat; background-size: 32px; display: inline-block; vertical-align: middle;"></span>
+{else}
+<span class="brd0" style="background-image: url(<?php echo $PowerBB->_CONF['template']['ForumAdress'].$PowerBB->_CONF['template']['image_path'];?>/{$_CONF['info_row']['default_avatar']}); width: 32px; height: 32px; background-position: center; background-repeat: no-repeat; background-size: 32px; display: inline-block; vertical-align: middle;"></span>
+{/if}
+</a>
+</li>
+{else}
+<li class="last_posts" style="display:inline-block; margin:2px; padding:3px;">
+<span class="last_p">&nbsp;</span>&nbsp;
+</li>
+{/if}
+<li class="last_subjectid" style="position:relative; vertical-align:middle; margin-top: -4px; display:inline-block;">
+<a title="{$lastPostsList['title']}" href="index.php?page=topic&amp;show=1&amp;id={$lastPostsList['id']}">
+{$lastPostsList['title']}</a>
 <div><i class="IconNewsTime fa fa-history pkr-c"></i>
 <?php echo $PowerBB->functions->time($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['write_time']); ?>
 <span class="last_time_ago"><?php echo $PowerBB->functions->time_ago($PowerBB->_CONF['template']['while']['lastPostsList'][$this->x_loop]['write_time']); ?></span>
 </div>
 </li>
+</ul>
+</li>
 {/if}
 {/if}
 {/Des::while}
 </ul>
-</div>
-]]></template>
+</div>]]></template>
 <template name="login_box" templatetype="template" date="1455630896" username="PBBoard Solutions" decode="0" version="3.0.2"><![CDATA[{if !{$_CONF['member_permission']}}
 <ul class="sidebar">
 <li class="tcat pkr">

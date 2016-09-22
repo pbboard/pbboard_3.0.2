@@ -186,127 +186,145 @@ class PowerBBTemplate
 	function _CompileTemplate($string, $filename)
 	{
 		global $PowerBB;
-        $string = str_replace("&#39;", "'", $string);
-        // CSRF protect all your forms
-        //$string = str_ireplace("</form>",'<input type="hidden" name="csrf" value="{$csrf_key}" />'."\n</form>",$string);
-      @eval($PowerBB->functions->get_fetch_hooks('template_class_start'));
-		// We have loop
-		if (preg_match('~\{Des::while}{([^[<].*?)}~',$string)
+
+         	$Template_name_dont_show = array("add_this", "add_reply_link", "add_subject_link", "signature_show" , "add_tags_table", "awards", "chat", "chat_edit", "chat_main", "editor_simple", "editor_js", "fast_reply_js", "imgs_resize", "jump_forums_list", "lasts_posts_bar", "last_subject_writer", "profile_cover_photo_upload", "statistics_list", "tags_edit_subject", "topic_end_fast_reply", "visitor_messag", "info_bar", "main_static_table", "visitor_message_js", "whatis_new");
+			$string = str_replace("&#39;", "'", $string);
+			// CSRF protect all your forms
+			//$string = str_ireplace("</form>",'<input type="hidden" name="csrf" value="{$csrf_key}" />'."\n</form>",$string);
+			@eval($PowerBB->functions->get_fetch_hooks('template_class_start'));
+
+			// We have loop
+			if (preg_match('~\{Des::while}{([^[<].*?)}~',$string)
 			or preg_match('~\{Des::while::complete}~',$string))
-		{
+			{
 			$string = $this->_ProccessWhile($string);
-		}
+			}
 
-		if (preg_match('~\{Des::foreach}{([^[<].*?)}~',$string))
-		{
+			if (preg_match('~\{Des::foreach}{([^[<].*?)}~',$string))
+			{
 			$string = $this->_ProccessForeach($string);
-		}
+			}
 
-		if (preg_match('~\{if (.*)\}~',$string))
-		{
+			if (preg_match('~\{if (.*)\}~',$string))
+			{
 			$string = $this->_ProccessIfStatement($string);
-		}
+			}
 
-		$search_array 	= 	array();
-		$replace_array 	= 	array();
+			$search_array 	= 	array();
+			$replace_array 	= 	array();
 
-		$search_array[] 	= 	'~\{\$([^[<].*?)\[\'([^[<].*?)\'\]\[\'([^[<].*?)\'\]\}~';
-		$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\'][\'\\3\']; ?>';
+			$search_array[] 	= 	'~\{\$([^[<].*?)\[\'([^[<].*?)\'\]\[\'([^[<].*?)\'\]\}~';
+			$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\'][\'\\3\']; ?>';
 
-		$search_array[] 	= 	'~\{\$([^[<].*?)\[([^[<].*?)\]\[([^[<].*?)\]\}~';
-		$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\'][\'\\3\']; ?>';
+			$search_array[] 	= 	'~\{\$([^[<].*?)\[([^[<].*?)\]\[([^[<].*?)\]\}~';
+			$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\'][\'\\3\']; ?>';
 
-		$search_array[] 	= 	'~\{\$([^[<].*?)\[\'([^[<].*?)\'\]\}~';
-		$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\']; ?>';
+			$search_array[] 	= 	'~\{\$([^[<].*?)\[\'([^[<].*?)\'\]\}~';
+			$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\']; ?>';
 
-		$search_array[] 	= 	'~\{\$([^[<].*?)\[([^[<].*?)\]\}~';
-		$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\']; ?>';
+			$search_array[] 	= 	'~\{\$([^[<].*?)\[([^[<].*?)\]\}~';
+			$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\'][\'\\2\']; ?>';
 
-		$search_array[] 	= 	'~\{\$([^[<].*?)\}~';
-		$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\']; ?>';
+			$search_array[] 	= 	'~\{\$([^[<].*?)\}~';
+			$replace_array[] 	= 	'<?php echo $PowerBB->_CONF[\'template\'][\'\\1\']; ?>';
 
-		$search_array[] 	= 	'~\{template}([^[<].*?){/template}~';
-		$replace_array[] 	= 	'<?php $this->display(\'\\1\'); ?>';
+			$search_array[] 	= 	'~\{template}([^[<].*?){/template}~';
+			$replace_array[] 	= 	'<?php $this->display(\'\\1\'); ?>';
 
-		$search_array[] 	= 	'~\{include}([^[<].*?){/include}~';
-		$replace_array[] 	= 	'<?php include(\\1); ?>';
+			$search_array[] 	= 	'~\{include}([^[<].*?){/include}~';
+			$replace_array[] 	= 	'<?php include(\\1); ?>';
 
-		$search_array[] 	= 	'~\{info_row}([^[<].*?){/info_row}~';
-		$replace_array[] 	= 	'<?php $this->info_row(\'\\1\'); ?>';
+			$search_array[] 	= 	'~\{info_row}([^[<].*?){/info_row}~';
+			$replace_array[] 	= 	'<?php $this->info_row(\'\\1\'); ?>';
 
-		$search_array[] 	= 	'~\{get_hook}([^[<].*?){/get_hook}~';
-		$replace_array[] 	= 	'<?php $this->get_hooks_template(\'\\1\'); ?>';
+			$search_array[] 	= 	'~\{get_hook}([^[<].*?){/get_hook}~';
+			$replace_array[] 	= 	'<?php $this->get_hooks_template(\'\\1\'); ?>';
 
-		//////////
+			//////////
 
- 		$string = @preg_replace($search_array,$replace_array,$string);
+			$string = @preg_replace($search_array,$replace_array,$string);
 
-		$string = str_replace("['template']['lang']","['template']['_CONF']['lang']",$string);
- 		$string = str_replace("['lang']['addons']","['lang']",$string);
- 		$string = str_replace("['mange_chat']","['chat_message']",$string);
+			$string = str_replace("['template']['lang']","['template']['_CONF']['lang']",$string);
+			$string = str_replace("['lang']['addons']","['lang']",$string);
+			$string = str_replace("['mange_chat']","['chat_message']",$string);
 
-		if ($filename == 'multi_quote')
-		{
-        $first_search = "censor_words";
-        $first_replace = "mqtids_replace_cod";
- 		$string = str_replace($first_search,$first_replace,$string);
-		}
-		if ($filename == 'headinclud')
-		{
-        $first_search = 'meta name="description" content=" ';
-        $first_replace = 'meta name="description" content="';
- 		$string = str_replace($first_search,$first_replace,$string);
-		}
-		if ($filename == 'pm_show')
-		{
-        $first_search = "ATTACH_SHOW";
-        $first_replace = "ATTACH_SHOW_PM";
- 		$string = str_replace($first_search,$first_replace,$string);
-		}
-		if ($filename == 'new_topic')
-		{
-        $first_search = "[n]";
-        $first_replace = "[\n]";
- 		$string = str_replace($first_search,$first_replace,$string);
-		}
-		if ($filename == 'add_chat_message')
-		{
-        $first_search = 'name="text"';
-        $first_replace = 'name="textc"';
- 		$string = str_replace($first_search,$first_replace,$string);
-		}
-		if ($filename == 'sections_list')
-		{
-        $first_search = "count=";
-        $first_replace = "last_post=1&amp;count=";
- 		$string = str_replace($first_search,$first_replace,$string);
-		}
-		if ($filename == 'usercp_menu')
-		{
-		$search_coordination_array 	= 	array();
-		$replace_coordination_array 	= 	array();
-        $search_coordination_array[] = "'profile_coordination'";
-        $replace_coordination_array[] = "profile_coordination_nun";
-     	 $search_coordination_array[] = ('<tr>
-     		<td class="row1">
-     			<a href="index.php?page=usercp&amp;control=1&amp;coordination=1&amp;main=1">');
-        $replace_coordination_array[] = "";
- 		$string = str_replace($search_coordination_array,$replace_coordination_array,$string);
-		}
+			if ($PowerBB->functions->is_bot())
+			{
+			 $string = str_replace("['active_like_facebook']","['board_close']",$string);
+			 $string = str_replace("['allow_avatar']","['board_close']",$string);
 
-       $string = str_replace('alt=""','alt="icon"',$string);
-       $string = str_replace("alt=''","alt='icon'",$string);
-       $string = str_replace("<!--copyright-->",$PowerBB->functions->copyright(),$string);
+				if ($filename)
+				{
+					if (in_array($filename, $Template_name_dont_show))
+					{
+					 $string  = "<!-- Hide Template content:".$filename." -->";
+					}
+			   }
+			}
 
-        $string = str_replace("Jsvk","",$string);
-        $string = str_replace('action="index.php?page=login','name="login" action="index.php?page=login',$string);
-        $string = str_replace('"index.php"','"'.$PowerBB->functions->GetForumAdress().'"',$string);
-        $string = str_replace("'index.php'","'".$PowerBB->functions->GetForumAdress()."'",$string);
-        @eval($PowerBB->functions->get_fetch_hooks('template_class_end'));
 
-        $string = $PowerBB->sys_functions->ReplaceMysqlExtension($string);
-        $string = $PowerBB->functions->rewriterule($string);
- 		$write  = @eval(" ?>".$PowerBB->sys_functions->fetch_gzipped_text($string)."<?php ");
+			if ($filename == 'multi_quote')
+			{
+			$first_search = "censor_words";
+			$first_replace = "mqtids_replace_cod";
+			$string = str_replace($first_search,$first_replace,$string);
+			}
+			if ($filename == 'headinclud')
+			{
+			$first_search = 'meta name="description" content=" ';
+			$first_replace = 'meta name="description" content="';
+			$string = str_replace($first_search,$first_replace,$string);
+			}
+			if ($filename == 'pm_show')
+			{
+			$first_search = "ATTACH_SHOW";
+			$first_replace = "ATTACH_SHOW_PM";
+			$string = str_replace($first_search,$first_replace,$string);
+			}
+			if ($filename == 'new_topic')
+			{
+			$first_search = "[n]";
+			$first_replace = "[\n]";
+			$string = str_replace($first_search,$first_replace,$string);
+			}
+			if ($filename == 'add_chat_message')
+			{
+			$first_search = 'name="text"';
+			$first_replace = 'name="textc"';
+			$string = str_replace($first_search,$first_replace,$string);
+			}
+			if ($filename == 'sections_list')
+			{
+			$first_search = "count=";
+			$first_replace = "last_post=1&amp;count=";
+			$string = str_replace($first_search,$first_replace,$string);
+			}
+			if ($filename == 'usercp_menu')
+			{
+			$search_coordination_array 	= 	array();
+			$replace_coordination_array 	= 	array();
+			$search_coordination_array[] = "'profile_coordination'";
+			$replace_coordination_array[] = "profile_coordination_nun";
+			$search_coordination_array[] = ('<tr>
+			<td class="row1">
+			<a href="index.php?page=usercp&amp;control=1&amp;coordination=1&amp;main=1">');
+			$replace_coordination_array[] = "";
+			$string = str_replace($search_coordination_array,$replace_coordination_array,$string);
+			}
+
+			$string = str_replace('alt=""','alt="icon"',$string);
+			$string = str_replace("alt=''","alt='icon'",$string);
+			$string = str_replace("<!--copyright-->",$PowerBB->functions->copyright(),$string);
+
+			$string = str_replace("Jsvk","",$string);
+			$string = str_replace('action="index.php?page=login','name="login" action="index.php?page=login',$string);
+			$string = str_replace('"index.php"','"'.$PowerBB->functions->GetForumAdress().'"',$string);
+			$string = str_replace("'index.php'","'".$PowerBB->functions->GetForumAdress()."'",$string);
+			@eval($PowerBB->functions->get_fetch_hooks('template_class_end'));
+
+			$string = $PowerBB->sys_functions->ReplaceMysqlExtension($string);
+			$string = $PowerBB->functions->rewriterule($string);
+			$write  = @eval(" ?>".$PowerBB->sys_functions->fetch_gzipped_text($string)."<?php ");
 	}
 
 	/**

@@ -172,6 +172,31 @@ class PowerBBMemberMOD extends _functions
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_can_not_register_this_name']);
 		}
 
+	    if (@strstr($PowerBB->_POST['username'],'"')
+		or @strstr($PowerBB->_POST['username'],"'")
+		or @strstr($PowerBB->_POST['username'],'>')
+		or @strstr($PowerBB->_POST['username'],'<')
+		or @strstr($PowerBB->_POST['username'],'*')
+		or @strstr($PowerBB->_POST['username'],'%')
+		or @strstr($PowerBB->_POST['username'],'$')
+		or @strstr($PowerBB->_POST['username'],'#')
+		or @strstr($PowerBB->_POST['username'],'+')
+		or @strstr($PowerBB->_POST['username'],'^')
+		or @strstr($PowerBB->_POST['username'],'&')
+		or @strstr($PowerBB->_POST['username'],',')
+		or @strstr($PowerBB->_POST['username'],'~')
+		or @strstr($PowerBB->_POST['username'],'@')
+		or @strstr($PowerBB->_POST['username'],'!')
+		or @strstr($PowerBB->_POST['username'],'{')
+		or @strstr($PowerBB->_POST['username'],'}')
+		or @strstr($PowerBB->_POST['username'],'(')
+		or @strstr($PowerBB->_POST['username'],')')
+		or @strstr($PowerBB->_POST['username'],'/'))
+      	{
+      		$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_can_not_register_this_name']);
+      	}
+
+
 		$PowerBB->_POST['password'] = md5($PowerBB->_POST['password']);
 
       	//////////
@@ -500,6 +525,8 @@ class PowerBBMemberMOD extends _functions
           }
         }
 
+        @eval($PowerBB->functions->get_fetch_hooks('member_edit'));
+
 		$PowerBB->template->display('member_edit');
 
 		//////////
@@ -587,6 +614,34 @@ class PowerBBMemberMOD extends _functions
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_can_not_register_this_name']);
 		}
 
+		if ($PowerBB->_POST['new_username'] == 'Guest')
+		{
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_can_not_register_this_name']);
+		}
+
+	    if (@strstr($PowerBB->_POST['new_username'],'"')
+		or @strstr($PowerBB->_POST['new_username'],"'")
+		or @strstr($PowerBB->_POST['new_username'],'>')
+		or @strstr($PowerBB->_POST['new_username'],'<')
+		or @strstr($PowerBB->_POST['new_username'],'*')
+		or @strstr($PowerBB->_POST['new_username'],'%')
+		or @strstr($PowerBB->_POST['new_username'],'$')
+		or @strstr($PowerBB->_POST['new_username'],'#')
+		or @strstr($PowerBB->_POST['new_username'],'+')
+		or @strstr($PowerBB->_POST['new_username'],'^')
+		or @strstr($PowerBB->_POST['new_username'],'&')
+		or @strstr($PowerBB->_POST['new_username'],',')
+		or @strstr($PowerBB->_POST['new_username'],'~')
+		or @strstr($PowerBB->_POST['new_username'],'@')
+		or @strstr($PowerBB->_POST['new_username'],'!')
+		or @strstr($PowerBB->_POST['new_username'],'{')
+		or @strstr($PowerBB->_POST['new_username'],'}')
+		or @strstr($PowerBB->_POST['new_username'],'(')
+		or @strstr($PowerBB->_POST['new_username'],')')
+		or @strstr($PowerBB->_POST['new_username'],'/'))
+      	{
+      		$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_can_not_register_this_name']);
+      	}
 
 		//////////
 
@@ -690,6 +745,7 @@ class PowerBBMemberMOD extends _functions
 		$UpdateArr['field']['bday_day'] 		    = 	$PowerBB->_POST['day'];
 		$UpdateArr['field']['bday_month'] 	        = 	$PowerBB->_POST['month'];
 		$UpdateArr['field']['bday_year'] 	        = 	$PowerBB->_POST['year'];
+        @eval($PowerBB->functions->get_fetch_hooks('arr_update'));
 		//extra fields insertion
        foreach($extraFields AS $field){
        $UpdateArr['field'][ $field['name_tag'] ]     =   $PowerBB->_POST[ $field['name_tag'] ];
@@ -738,6 +794,7 @@ class PowerBBMemberMOD extends _functions
             $update26 = $PowerBB->DB->sql_query("UPDATE " . $PowerBB->table['announcement'] . " SET writer='" . $username . "' WHERE writer='" . $oldusername . "'");
             $update27 = $PowerBB->DB->sql_query("UPDATE " . $PowerBB->table['subject'] . " SET action_by='" . $username . "' WHERE action_by='" . $oldusername . "'");
             $update28 = $PowerBB->DB->sql_query("UPDATE " . $PowerBB->table['reply'] . " SET action_by='" . $username . "' WHERE action_by='" . $oldusername . "'");
+            @eval($PowerBB->functions->get_fetch_hooks('username_update'));
 
           	if ($update1
 			or $update2

@@ -208,7 +208,10 @@ class PowerBBCommon
 			$kv[] = "$var_name=$value";
 			if ($value !='')
 			{
-			$PowerBB->_GET[$var_name] = strtolower($PowerBB->_GET[$var_name]);
+				if ($PowerBB->_GET[$var_name] != $PowerBB->_GET['style_path'])
+				{
+				$PowerBB->_GET[$var_name] = strtolower($PowerBB->_GET[$var_name]);
+				}
 
 			 $PowerBB->_GET[$var_name] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_GET[$var_name],'sql');
 			}

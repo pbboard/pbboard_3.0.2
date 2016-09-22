@@ -570,12 +570,19 @@ class PowerBBCodeParse
 		$GetHOSThttp  = "http://".$PowerBB->_SERVER['HTTP_HOST'];
 		$text = @str_ireplace('href="'.$GetHOSThttp,'rel="dofollow" href="'.$GetHOSThttp,$text);
 		$text = @str_ireplace('href="'.!$GetHOSThttp,'rel="nofollow" href="'.!$GetHOSThttp,$text);
+		$GetHOSThttps  = "https://".$PowerBB->_SERVER['HTTP_HOST'];
+		$text = @str_ireplace('href="'.$GetHOSThttps,'rel="dofollow" href="'.$GetHOSThttps,$text);
+		$text = @str_ireplace('href="'.!$GetHOSThttps,'rel="nofollow" href="'.!$GetHOSThttps,$text);
 		$GetHOSTwww  = "www.".$PowerBB->_SERVER['HTTP_HOST'];
 		$text = @str_ireplace('href="'.$GetHOSTwww,'rel="dofollow" href="'.$GetHOSTwww,$text);
 		$text = @str_ireplace('href="'.!$GetHOSTwww,'rel="nofollow" href="'.!$GetHOSTwww,$text);
 		$GetHOSThttpwww  = "http://www.".$PowerBB->_SERVER['HTTP_HOST'];
 		$text = @str_ireplace('href="'.$GetHOSThttpwww,'rel="dofollow" href="'.$GetHOSThttpwww,$text);
 		$text = @str_ireplace('href="'.!$GetHOSThttpwww,'rel="nofollow" href="'.!$GetHOSThttpwww,$text);
+		$GetHOSThttpswww  = "https://www.".$PowerBB->_SERVER['HTTP_HOST'];
+		$text = @str_ireplace('href="'.$GetHOSThttpswww,'rel="dofollow" href="'.$GetHOSThttpswww,$text);
+		$text = @str_ireplace('href="'.!$GetHOSThttpswww,'rel="nofollow" href="'.!$GetHOSThttpswww,$text);
+
         //
         $text = @str_ireplace("<a ", '<a target="_blank" ', $text);
         $text = @str_ireplace('rel="dofollow" rel="dofollow"', '', $text);
