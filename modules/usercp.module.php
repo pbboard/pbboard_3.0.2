@@ -9,6 +9,18 @@ class PowerBBCoreMOD
 	{
 		global $PowerBB;
      	$PowerBB->_GET['id']	= 	$PowerBB->functions->CleanVariable($PowerBB->_GET['id'],'intval');
+		if ($PowerBB->_GET['setting'] and $PowerBB->_GET['start'] and $PowerBB->_CONF['member_permission'])
+		{
+			if ($PowerBB->_POST['style'] != $PowerBB->_CONF['member_row']['style'])
+			{
+			$Style_id = $PowerBB->_POST['style'];
+
+			ob_start();
+			setcookie("PowerBB_style", $Style_id, time()+2592000);
+			ob_end_flush();
+			}
+		}
+      @eval($PowerBB->functions->get_fetch_hooks('usercp_hook_start'));
        $PowerBB->template->assign('usercp_page','primary_tabon');
 		if (!$PowerBB->_CONF['member_permission'])
 		{
@@ -219,6 +231,7 @@ class PowerBBCoreMOD
 			exit;
 		}
 
+      @eval($PowerBB->functions->get_fetch_hooks('usercp_hook_end'));
 
 		$PowerBB->functions->GetFooter();
 	}
@@ -560,9 +573,11 @@ class PowerBBCoreMOD
 
 		$UpdateSetting = $PowerBB->core->Update($UpdateArr,'member');
 
+
+
 		if ($UpdateSetting)
 		{
-			$PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['Updated_successfully']);
+		 $PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['Updated_successfully']);
          $PowerBB->functions->redirect('index.php?page=usercp&amp;control=1&amp;setting=1&amp;main=1',2);
 		}
 	}

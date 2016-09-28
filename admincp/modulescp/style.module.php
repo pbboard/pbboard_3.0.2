@@ -127,6 +127,7 @@ class PowerBBStyleMOD extends _functions
 			{
 				$this->_choose_mobile_Style();
 			}
+          @eval($PowerBB->functions->get_fetch_hooks('run_style'));
 			$PowerBB->template->display('footer');
 		}
 	}
@@ -756,7 +757,7 @@ class PowerBBStyleMOD extends _functions
 
      foreach ($querytemplate as $getTemplate_row)
       {
-
+       $add_template = '1';
         $username = $getTemplate_row['username'];
         $dateline = $PowerBB->_CONF['now'];
         $product .= $getTemplate_row['product'];
@@ -765,9 +766,42 @@ class PowerBBStyleMOD extends _functions
 		$context = str_replace("//<![CDATA[", "", $context);
 		$context = str_replace("//]]>", "", $context);
         $context = str_replace("&#39;", "'", $context);
-       // $template_un = str_replace("&#39;", "'", $template_un);
-        $xml .= "<template name=\"$title\" templatetype=\"template\" date=\"$dateline\" username=\"$username\" decode=\"0\" version=\"$version\"><![CDATA[$context]]></template>\r\n";
 
+       // dont add addons code in style templates
+      $batemplates_edits = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['templates_edits'] . "");
+       while ($back_templates = $PowerBB->DB->sql_fetch_array($batemplates_edits))
+       {
+         if($title == $back_templates['template_name'])
+         {
+
+             if($back_templates['action'] == 'new'){
+			  $add_template = '0';
+			}
+			 elseif($back_templates['action'] == 'replace')
+			{
+			  $context = str_replace("&#39;", "'", $context);
+		      $context = str_replace($back_templates['text'],$back_templates['old_text'],$context);
+		      $add_template = '1';
+			}
+			else
+			{
+				$context = str_replace("&#39;", "'", $context);
+				$context	=	str_replace("\n".$back_templates['text'],"", $context);
+				$context	=	str_replace($back_templates['text']."\n","", $context);
+				$context	=	str_replace($back_templates['text'],"", $context);
+				$add_template = '1';
+			}
+
+          ///
+
+         }
+       }
+
+       // $template_un = str_replace("&#39;", "'", $template_un);
+       if ($add_template)
+       {
+        $xml .= "<template name=\"$title\" templatetype=\"template\" date=\"$dateline\" username=\"$username\" decode=\"0\" version=\"$version\"><![CDATA[$context]]></template>\r\n";
+       }
       }
         if (empty($product))
         {

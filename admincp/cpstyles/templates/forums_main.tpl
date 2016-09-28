@@ -21,7 +21,17 @@
 	<td class="row1" colspan="5">{$forum['title']}</td>
 	{else}
 	<td class="row1">
-		<a href="index.php?page=forums&amp;forum=1&amp;index=1&amp;id={$forum['id']}">{$forum['title']}</a>
+{if {$forum['is_sub']}}
+<a href="index.php?page=forums&amp;forum=1&amp;index=1&amp;id={$forum['id']}">{$forum['title']} </a>
+<span>
+<a title="{$lang['Forums_subsidiary_of']} {$forum['title']}" href="index.php?page=forums&amp;forum=1&amp;index=1&amp;id={$forum['id']}">
+     <img border="0" alt="{$lang['Forums_subsidiary_of']} {$forum['title']}"
+      src="{$admincpdir_cssprefs}/menu_open.gif" /></a>
+     </span>
+{else}
+{$forum['title']}
+{/if}
+
 	</td>
 	<td class="row1"><a href="index.php?page=forums&amp;groups=1&amp;control_group=1&amp;index=1&amp;id={$forum['id']}">{$lang['Powers']}</a></td>
 	<td class="row1"><a href="index.php?page=forums&amp;edit=1&amp;main=1&amp;id={$forum['id']}">{$lang['edit']}</a></td>

@@ -533,6 +533,19 @@ class PowerBBManagementMOD
 		$PowerBB->template->assign('subject',$PowerBB->_GET['subject_id']);
 		$PowerBB->template->assign('subject_title',$this->SubjectInfo['title']);
         $PowerBB->template->assign('section_id',$this->SubjectInfo['section']);
+
+		// Show Jump List to:)
+		$result = $PowerBB->DB->sql_query("SELECT id,title,parent FROM " . $PowerBB->table['section'] . " ORDER BY id DESC");
+		$Master = array();
+		while ($row = $PowerBB->DB->sql_fetch_array($result)) {
+			extract($row);
+		    $Master = $PowerBB->core->GetList(array ('id'=>$id,'title'=>"".$title."",'parent'=>$parent."",'parent'=>$parent),'section');
+		    $PowerBB->_CONF['template']['foreach']['SecList'] = $PowerBB->core->GetList($Master,'section');
+		}
+
+        $PowerBB->template->assign('DoJumpList',$PowerBB->functions->DoJumpList($Master,$url,1));
+		unset($Master);
+        //
 		$PowerBB->template->display('subject_move_index');
 	}
 
@@ -628,8 +641,9 @@ class PowerBBManagementMOD
 
 			$insert = $PowerBB->core->Insert($SmLogsArr,'supermemberlogs');
 
-       			$UpdateSectionCache1 =	$PowerBB->functions->UpdateSectionCache($Move_from_section);
-                $UpdateSectionCache2 = $PowerBB->functions->UpdateSectionCache($Move_to_section);
+       			//$UpdateSectionCache1 =	$PowerBB->functions->UpdateSectionCache($Move_from_section);
+                $UpdateSectionCache2 = $PowerBB->functions->UpdateSectionCache($PowerBB->_POST['section']);
+                $UpdateSectionCache3 = $PowerBB->functions->UpdateSectionCache($PowerBB->_POST['id_section']);
 
      		//$PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['Was_mov_subject']);
 			$PowerBB->functions->header_redirect('index.php?page=topic&amp;show=1&amp;id=' . $PowerBB->_GET['subject_id']);
@@ -4073,115 +4087,18 @@ class PowerBBManagementMOD
 		}
 
 
-		$SecArr 						= 	array();
-		$SecArr['get_from']				=	'db';
+				// Show Jump List to:)
+		$result = $PowerBB->DB->sql_query("SELECT id,title,parent FROM " . $PowerBB->table['section'] . " ORDER BY id DESC");
+		$Master = array();
+		while ($row = $PowerBB->DB->sql_fetch_array($result)) {
+			extract($row);
+		    $Master = $PowerBB->core->GetList(array ('id'=>$id,'title'=>"".$title."",'parent'=>$parent."",'parent'=>$parent),'section');
+		    $PowerBB->_CONF['template']['foreach']['SecList'] = $PowerBB->core->GetList($Master,'section');
+		}
 
-		$SecArr['proc'] 				= 	array();
-		$SecArr['proc']['*'] 			= 	array('method'=>'clean','param'=>'html');
-
-		$SecArr['order']				=	array();
-		$SecArr['order']['field']		=	'sort';
-		$SecArr['order']['type']		=	'ASC';
-
-		$SecArr['where']				=	array();
-		$SecArr['where'][0]['name']		= 	'parent';
-		$SecArr['where'][0]['oper']		= 	'=';
-		$SecArr['where'][0]['value']	= 	'0';
-
-		// Get main sections
-		$cats = $PowerBB->core->GetList($SecArr,'section');
-
- 		////////////
-
-		// Loop to read the information of main sections
-		foreach ($cats as $cat)
-		{
-	       // Get the groups information to know view this section or not
-		  if ($PowerBB->functions->section_group_permission($cat['id'],$PowerBB->_CONF['group_info']['id'],'view_section'))
-	      {
-             // foreach main sections
-			$PowerBB->_CONF['template']['foreach']['forums_list'][$cat['id'] . '_m'] = $cat;
-
-			unset($sectiongroup);
-
-			@include("cache/forums_cache_".$cat['id'].".php");
-			if (!empty($forums_cache))
-			{
-                $forums = unserialize(base64_decode($forums_cache));
-
-					foreach ($forums as $forum)
-					{
-						//////////////////////////
-						if ($PowerBB->functions->section_group_permission($forum['id'],$PowerBB->_CONF['group_info']['id'],'view_section'))
-						{
-							$forum['is_sub'] 	= 	0;
-							$forum['sub']		=	'';
-
-                              @include("cache/forums_cache_".$forum['id'].".php");
-                               if (!empty($forums_cache))
-	                           {
-
-									$subs = unserialize(base64_decode($forums_cache));
-	                               foreach ($subs as $sub)
-									{
-									   if ($forum['id'] == $sub['parent'])
-	                                    {
-												if (!$forum['is_sub'])
-												{
-													$forum['is_sub'] = 1;
-												}
-											  if ($PowerBB->functions->section_group_permission($sub['id'],$PowerBB->_CONF['group_info']['id'],'view_section'))
-											   {
-												 $forum['sub'] .= ('<option value="' .$sub['id'] . '">--- '  . $sub['title'] . '</option>');
-
-										        }
-										  }
-
-
-
-
-					                         ///////////////
-
-													$forum['is_sub_sub'] 	= 	0;
-													$forum['sub_sub']		=	'';
-
-		                                       @include("cache/forums_cache_".$sub['id'].".php");
-		                                   if (!empty($forums_cache))
-				                           {
-
-												$subs_sub = unserialize(base64_decode($forums_cache));
-				                               foreach ($subs_sub as $sub_sub)
-												{
-												   if ($sub['id'] == $sub_sub['parent'])
-				                                    {
-														  if ($PowerBB->functions->section_group_permission($sub_sub['id'],$PowerBB->_CONF['group_info']['id'],'view_section'))
-														   {
-																	if (!$forum['is_sub_sub'])
-																	{
-																		$forum['is_sub_sub'] = 1;
-																	}
-
-															 $forum['sub_sub'] .= ('<option value="' .$sub_sub['id'] . '">---- '  . $sub_sub['title'] . '</option>');
-													        }
-													  }
-												 }
-
-										   }
-									 }
-								}
-
-
-							$PowerBB->_CONF['template']['foreach']['forums_list'][$forum['id'] . '_f'] = $forum;
-							unset($groups);
-
-						}// end view forums
-		             } // end foreach ($forums)
-			  } // end !empty($forums_cache)
-		   } // end view section
-
-				unset($SecArr);
-				$SecArr = $PowerBB->DB->sql_free_result($SecArr);
-		} // end foreach ($cats)
+        $PowerBB->template->assign('DoJumpList',$PowerBB->functions->DoJumpList($Master,$url,1));
+		unset($Master);
+        //
 
 		//////////
 

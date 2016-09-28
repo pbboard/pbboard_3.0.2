@@ -853,6 +853,17 @@ class PowerBBFixMOD
 		$file = $To.'Tmpfile.zip';
 		//$path = pathinfo(realpath($file), PATHINFO_DIRNAME);
 		if ($zip->open($file) === TRUE) {
+
+          if($PowerBB->admincpdir !='admincp')
+		  {
+				for ($i = 0; $i < $zip->numFiles; $i++) {
+				   if(strstr($zip->getNameIndex($i),'admincp'))
+				   {
+					    $zip->renameIndex($i, str_replace("admincp",$PowerBB->admincpdir, $zip->getNameIndex($i)));
+					     $zip->extractTo($To,$zip->getNameIndex($i));
+				   }
+				}
+          }
 		    $zip->extractTo($To);
 		    $zip->close();
 		    $ziped = 1;
@@ -862,7 +873,7 @@ class PowerBBFixMOD
 
          if($ziped)
          {
-		$PowerBB->info->UpdateInfo(array('value'=>$PowerBB->_CONF['now'],'var_name'=>'last_time_updates'));
+		 $PowerBB->info->UpdateInfo(array('value'=>$PowerBB->_CONF['now'],'var_name'=>'last_time_updates'));
 		unlink($file);
 		echo $PowerBB->_CONF['template']['_CONF']['lang']['pbboard_updated'];
 		}

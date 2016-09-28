@@ -11547,7 +11547,8 @@ $(document).ready(Ready);
 </table>
 ]]></subjects_delete_index>
 <subjects_delete_index2><![CDATA[<input  type="hidden" name="check[]" value="{$subjects}">]]></subjects_delete_index2>
-<subjects_move_index><![CDATA[<br />
+<subjects_move_index><![CDATA[
+<br />
 <title>
 {$lang['Management_Subjects']}
 -  {$lang['mov_Subject']}
@@ -11560,30 +11561,14 @@ $(document).ready(Ready);
 </td>
 </tr>
 <tr class="center_text_align">
-<td class="row1 pkr wd50">
+<td class="row1 pkr wd80 center_text_align">
 <input TYPE="hidden" name="id_section" value="{$section_id}" />
-<select size="1" name="section" id="section_id">
-{Des::foreach}{forums_list}{forum}
-{if {$forum['parent']} == 0}
-<option value="{$forum['id']}" disabled="disabled">- {$forum['title']}</option>
-{else}
-<option value="{$forum['id']}" selected="selected">-- {$forum['title']}</option>
-{/if}
-{if {$forum['parent']} != 0}
-{if {$forum['linksection']} != '1'}
-{if {$forum['is_sub']}}
-{$forum['sub']}
-{if {$forum['is_sub_sub']}}
-{$forum['sub_sub']}
-{/if}
-{/if}
-{/if}
-{/if}
-{/Des::foreach}
-</select>
-<input name="movethreadstart" type="submit" value="{$lang['mov_Subjects']}" />		</td>
+{$DoJumpList}
+<input name="movethreadstart" type="submit" value="{$lang['mov_Subjects']}" />
+</td>
 </tr>
 </table>
+<br />
 ]]></subjects_move_index>
 <subjects_move_index2><![CDATA[	<input  type="hidden" name="check[]" value="{$subjects}">]]></subjects_move_index2>
 <subject_close_index><![CDATA[{if !{$_CONF['info_row']['ajax_moderator_options']}}
@@ -11979,25 +11964,7 @@ onclick="window.open('index.php?page=attachments&amp;edit_attach=1&amp;subject_i
 <tr class="center_text_align">
 <td class="row1 pkr wd80 center_text_align">
 <input TYPE="hidden" name="id_section" value="{$section_id}" />
-<select size="1" name="section" id="section_id">
-{Des::foreach}{forums_list}{forum}
-{if {$forum['parent']} == 0}
-<option value="{$forum['id']}" disabled="disabled">- {$forum['title']}</option>
-{else}
-<option value="{$forum['id']}" selected="selected">-- {$forum['title']}</option>
-{/if}
-{if {$forum['parent']} != 0}
-{if {$forum['linksection']} != '1'}
-{if {$forum['is_sub']}}
-{$forum['sub']}
-{if {$forum['is_sub_sub']}}
-{$forum['sub_sub']}
-{/if}
-{/if}
-{/if}
-{/if}
-{/Des::foreach}
-</select>
+{$DoJumpList}
 <input type="submit" value="{$lang['Count']}" />
 </td>
 </tr>

@@ -2968,5 +2968,146 @@ function gzip_encode($contents, $level=1)
         //Return rgb(a) color string
         return $output;
   }
+
+
+	function DoJumpList ($Master,$Url,$Type)
+	{
+	  global $PowerBB;
+		$this->Main =	$this->SetMain($Master);
+		$this->Sub	=	$this->SetSub($Master);
+		$this->Url	=	$Url;
+		$this->Type =	$Type;
+
+		return $this->Build();
+	}
+
+
+	function SetMain($Master)
+	{
+		global $PowerBB;
+
+		$Main= array();
+		for($i=0;$i<sizeof($Master);$i++)
+
+		{
+		if($Master[$i]['parent']==0)
+		{
+		$Main[]=$Master[$i];
+		}
+		}
+		return $Main;
+	}
+
+	function SetSub($Master)
+	{
+		global $PowerBB;
+
+		$Sub = array();
+		for($i=0;$i<sizeof($Master);$i++)
+		{
+		if($Master[$i]['parent']!==0)
+		{
+		$Sub[]=$Master[$i];
+		}
+		}
+		return $Sub;
+	}
+
+	function Build()
+	{
+		global $PowerBB;
+
+		$Form = "\n<select name=\"section\" id=\"section_id\">\n";
+		 $Mn = 1;
+		$size = sizeof($this->Main);
+		for($i=0;$i<$size;$i++)
+		{
+			if($this->Main[$i]['parent'] == '0' and $this->Type)
+			{
+			$Form .= "<option class='row1' disabled='disabled' style=\"color: #FF0000\" value='".$this->Url.$this->Main[$i]['id']."' >".$this->Main[$i]['title']."</option>\n";
+			}
+			else
+			{
+			$Form .= "<option class='row1' style=\"color: #FF0000\" value='".$this->Url.$this->Main[$i]['id']."' >".$this->Main[$i]['title']."</option>\n";
+			}
+
+		     $Form .= $this->SubList($this->Main[$i]['id'],$Mn);
+		if($i<($size-1))
+		{
+		     $Form .= "<option> ----------------------------</option>\n";
+		}
+		     $Mn++;
+		}
+		$Form .= "</select>\n";
+		//Free Memory
+		unset($this->Main);
+		unset($this->Sub);
+		return $Form;
+	}
+
+	function SubList($id,$Mn,$Sn="")
+	{
+		global $PowerBB;
+
+		$b_id = array();
+		$b_title = array();
+		for($i=0;$i<sizeof($this->Sub);$i++)
+		{
+		if($id==$this->Sub[$i]['parent'])
+		{
+		$b_id[]= $this->Sub[$i]['id'];
+		$b_title[] = $this->Sub[$i]['title'];
+		}
+		}
+		if (empty($b_id))
+		{
+		return;
+		} else
+		{
+		$Sn=1;
+		}
+
+		if (count($b_id) > 1 )
+
+		{
+		$Form ="";
+		for($i=0;$i<sizeof($b_id);$i++)
+
+		{
+		$Form .= "<option value=\"".$this->Url.$b_id[$i]."\"> ".$b_title[$i]."</option>\n";
+		$Mn2 = $Mn." ".$this->ListType($Sn,$b_title[$i]);
+		$Form .=$this->SubList($b_id[$i],$Mn2);
+		$Sn++;
+		}
+		}
+		else
+		{
+		$Form = "<option value=\"".$this->Url.$b_id[0]."\"> ".$b_title[0]."</option>\n";
+		$Mn2 = $Mn."  ".$this->ListType($Sn,$b_title[0]);
+		$Form .=$this->SubList($b_id[0],$Mn2,$Sn);
+		}
+		//Free Memory
+		unset($b_id);
+		unset($b_title);
+		return $Form;
+	}
+
+	function ListType($Sn,$b_title)
+	{
+		global $PowerBB;
+
+		if($this->Type>2) $this->Type =1;
+		if($this->Type==1)
+
+		{
+		return $Sn;
+		} else if($this->Type==2)
+
+		{
+		return $b_title;
+		}
+	}
+
+
  }
 ?>
