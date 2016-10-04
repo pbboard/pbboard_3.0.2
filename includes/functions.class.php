@@ -3034,7 +3034,10 @@ function gzip_encode($contents, $level=1)
 		     $Form .= $this->SubList($this->Main[$i]['id'],$Mn);
 		if($i<($size-1))
 		{
+		   if(!$this->Type)
+		     {
 		     $Form .= "<option> ----------------------------</option>\n";
+		     }
 		}
 		     $Mn++;
 		}

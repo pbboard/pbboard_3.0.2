@@ -569,19 +569,30 @@ class PowerBBManagementMOD
 		}
          // intval to subject_id
 		$PowerBB->_GET['subject_id'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['subject_id'],'intval');
+		$PowerBB->_POST['section'] = $PowerBB->functions->CleanVariable($PowerBB->_POST['section'],'intval');
+		$PowerBB->_GET['section'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['section'],'intval');
         ////
 		if (empty($PowerBB->_GET['subject_id']))
 		{
 			$PowerBB->functions->ShowHeader();
             $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
 		}
-
+		if (empty($PowerBB->_POST['section']))
+		{
+			$PowerBB->functions->ShowHeader();
+            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Section_does_not_exist']);
+		}
 		     // subject_id
 		     $subject_id = $PowerBB->_GET['subject_id'];
             // Get id Both Move from section AND Move to section
 			$Move_from_section = $PowerBB->_GET['section'];
 			$Move_to_section = $PowerBB->_POST['section'];
             ////
+		if (empty($Move_from_section))
+		{
+			$PowerBB->functions->ShowHeader();
+            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
+		}
 
 
         // Get Subject Info
@@ -4130,6 +4141,19 @@ class PowerBBManagementMOD
 		{
 		    $PowerBB->functions->ShowHeader();
             $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_subject']);
+		}
+		$PowerBB->_POST['section'] = $PowerBB->functions->CleanVariable($PowerBB->_POST['section'],'intval');
+		$PowerBB->_GET['section'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['section'],'intval');
+        ////
+		if (empty($PowerBB->_GET['section']))
+		{
+			$PowerBB->functions->ShowHeader();
+            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
+		}
+		if (empty($PowerBB->_POST['section']))
+		{
+			$PowerBB->functions->ShowHeader();
+            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Section_does_not_exist']);
 		}
 
 		$Thread_D = $PowerBB->_POST['check'];
