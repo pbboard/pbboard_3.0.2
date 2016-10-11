@@ -221,7 +221,7 @@ class PowerBBFunctions
 							{
 							   if ($PowerBB->_CONF['info_row']['allow_avatar'])
 							    {
-								 $forum['writer_photo'] = $this->GetForumAdress()."/".$PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
+								 $forum['writer_photo'] = $this->GetForumAdress().$PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
 								}
 								 $forum['username'] = $PowerBB->_CONF['template']['_CONF']['lang']['Guest_'];
 								 $forum['last_writer'] = $PowerBB->_CONF['template']['_CONF']['lang']['Guest_'];
@@ -232,7 +232,7 @@ class PowerBBFunctions
 							    {
 	                               if (empty($forum['avater_path']))
 	                               {
-									$forum['writer_photo'] = $this->GetForumAdress()."/".$PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
+									$forum['writer_photo'] = $this->GetForumAdress().$PowerBB->_CONF['template']['image_path'].'/'.$PowerBB->_CONF['info_row']['default_avatar'];
 								   }
 								   else
 	                               {

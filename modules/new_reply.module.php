@@ -1198,13 +1198,15 @@ class PowerBBReplyAddMOD
 		     			$PowerBB->_CONF['template']['ReplierInfo']['register_date'] 		= 	$PowerBB->_CONF['member_row']['register_date'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['user_title'] 		= 	$PowerBB->_CONF['member_row']['user_title'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['reply_id'] 		= 	$PowerBB->reply->id;
+		     			$PowerBB->_CONF['template']['Info']['reply_id'] 		= 	$PowerBB->reply->id;
 		     			$PowerBB->_CONF['template']['ReplierInfo']['user_gender'] 		= 	$PowerBB->_CONF['member_row']['user_gender'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['bday_day'] 		= 	$PowerBB->_CONF['member_row']['bday_day'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['bday_month'] 		= 	$PowerBB->_CONF['member_row']['bday_month'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['bday_year'] 		= 	$PowerBB->_CONF['member_row']['bday_year'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['invite_num'] 		    = 	$PowerBB->_CONF['member_row']['invite_num'];
 		     			$PowerBB->_CONF['template']['ReplierInfo']['warnings'] 		= 	$PowerBB->_CONF['member_row']['warnings'];
-
+                        $PowerBB->_CONF['template']['Info']['show_list_last_5_posts_member'] = '0';
+                        $PowerBB->_CONF['info_row']['show_list_last_5_posts_member']= '0';
 		     			// Make register date in nice format to show it
 						if (is_numeric($PowerBB->_CONF['template']['ReplierInfo']['register_date']))
 						{
@@ -1249,7 +1251,10 @@ class PowerBBReplyAddMOD
                         $PowerBB->_CONF['template']['Info']['write_time'] = $reply_date;
                         $PowerBB->_CONF['template']['Info']['icon'] = "look/images/icons/i1.gif";
                         $PowerBB->_CONF['template']['mod_toolbar'] = 1;
-                        $PowerBB->_CONF['template']['reply_number'] = $PagerReplyNumArr;
+                        $PowerBB->_CONF['template']['reply_number'] = $PagerReplyNumArr+1;
+                        $PowerBB->_CONF['template']['Info']['reply_number'] = $PagerReplyNumArr+1;
+                        $PowerBB->_CONF['template']['Info']['subject_id'] = $PowerBB->_GET['id'];
+                        $PowerBB->_CONF['template']['Awards_nm'] = '0';
 
                        $PowerBB->template->assign('id',$PowerBB->_GET['id']);
                        $PowerBB->template->assign('password',$this->SectionInfo['section_password']);
@@ -1268,6 +1273,8 @@ class PowerBBReplyAddMOD
 						}
 		     			else
 		     			{
+
+		     			$PowerBB->template->display('jscolor');
                         $PowerBB->template->display('show_reply');
                         }
                      /*
