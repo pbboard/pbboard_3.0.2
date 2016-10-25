@@ -11943,38 +11943,34 @@ onclick="window.open('index.php?page=attachments&amp;edit_attach=1&amp;subject_i
 </table>
 </form><br /><br />]]></subject_merge_index>
 <subject_move_index><![CDATA[<br />
-{if {$_CONF['info_row']['ajax_moderator_options']}}
-{else}
+<?php $PowerBB->_CONF['template']['subject_title'] = $PowerBB->Powerparse->censor_words($PowerBB->_CONF['template']['subject_title']); ?>{if !{$_CONF['info_row']['ajax_moderator_options']}}
 {template}address_bar_part1{/template}
 {$lang['Management_Subjects']}
 <div class="btn-nav"></div>
-{$lang['repeated_Subject']}
+{$lang['mov_Subject']}
+{$subject_title}
 {template}address_bar_part2{/template}
-{/if}<br />
-<form method="post" action="index.php?page=management&amp;repeat=1&amp;subject_id={$subject}">
-<table class="border pkr pkr-b wd60 brd1 clpc0 a-center">
+{/if}
+<form method="post" action="index.php?page=management&amp;move=1&amp;section={$section}&amp;subject_id={$subject}">
+<br />
+<table class="border pkr pkr-b wd80 brd1 clpc0 a-center">
 <tr class="center_text_align">
-<td class="tcat pkr wd20" colspan="2">
-{$lang['repeated_Subject']}
+<td class="tcat pkr wd80">
+{$lang['mov_Subject_to1']}
+{$subject_title}
+{$lang['mov_Subject_to2']}
 </td>
 </tr>
-<tr>
-<td class="row1 pkr rows_space wd20">
-{$lang['url_Original_repeat']}
-</td>
-<td class="row1 pkr wd20">
-<input name="url" type="text" size="50" />
-</td>
-</tr>
-<tr>
-<td class="row1 pkr rows_space wd60" colspan="2">
-<div class="center_text_align">
+<tr class="center_text_align">
+<td class="row1 pkr wd80 center_text_align">
+<input TYPE="hidden" name="id_section" value="{$section_id}" />
+{$DoJumpList}
 <input type="submit" value="{$lang['Count']}" />
-</div>
 </td>
 </tr>
 </table>
-</form><br /><br />]]></subject_move_index>
+<br />
+<br />]]></subject_move_index>
 <subject_repeat_index><![CDATA[
 <br />
 {if {$_CONF['info_row']['ajax_moderator_options']}}
