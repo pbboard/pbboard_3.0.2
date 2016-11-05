@@ -288,6 +288,8 @@ class PowerBBFunctions
 	       					  $forum['writer_photo'] = str_replace($http_www_, $httpswww_, $forum['writer_photo']);
 							  $forum['writer_photo'] = @str_ireplace($http_www_, $httpswww_, $forum['writer_photo']);
                              }
+
+                             $forum['writer_photo'] = str_replace($this->GetForumAdress().$this->GetForumAdress(), $this->GetForumAdress(), $forum['writer_photo']);
 	                          //
 						  // Get the moderators list as a _link_ and store it in $forum['moderators_list']
 		                   if ($PowerBB->_CONF['info_row']['no_moderators'])

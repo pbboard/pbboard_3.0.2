@@ -117,7 +117,7 @@ class PowerBBForumMOD
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['thes_main_section']);
 		}
 
-       if ($PowerBB->functions->section_group_permission($this->Section['id'],$PowerBB->_CONF['group_info']['id'],'view_subject') == 0)
+       if ($PowerBB->functions->section_group_permission($this->Section['id'],$PowerBB->_CONF['group_info']['id'],'view_subject') == 0 and $this->Section['parent'])
 		{
 		$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_are_not_allowed_access_to_the_contents_of_this_forum']);
 		}

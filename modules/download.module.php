@@ -321,9 +321,12 @@ html {
 	{
 		global $PowerBB;
 
-		if (empty($PowerBB->_GET['id']))
-		{
-			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
+		if (empty($PowerBB->_GET['id'])
+		 or $PowerBB->_GET['id'] == 0)
+		{			 $PowerBB->functions->ShowHeader();
+			 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
+			 $PowerBB->functions->error_stop();
+
 		}
 
 		if (!$PowerBB->_CONF['member_permission'])
@@ -334,20 +337,32 @@ html {
 		}
 
 		$PowerBB->_GET['id'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['id'],'intval');
+		$PowerBB->_GET['id'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['id'],'sql');
+
+		//$MsgArr 			= 	array();
+		//$MsgArr['id'] 		= 	$PowerBB->_GET['id'];
+		//$MsgArr['username'] = 	$PowerBB->_CONF['member_row']['username'];
+
+		//$MsgInfo = $PowerBB->pm->GetPrivateMassegeInfo($MsgArr);
 
 		$MsgArr 			= 	array();
-		$MsgArr['id'] 		= 	$PowerBB->_GET['id'];
-		$MsgArr['username'] = 	$PowerBB->_CONF['member_row']['username'];
+		$MsgArr['where'] 	= 	array('id',intval($PowerBB->_GET['id']));
 
-		$MsgInfo = $PowerBB->pm->GetPrivateMassegeInfo($MsgArr);
+		$MsgInfo = $PowerBB->core->GetInfo($MsgArr,'pm');
 
 		if (!$MsgInfo)
-		{
-			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Massege_requested_does_not_exist']);
+		{			 $PowerBB->functions->ShowHeader();
+			 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Massege_requested_does_not_exist']);
+			 $PowerBB->functions->error_stop();
 		}
+        $usersent= $MsgInfo['user_to'].",".$MsgInfo['user_from'];
+        if (!in_array($PowerBB->_CONF['member_row']['username'], explode(",",$usersent)))
+        {			 $PowerBB->functions->ShowHeader();
+			 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+			 $PowerBB->functions->error_stop();
+        }
 
 		$MsgInfo['title'] = $PowerBB->functions->CleanVariable($MsgInfo['title'],'html');
-
 		$filename = str_replace(' ','_',$MsgInfo['title']);
 		$filename .= '.html';
 
