@@ -25,6 +25,8 @@ class PowerBBPrivateMassegeCPMOD
 		{
             $PowerBB->functions->ShowHeader();
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['no_pm']);
+			$PowerBB->functions->GetFooter();
+
 		}
 
 		/** Can't use the private massege system **/
@@ -41,6 +43,7 @@ class PowerBBPrivateMassegeCPMOD
             {
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Cant_use_pm']);
 	        }
+	      $PowerBB->functions->GetFooter();
 		}
 		/** **/
 
@@ -50,7 +53,9 @@ class PowerBBPrivateMassegeCPMOD
 			/** Delete private massege **/
 			if ($PowerBB->_GET['tools'])
 			{
+			    $PowerBB->functions->ShowHeader($PowerBB->_CONF['template']['_CONF']['lang']['deletion_process']);
 				$this->_ToolsPrivateMassege();
+				$PowerBB->functions->GetFooter();
 			}
 			else
 			{
@@ -66,16 +71,14 @@ class PowerBBPrivateMassegeCPMOD
 		}
 		/** **/
 
-		$PowerBB->functions->GetFooter();
 	}
 
 	function _ToolsPrivateMassege()
 	{
 		global $PowerBB;
+
 		if ($PowerBB->_POST['delet'])
 		{
-
-		$PowerBB->functions->ShowHeader($PowerBB->_CONF['template']['_CONF']['lang']['deletion_process']);
 
 		$PowerBB->functions->AddressBar('<a href="index.php?page=pm&amp;list=1&amp;folder=inbox"> ' .$PowerBB->_CONF['template']['_CONF']['lang']['Private_Messages'] . '</a>' . $PowerBB->_CONF['info_row']['adress_bar_separate'] . $PowerBB->_CONF['template']['_CONF']['lang']['Ongoing_process']);
 
@@ -83,20 +86,77 @@ class PowerBBPrivateMassegeCPMOD
 		{
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_pm']);
 		}
-
+		if ($PowerBB->_POST['check'] == 0)
+		{
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_pm']);
+		}
 
        $Massege_D = $PowerBB->_POST['check'];
 
 
        foreach ($Massege_D as $DeleteMassege)
-       {
+       {		$DeleteMassege = $PowerBB->functions->CleanVariable($DeleteMassege,'intval');
+		$DeleteMassege = $PowerBB->functions->CleanVariable($DeleteMassege,'sql');
 
+			   $PminfoArr 					= 	array();
+			   $PminfoArr['where'] 			= 	array('id',intval($DeleteMassege));
+			   $Pminfo = $PowerBB->core->GetInfo($PminfoArr,'pm');
+			   if ($Pminfo['folder'] == 'inbox')
+			   {
+				   If($Pminfo['user_to'] != $PowerBB->_CONF['member_row']['username'])
+				   {					 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Massege_requested_does_not_exist']);
+					 $PowerBB->functions->error_stop();
+				   }
+			   }
+			   elseif ($Pminfo['folder'] == 'sent')
+		       {
+				   If($Pminfo['user_from'] != $PowerBB->_CONF['member_row']['username'])
+				   {
+					 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Massege_requested_does_not_exist']);
+					 $PowerBB->functions->error_stop();
+				   }
+			   }
+				if (strstr($PowerBB->_SERVER['HTTP_REFERER'],'inbox'))
+				{
+					$DelArr                    =    array();
+					$DelArr['where']              =    array();
 
-			$DelArr 			= 	array();
-			$DelArr['where'] 	= 	array('id',intval($DeleteMassege));
+					$DelArr['where'][0]           =    array();
+					$DelArr['where'][0]['name']    =    'user_to';
+					$DelArr['where'][0]['oper']    =    '=';
+					$DelArr['where'][0]['value']    =    $PowerBB->_CONF['member_row']['username'];
 
-			$del = $PowerBB->pm->DeletePrivateMessage($DelArr);
+					$DelArr['where'][1]           =    array();
+					$DelArr['where'][1]['con']        =    'AND';
+					$DelArr['where'][1]['name']    =    'id = '.intval($DeleteMassege).' AND folder';
+					$DelArr['where'][1]['oper']    =    '=';
+					$DelArr['where'][1]['value']    =    'inbox';
 
+					$del = $PowerBB->core->Deleted($DelArr,'pm');
+
+				}
+				elseif (strstr($PowerBB->_SERVER['HTTP_REFERER'],'sent'))
+				{				$DelArr                    =    array();
+				$DelArr['where']              =    array();
+
+				$DelArr['where'][0]           =    array();
+				$DelArr['where'][0]['name']    =    'user_from';
+				$DelArr['where'][0]['oper']    =    '=';
+				$DelArr['where'][0]['value']    =    $PowerBB->_CONF['member_row']['username'];
+
+				$DelArr['where'][1]           =    array();
+				$DelArr['where'][1]['con']        =    'AND';
+				$DelArr['where'][1]['name']    =    'id = '.intval($DeleteMassege).' AND folder';
+				$DelArr['where'][1]['oper']    =    '=';
+				$DelArr['where'][1]['value']    =    'sent';
+
+					$del = $PowerBB->core->Deleted($DelArr,'pm');
+				}
+				else
+				{
+				 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Massege_requested_does_not_exist']);
+				 $PowerBB->functions->error_stop();
+				}
 			if ($del)
 			{
 				// Recount the number of new messages after delete this message
@@ -134,18 +194,28 @@ class PowerBBPrivateMassegeCPMOD
 
        }
 
-
-
+			if ($Cache)
+			{
                 $PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['pm_del_successfully']);
+				if (strstr($PowerBB->_SERVER['HTTP_REFERER'],'inbox'))
+				{
 				$PowerBB->functions->redirect('index.php?page=pm_list&list=1&folder=inbox');
+				}
+				elseif (strstr($PowerBB->_SERVER['HTTP_REFERER'],'sent'))
+				{
+				$PowerBB->functions->redirect('index.php?page=pm_list&list=1&folder=sent');
+				}
+			}
+			else
+			{
+			 $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Massege_requested_does_not_exist']);
+			 $PowerBB->functions->error_stop();
+			}
+
 
 	 }
-
-
-	 if ($PowerBB->_POST['readable'])
+	 elseif ($PowerBB->_POST['readable'])
 	 {
-
-		$PowerBB->functions->ShowHeader($PowerBB->_CONF['template']['_CONF']['lang']['deletion_process']);
 
 		$PowerBB->functions->AddressBar('<a href="index.php?page=pm&amp;list=1&amp;folder=inbox"> ' .$PowerBB->_CONF['template']['_CONF']['lang']['Private_Messages'] . '</a>' . $PowerBB->_CONF['info_row']['adress_bar_separate'] . $PowerBB->_CONF['template']['_CONF']['lang']['Ongoing_process']);
 
@@ -154,12 +224,18 @@ class PowerBBPrivateMassegeCPMOD
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_pm']);
 		}
 
+		if ($PowerBB->_POST['check'] == 0)
+		{
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_pm']);
+		}
 
        $Massege_D = $PowerBB->_POST['check'];
 
 
           foreach ($Massege_D as $Read)
           {
+				$Read = $PowerBB->functions->CleanVariable($Read,'intval');
+				$Read = $PowerBB->functions->CleanVariable($Read,'sql');
 
 
 			$ReadArr 						= 	array();
@@ -195,10 +271,8 @@ class PowerBBPrivateMassegeCPMOD
                 $PowerBB->functions->msg($PowerBB->_CONF['template']['_CONF']['lang']['Make_it_readable_successfully']);
 				$PowerBB->functions->redirect('index.php?page=pm_list&list=1&folder=inbox');
        }
-          if ($PowerBB->_POST['unreadable'])
+       elseif ($PowerBB->_POST['unreadable'])
      {
-
-       $PowerBB->functions->ShowHeader($PowerBB->_CONF['template']['_CONF']['lang']['deletion_process']);
 
        $PowerBB->functions->AddressBar('<a href="index.php?page=pm&list=1&folder=inbox"> ' .$PowerBB->_CONF['template']['_CONF']['lang']['Private_Messages'] . '</a>' . $PowerBB->_CONF['info_row']['adress_bar_separate'] . $PowerBB->_CONF['template']['_CONF']['lang']['Ongoing_process']);
 
@@ -207,6 +281,10 @@ class PowerBBPrivateMassegeCPMOD
           $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_pm']);
        }
 
+		if ($PowerBB->_POST['check'] == 0)
+		{
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_pm']);
+		}
 
       $Massege_D = $PowerBB->_POST['check'];
 
@@ -214,6 +292,8 @@ class PowerBBPrivateMassegeCPMOD
         foreach ($Massege_D as $UnRead)
         {
 
+		   $UnRead = $PowerBB->functions->CleanVariable($UnRead,'intval');
+	       $UnRead = $PowerBB->functions->CleanVariable($UnRead,'sql');
 
           $UnReadArr                    =    array();
           $UnReadArr['where']              =    array();
@@ -255,7 +335,6 @@ class PowerBBPrivateMassegeCPMOD
                if ($PowerBB->_POST['inbox_empty'] || $PowerBB->_POST['sent_empty'])
              {
 
-                $PowerBB->functions->ShowHeader($PowerBB->_CONF['template']['_CONF']['lang']['deletion_process']);
                 $PowerBB->functions->AddressBar('<a href="index.php?page=pm&list=1&folder=inbox"> ' .$PowerBB->_CONF['template']['_CONF']['lang']['Private_Messages'] . '</a>' . $PowerBB->_CONF['info_row']['adress_bar_separate'] . $PowerBB->_CONF['template']['_CONF']['lang']['Ongoing_process']);
 
                 if ($PowerBB->_POST['inbox_empty'])

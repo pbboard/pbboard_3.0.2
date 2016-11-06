@@ -1626,17 +1626,23 @@ class PowerBBCoreMOD
 
 		if (empty($PowerBB->_POST['check']))
 		{
-			$PowerBB->functions->error_no_foot($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_attach']);
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_attach']);
 			$PowerBB->functions->GetFooter();
 
 		}
-
+		if ($PowerBB->_POST['check'] == 0)
+		{
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_select_any_attach']);
+			$PowerBB->functions->GetFooter();
+		 }
 
        $Attach_D = $PowerBB->_POST['check'];
 
 
        foreach ($Attach_D as $DeleteAttach)
        {
+		$DeleteAttach = $PowerBB->functions->CleanVariable($DeleteAttach,'intval');
+		$DeleteAttach = $PowerBB->functions->CleanVariable($DeleteAttach,'sql');
 
 			   $GetAttachArr 					= 	array();
 			   $GetAttachArr['where'] 			= 	array('id',intval($DeleteAttach));
@@ -1647,7 +1653,12 @@ class PowerBBCoreMOD
 			   $del = unlink($Attachinfo['filepath']);
               }
 
-
+		      if ($Attachinfo['u_id'] != $PowerBB->_CONF['member_row']['id'])
+		      {
+				$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+				$PowerBB->functions->error_stop();
+				$PowerBB->functions->GetFooter();
+              }
 				// Delete attachment from database
 				$DelAttachArr 							= 	array();
 				$DelAttachArr['name'] 	        		=  	'id';

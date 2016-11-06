@@ -76,7 +76,11 @@ class PowerBBFunctions
 							$forum['avater_path']= $forum['avater_path'];
 							$forum['last_subject'] =  $forum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($forum['last_subject']);
                             $forum['sec_section']= $forum['sec_section'];
+                            $forum['last_writer_id']= $forum['last_writer_id'];
                            }
+                            $forum['subject_num'] += $forum['subject_num'];
+			                $forum['reply_num'] += $forum['reply_num'];
+
                             $kay =$cat['id'];
 							$forum['collapse']= $PowerBB->_COOKIE["pbboard_collapse_forumid_$kay"];
 									$forum['is_sub'] 	= 	0;
@@ -115,10 +119,11 @@ class PowerBBFunctions
                        							    $forum['avater_path']= $sub['avater_path'];
 								                    $forum['last_subject'] =  $sub['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($sub['last_subject']);
 								                    $forum['sec_section']= $sub['sec_section'];
+								                    $forum['last_writer_id']= $sub['last_writer_id'];
 								                  }
                                                }
-			                                        $forum['subject_num'] = $PowerBB->functions->with_comma($forum['subject_num']+$sub['subject_num']);
-			                                        $forum['reply_num'] =  $PowerBB->functions->with_comma($forum['reply_num']+$sub['reply_num']);
+			                                        $forum['subject_num'] += $sub['subject_num'];
+			                                        $forum['reply_num'] += $sub['reply_num'];
 												  if ($PowerBB->functions->section_group_permission($sub['id'],$PowerBB->_CONF['group_info']['id'],'view_section'))
 												   {
 												        if ($sub['forum_title_color'] !='')
@@ -144,21 +149,14 @@ class PowerBBFunctions
 							                        @include("cache/forums_cache_".$sub['id'].".php");
 				                                   if (!empty($forums_cache))
 						                           {
-												        $SecArr 						= 	array();
-														$SecArr['get_from']				=	'db';
-														$SecArr['where']				=	array();
-														$SecArr['where'][0]['name']		= 	'parent';
-														$SecArr['where'][0]['oper']		= 	'=';
-														$SecArr['where'][0]['value']	= 	$sub['id'];
-														// Get forum Sub Section
-														$subsforum = $PowerBB->core->GetList($SecArr,'section');
+														$subsforum = unserialize(base64_decode($forums_cache));
 						                               foreach($subsforum as $subforum)
 														{
 														    if ($sub['id'] == $subforum['parent'])
 														    {
 														        if (!empty($subforum['last_date']))
 														         {
-															           if ($sub['last_time']< $subforum['last_time'] and $forum['last_time']< $subforum['last_time'])
+															           if ($subforum['last_time'] > $sub['last_time'] and $subforum['last_time'] > $forum['last_time'])
 															           {
 						                                             	$forum_last_time1 = $subforum['last_date'];
 																		$forum['last_subject'] = $PowerBB->Powerparse->censor_words($subforum['last_subject']);
@@ -176,27 +174,69 @@ class PowerBBFunctions
 																		$forum['review_subject'] = $subforum['review_subject'];
 																		$forum['last_berpage_nm'] = $subforum['last_berpage_nm'];
 																		$forum['last_writer']= $subforum['last_writer'];
-                                       							        $forum['username_style_cache'] = $sub['username_style_cache'];
-                                       							        $forum['writer_photo']= $sub['writer_photo'];
-                                       							        $forum['avater_path']= $sub['avater_path'];
+                                       							        $forum['username_style_cache'] = $subforum['username_style_cache'];
+                                       							        $forum['writer_photo']= $subforum['writer_photo'];
+                                       							        $forum['avater_path']= $subforum['avater_path'];
 													                    $forum['last_subject'] =  $subforum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($subforum['last_subject']);
 													                    $forum['sec_section']= $subforum['sec_section'];
+													                    $forum['last_writer_id']= $subforum['last_writer_id'];
 	                                                                   }
 				                                                 }
-							                                        if($sub['reply_num'] > 0)
-							                                        {
-							                                         $sub['reply_num']   = $sub['reply_num']-1;
-							                                        }
-							                                        if($forum['subject_num'] > 0)
-							                                        {
-							                                         $forum['subject_num']   = $forum['subject_num']-1;
-							                                        }
-							                                        $forum['subject_num']   = $PowerBB->functions->with_comma($forum['subject_num']+$sub['subject_num']+$subforum['subject_num']);
-							                                        $forum['reply_num']   = $PowerBB->functions->with_comma($forum['reply_num']+$sub['reply_num']+$subforum['reply_num']);
+
+							                                        $forum['subject_num'] += $subforum['subject_num'];
+							                                        $forum['reply_num'] += $subforum['reply_num'];
+
                                                             }
+
+                                                              // subs forum +++
+									                        @include("cache/forums_cache_".$subforum['id'].".php");
+						                                   if (!empty($forums_cache))
+								                           {
+																$subs4forum = unserialize(base64_decode($forums_cache));
+								                               foreach($subs4forum  as $sub4forum)
+																{
+																    if ($subforum['id'] == $sub4forum['parent'])
+																    {
+																        if (!empty($sub4forum['last_date']))
+																         {
+																	           if ($sub4forum['last_time'] > $sub['last_time'] and $sub4forum['last_time'] > $subforum['last_time'] and $sub4forum['last_time'] > $forum['last_time'])
+																	           {
+								                                             	$forum_last_time1 = $sub4forum['last_date'];
+																				$forum['last_subject'] = $PowerBB->Powerparse->censor_words($sub4forum['last_subject']);
+																				$forum['last_subject_title'] =  $forum['last_subject'];
+																				$forum['last_subject'] =  $PowerBB->Powerparse->_wordwrap($sub4forum['last_subject'],'35');
+																				$forum['last_post_date'] = $sub4forum['last_time'];
+											                                    $forum['l_date'] = $forum_last_time1;
+																				$forum['last_date'] = $PowerBB->sys_functions->time_ago($forum_last_time1);
+																				$forum['last_time_ago'] = $PowerBB->sys_functions->time_ago($forum_last_time1);
+																				$forum['last_date_ago'] = $PowerBB->sys_functions->time($forum_last_time1);
+																				$forum['last_subjectid'] = $sub4forum['last_subjectid'];
+																				$forum['last_time'] = $sub4forum['last_time'];
+																				$forum['last_reply'] = $sub4forum['last_reply'];
+																				$forum['icon'] = $sub4forum['icon'];
+																				$forum['review_subject'] = $sub4forum['review_subject'];
+																				$forum['last_berpage_nm'] = $sub4forum['last_berpage_nm'];
+																				$forum['last_writer']= $sub4forum['last_writer'];
+		                                       							        $forum['username_style_cache'] = $sub4forum['username_style_cache'];
+		                                       							        $forum['writer_photo']= $sub4forum['writer_photo'];
+		                                       							        $forum['avater_path']= $sub4forum['avater_path'];
+															                    $forum['last_subject'] =  $sub4forum['prefix_subject']." ".$PowerBB->functions->pbb_stripslashes($sub4forum['last_subject']);
+															                    $forum['sec_section']= $sub4forum['sec_section'];
+															                    $forum['last_writer_id']= $sub4forum['last_writer_id'];
+			                                                                   }
+						                                                 }
+
+									                                        $forum['subject_num']+= $sub4forum['subject_num'];
+									                                        $forum['reply_num']+= $sub4forum['reply_num'];
+
+		                                                            }
+																}
+						                                   }
+
 														}
 				                                   }
                                                    //
+
                                                }
 										 }
 		                                    if ($PowerBB->_CONF['info_row']['no_sub'] == 0)
@@ -204,6 +244,16 @@ class PowerBBFunctions
 		                                       $forum['sub'] ='0';
 		                                     }
 								   }
+                            /*
+							if($sub['reply_num'] > 0)
+							{
+							$sub['reply_num']   = $sub['reply_num']-1;
+							}
+							if($forum['subject_num'] > 0)
+							{
+							$forum['subject_num']   = $forum['subject_num']-1;
+							}
+							*/
 						   //////////
 							// get writer username style cache And  writer photo
 							$username = $forum['last_writer'];
@@ -213,11 +263,9 @@ class PowerBBFunctions
 	                           $forum['avater_path'] = $forum['avater_path'];
 	                         }
 
-
-
                              $user_id =  $forum['last_writer_id'];
-	                        if ($username == $PowerBB->_CONF['template']['_CONF']['lang']['Guestp']
-	                         or $username == 'Guest')
+	                        if ($forum['last_writer'] == $PowerBB->_CONF['template']['_CONF']['lang']['Guestp']
+	                         or $forum['last_writer'] == 'Guest')
 							{
 							   if ($PowerBB->_CONF['info_row']['allow_avatar'])
 							    {
@@ -241,25 +289,25 @@ class PowerBBFunctions
                                 }
 						    if ($PowerBB->_CONF['info_row']['get_group_username_style'])
 						      {
-	                               if (empty($user_id))
+	                               if (empty($forum['last_writer_id']))
 	                               {
 									$username_style_cache = '<a href="index.php?page=profile&amp;show=1&amp;username=' . $username . '">' . $forum['username_style_cache'] . '</a> ';
 								   }
 								   else
 	                               {
-									$username_style_cache = '<a href="index.php?page=profile&amp;show=1&amp;id=' . $user_id . '">' . $forum['username_style_cache'] . '</a> ';
+									$username_style_cache = '<a href="index.php?page=profile&amp;show=1&amp;id=' . $forum['last_writer_id'] . '">' . $forum['username_style_cache'] . '</a> ';
 								   }
       	                        $forum['last_writer'] = $PowerBB->functions->rewriterule($username_style_cache);
 						      }
 						      else
 						      {
-	                               if (empty($user_id))
+	                               if (empty($forum['last_writer_id']))
 	                               {
 									$username_style = '<a href="index.php?page=profile&amp;show=1&amp;username=' . $username . '">' . $forum['last_writer'] . '</a> ';
 								   }
 								   else
 	                               {
-									$username_style = '<a href="index.php?page=profile&amp;show=1&amp;id=' . $user_id . '">' . $forum['last_writer'] . '</a> ';
+									$username_style = '<a href="index.php?page=profile&amp;show=1&amp;id=' . $forum['last_writer_id'] . '">' . $forum['last_writer'] . '</a> ';
 								   }
       	                        $forum['last_writer'] = $PowerBB->functions->rewriterule($username_style);
 						      }
