@@ -78,8 +78,7 @@ class PowerBBFunctions
                             $forum['sec_section']= $forum['sec_section'];
                             $forum['last_writer_id']= $forum['last_writer_id'];
                            }
-                            $forum['subject_num'] += $forum['subject_num'];
-			                $forum['reply_num'] += $forum['reply_num'];
+
 
                             $kay =$cat['id'];
 							$forum['collapse']= $PowerBB->_COOKIE["pbboard_collapse_forumid_$kay"];
@@ -122,8 +121,7 @@ class PowerBBFunctions
 								                    $forum['last_writer_id']= $sub['last_writer_id'];
 								                  }
                                                }
-			                                        $forum['subject_num'] += $sub['subject_num'];
-			                                        $forum['reply_num'] += $sub['reply_num'];
+
 												  if ($PowerBB->functions->section_group_permission($sub['id'],$PowerBB->_CONF['group_info']['id'],'view_section'))
 												   {
 												        if ($sub['forum_title_color'] !='')
@@ -183,8 +181,6 @@ class PowerBBFunctions
 	                                                                   }
 				                                                 }
 
-							                                        $forum['subject_num'] += $subforum['subject_num'];
-							                                        $forum['reply_num'] += $subforum['reply_num'];
 
                                                             }
 
@@ -226,18 +222,27 @@ class PowerBBFunctions
 			                                                                   }
 						                                                 }
 
-									                                        $forum['subject_num']+= $sub4forum['subject_num'];
-									                                        $forum['reply_num']+= $sub4forum['reply_num'];
+
 
 		                                                            }
+
+                                                                    $forum['subject_num']+= $sub4forum['subject_num'];
+									                                $forum['reply_num']+= $sub4forum['reply_num'];
 																}
 						                                   }
+
+							                                        $forum['subject_num'] += $subforum['subject_num'];
+							                                        $forum['reply_num'] += $subforum['reply_num'];
+
 
 														}
 				                                   }
                                                    //
 
                                                }
+
+                                               		 $forum['subject_num'] += $sub['subject_num'];
+			                                        $forum['reply_num'] += $sub['reply_num'];
 										 }
 		                                    if ($PowerBB->_CONF['info_row']['no_sub'] == 0)
 		                                     {
