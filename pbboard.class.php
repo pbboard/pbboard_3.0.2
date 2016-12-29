@@ -122,6 +122,16 @@ class PowerBB extends Engine
  		    $MemberRows = $this->records->GetInfo($MemberArr);
  		    if($MemberRows == true)
  		    {
+				if($languageid != $MemberRows['lang'])
+				{
+				 $idMemberRows = $MemberRows['id'];
+				 $update = $this->DB->sql_query("UPDATE " . $this->table['member'] . " SET lang='$languageid' WHERE id='$idMemberRows'");
+					if($update)
+					{
+					$this->functions->redirect2('index.php');
+					exit();
+					}
+				}
  		    $languageid = $MemberRows['lang'];
 			$this->_CONF['LangId'] = $languageid;
 			}

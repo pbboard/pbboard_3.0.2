@@ -1291,6 +1291,9 @@ class PowerBBFunctions
 		$string = @str_replace("  ", " ", $string);
         $string = strip_tags($string);
       	$string = @htmlspecialchars($string);
+      	 $string = @str_replace("&nbsp;", " ", $string);
+      	$string = @str_replace("&amp;", "", $string);
+      	$string = @str_replace("nbsp;", " ", $string);
 		$string =  $PowerBB->Powerparse->_wordwrap($string,$words_count+100);
 		return ($string);
     }
