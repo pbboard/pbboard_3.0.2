@@ -95,6 +95,10 @@ class PowerBBFunctions
 		                                    {
 										        if (!empty($sub['last_date']))
 										         {
+
+										          $forum['subject_num'] += $sub['subject_num'];
+										          $forum['reply_num'] += $sub['reply_num'];
+
 										           if ($forum['last_time']< $sub['last_time'])
 										           {
 	                                             	$forum_last_time1 = $sub['last_date'];
@@ -154,6 +158,10 @@ class PowerBBFunctions
 														    {
 														        if (!empty($subforum['last_date']))
 														         {
+
+														           $forum['subject_num'] += $subforum['subject_num'];
+										                           $forum['reply_num'] += $subforum['reply_num'];
+
 															           if ($subforum['last_time'] > $sub['last_time'] and $subforum['last_time'] > $forum['last_time'])
 															           {
 						                                             	$forum_last_time1 = $subforum['last_date'];
@@ -181,7 +189,6 @@ class PowerBBFunctions
 	                                                                   }
 				                                                 }
 
-
                                                             }
 
                                                               // subs forum +++
@@ -195,6 +202,9 @@ class PowerBBFunctions
 																    {
 																        if (!empty($sub4forum['last_date']))
 																         {
+																            $forum['subject_num'] += $sub4forum['subject_num'];
+										                                    $forum['reply_num'] += $sub4forum['reply_num'];
+
 																	           if ($sub4forum['last_time'] > $sub['last_time'] and $sub4forum['last_time'] > $subforum['last_time'] and $sub4forum['last_time'] > $forum['last_time'])
 																	           {
 								                                             	$forum_last_time1 = $sub4forum['last_date'];
@@ -220,19 +230,14 @@ class PowerBBFunctions
 															                    $forum['sec_section']= $sub4forum['sec_section'];
 															                    $forum['last_writer_id']= $sub4forum['last_writer_id'];
 			                                                                   }
+
 						                                                 }
-
-
 
 		                                                            }
 
-                                                                    $forum['subject_num']+= $sub4forum['subject_num'];
-									                                $forum['reply_num']+= $sub4forum['reply_num'];
 																}
 						                                   }
 
-							                                        $forum['subject_num'] += $subforum['subject_num'];
-							                                        $forum['reply_num'] += $subforum['reply_num'];
 
 
 														}
@@ -241,8 +246,9 @@ class PowerBBFunctions
 
                                                }
 
-                                               		 $forum['subject_num'] += $sub['subject_num'];
-			                                        $forum['reply_num'] += $sub['reply_num'];
+
+
+
 										 }
 		                                    if ($PowerBB->_CONF['info_row']['no_sub'] == 0)
 		                                     {
@@ -438,10 +444,15 @@ class PowerBBFunctions
                               $forum['ModeratorCheck'] = 1;
                               $forum['IsModeratorCheck'] = 0;
                              }
+
 							$PowerBB->_CONF['template']['foreach']['forums_list'][$forum['id'] . '_f'] = $forum;
 							unset($groups);
 						}// end view forums
+
 		             } // end foreach ($forums)
+
+
+
 			  } // end !empty($forums_cache)
 			  else
 			  {

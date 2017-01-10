@@ -1457,7 +1457,7 @@ class PowerBBTopicMOD
 				$PowerBB->template->assign('answer',$answer);
 		     }
 
-
+          $PowerBB->_CONF['template']['_CONF']['info_row']['title_quote'] = '1';
          @eval($PowerBB->functions->get_fetch_hooks('topic_end'));
 
        $PowerBB->functions->JumpForumsList();
