@@ -166,6 +166,9 @@ class PowerBBExtraField
       if($field['type']=='select_option'){
         $extrafields[$key]['options']=unserialize($field['options']);
       }
+      elseif($field['type']=='select_multiple'){
+        $extrafields[$key]['options']=unserialize($field['options']);
+      }
       $extrafields[$key]['name_tag']='extrafield_'.$field['id'];
       $extrafields[$key]['type_html']=self::_translateToHtml( $extrafields[$key] );
     }
@@ -177,6 +180,9 @@ class PowerBBExtraField
     $extrafields=self::GetFieldsList(true);
     foreach($extrafields AS $key=>$field){
       if($field['type']=='select_option'){
+        $extrafields[$key]['options']=unserialize($field['options']);
+      }
+      elseif($field['type']=='select_multiple'){
         $extrafields[$key]['options']=unserialize($field['options']);
       }
       $extrafields[$key]['name_tag']='extrafield_'.$field['id'];
@@ -198,6 +204,9 @@ class PowerBBExtraField
 
     foreach($extrafields AS $key=>$field){
       if($field['type']=='select_option'){
+        $extrafields[$key]['options']=unserialize($field['options']);
+      }
+      elseif($field['type']=='select_multiple'){
         $extrafields[$key]['options']=unserialize($field['options']);
       }
       $extrafields[$key]['name_tag']='extrafield_'.$field['id'];
@@ -222,6 +231,9 @@ class PowerBBExtraField
       if($field['type']=='select_option'){
         $extrafields[$key]['options']=unserialize($field['options']);
       }
+      elseif($field['type']=='select_multiple'){
+        $extrafields[$key]['options']=unserialize($field['options']);
+      }
       $extrafields[$key]['name_tag']='extrafield_'.$field['id'];
       $extrafields[$key]['type_html']=self::_translateToHtml($extrafields[$key],true,$memberInfo[ $extrafields[$key]['name_tag'] ]);
     }
@@ -239,11 +251,34 @@ class PowerBBExtraField
             $return='<input type="text" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" value="" />';
           return $return;
         break;
+      case 'box_text':
+          if($select==true)
+            $return='<textarea rows="5" cols="50" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" />'.$value.'</textarea>';
+          else
+            $return='<textarea rows="5" cols="50" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" /> </textarea>';
+          return $return;
+        break;
       case 'select_option':
           $return='<select name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id">';
             foreach($field['options'] AS $option){
               if($select==true){
                 if($value==$option)
+                  $return.='<option selected="selected">'.$option.'</option>';
+                else
+                  $return.='<option>'.$option.'</option>';
+              }else{
+                $return.='<option>'.$option.'</option>';
+              }
+            }
+          $return.='</select>';
+          return $return;
+        break;
+      case 'select_multiple':
+          $return='<select name="'.$field['name_tag'].'[]"  size="5" multiple="multiple" id="'.$field['name_tag'].'_id">';
+            foreach($field['options'] AS $option){
+
+              if($select==true){
+                if (in_array($option, explode(',', $value)))
                   $return.='<option selected="selected">'.$option.'</option>';
                 else
                   $return.='<option>'.$option.'</option>';

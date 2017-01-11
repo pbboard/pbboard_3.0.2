@@ -436,7 +436,7 @@ class PowerBBMember
 	}
 
 	/**
-			 * Insert new field in the members table , Default type VARCHAR(250)
+			 * Insert new field in the members table , Default type TEXT
 			 * @param string $name the new field name
 			 * @return bool result!
 			 */
@@ -446,7 +446,7 @@ class PowerBBMember
 		      : $alterParams=array(
 		            'table' => $this->Engine->table['member'],
 		            'new_name' => $_name,
-		            'def'   => 'VARCHAR(250) NULL',
+		            'def'   => 'TEXT NOT NULL',
 		            'type' => 'add'
 		          );
 		      return $this->Engine->records->Alter($alterParams);

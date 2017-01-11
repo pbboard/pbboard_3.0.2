@@ -399,6 +399,96 @@ class PowerBBCoreMOD
 		$FieldsArr['where'] = array('name',$field['name']);
 
 		$FieldsInfo = $PowerBB->extrafield->GetFieldInfo($FieldsArr);
+        if($FieldsInfo['type'] == 'select_multiple')
+        {
+		$multFields = array();
+
+    	//-----------------------------------------
+    	// Check for an array
+    	//-----------------------------------------
+
+    	if ( is_array( $PowerBB->_POST[ $field['name_tag']] )  )
+    	{
+
+    		if ( in_array( 'all', $PowerBB->_POST[ $field['name_tag']] ) )
+    		{
+    			//-----------------------------------------
+    			// Searching all multiple..
+    			//-----------------------------------------
+
+    			return '*';
+    		}
+    		else
+    		{
+				//-----------------------------------------
+				// Go loopy loo
+				//-----------------------------------------
+
+				foreach( $PowerBB->_POST[ $field['name_tag']] as $l )
+				{
+
+						$multFields[] = $l;
+				}
+
+				//-----------------------------------------
+				// Do we have cats? Give 'em to Charles!
+				//-----------------------------------------
+
+				if ( count( $multFields  ) )
+				{
+					foreach( $multFields  as $f )
+					{
+						if ( is_array($f) and count($f) )
+						{
+							$multFields  = array_merge( $multFields , $f );
+						}
+					}
+				}
+				else
+				{
+					//-----------------------------------------
+					// No multiple selected / we have available
+					//-----------------------------------------
+
+					return;
+				}
+    		}
+		}
+		else
+		{
+			//-----------------------------------------
+			// Not an array...
+			//-----------------------------------------
+
+			if ($PowerBB->_POST[ $field['name_tag']] == 'all' )
+			{
+				return '*';
+			}
+			else
+			{
+				if ( $PowerBB->_POST[ $field['name_tag']] != "" )
+				{
+					$l = intval($PowerBB->_POST[ $field['name_tag']]);
+
+					//-----------------------------------------
+					// Single forum
+					//-----------------------------------------
+
+
+						$multFields[] = $l;
+
+
+						if ( is_array($f) and count($f) )
+						{
+							$multFields  = array_merge( $multFields , $f );
+						}
+				}
+			}
+		}
+
+         $PowerBB->_POST[ $field['name_tag']] = implode( ",", $multFields );
+
+        }
 
    		if ($FieldsInfo['required'] == 'yes'
    		and $PowerBB->_POST[ $field['name_tag'] ] == '')
@@ -406,7 +496,6 @@ class PowerBBCoreMOD
 	          $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['You_do_not_enter'].' <i><b>'.$field['name'].'</b></i>');
         }
      }
-
 
         $PowerBB->_POST['away_msg'] = $PowerBB->functions->CleanVariable($PowerBB->_POST['away_msg'],'trim');
         $PowerBB->_POST['website'] = $PowerBB->functions->CleanVariable($PowerBB->_POST['website'],'trim');
@@ -1748,6 +1837,8 @@ class PowerBBCoreMOD
 		$PowerBB->template->display('usercp_reputations');
 
 	}
+
+
 
 }
 

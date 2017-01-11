@@ -111,7 +111,11 @@ class PowerBBExtraFieldModule
       $PowerBB->template->display('extrafield_add');
       return;
     }
-
+	if( $PowerBB->_POST['type']=='select_multiple' AND  0==count($options) ){
+      $PowerBB->_CONF['template']['errors'] = $PowerBB->_CONF['template']['_CONF']['lang']['you_must_insert_the_option_of_at_least_one'];
+      $PowerBB->template->display('extrafield_add');
+      return;
+    }
 		$FieldsArr 			= 	array();
 		$FieldsArr['field']	=	array();
 		$FieldsArr['field']['name'] 	= 	$PowerBB->_POST['name'];

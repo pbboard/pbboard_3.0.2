@@ -2,8 +2,8 @@
 
 <div class="address_bar">{$lang['Control_Panel']} &raquo;
 <a href="index.php?page=extrafield&amp;control=1&amp;main=1">{$lang['extrafields']}</a> &raquo;
- {$lang['edit']} :
- {$field['name']}</div>
+ <a href="index.php?page=extrafield&amp;edit=1&amp;main=1&amp;id={$field['id']}">{$lang['edit']} :
+ {$field['name']}</a></div>
 
 <br />
 <div style="color:RED;">
@@ -53,8 +53,14 @@
       </td>
       <td class="row2">
         <select name="type">
-          <option value="input_text">{$lang['input_text']}</option>
-          <option value="select_option" {if {$field['type']}=='select_option' } selected="selected" {/if}>{$lang['select_option']}</option>
+          <option value="input_text" {if {$field['type']}=='input_text' } selected="selected" {/if}>
+          {$lang['input_text']} Input</option>
+          <option value="box_text" {if {$field['type']}=='box_text' } selected="selected" {/if}>
+          {$lang['input_text']} Textarea</option>
+          <option value="select_option" {if {$field['type']}=='select_option' } selected="selected" {/if}>
+           {$lang['select_option']} Select One Option</option>
+          <option value="select_multiple" {if {$field['type']}=='select_multiple' } selected="selected" {/if}>
+           {$lang['select_option']} Select Multiple Options</option>
         </select>
       </td>
     </tr>

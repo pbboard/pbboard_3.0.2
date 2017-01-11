@@ -50,8 +50,10 @@
 			</td>
 			<td class="row2">
 				<select name="type">
-          <option value="input_text">{$lang['input_text']}</option>
-          <option value="select_option">{$lang['select_option']}</option>
+          <option value="input_text">{$lang['input_text']} Input</option>
+          <option value="box_text">{$lang['input_text']} Textarea</option>
+          <option value="select_option">{$lang['select_option']} Select One Option</option>
+          <option value="select_multiple">{$lang['select_option']} Select Multiple Options</option>
         </select>
 			</td>
 		</tr>
