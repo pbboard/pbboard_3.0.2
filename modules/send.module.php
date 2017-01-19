@@ -132,23 +132,22 @@ class PowerBBCoreMOD
      	}
 
 
+        if (empty($PowerBB->_POST['username']))
+     	{
+     	  $PowerBB->_POST['username'] = $PowerBB->_CONF['template']['_CONF']['lang']['Guest'];
+     	}
+
        // to
 		$MemArr 			= 	array();
 		$MemArr['where'] 	= 	array('id',$PowerBB->_GET['id']);
 
 		$MemberInfo = $PowerBB->core->GetInfo($MemArr,'member');
 
-		// Form
-		$MemFormArr 			= 	array();
-		$MemFormArr['where'] 	= 	array('username',$PowerBB->_POST['username']);
 
-        $MemberFormInfo = $PowerBB->core->GetInfo($MemFormArr,'member');
-		//////////
-
-		if (!$MemberInfo)
-		{
-			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Member_you_want_does_not_exist']);
-		}
+			if (!$MemberInfo)
+			{
+				$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Member_you_want_does_not_exist']);
+			}
 
 		// Kill XSS first
 		$PowerBB->functions->CleanVariable($MemberInfo,'html');
@@ -281,11 +280,16 @@ class PowerBBCoreMOD
 	function _SendStart()
 	{
 		global $PowerBB;
+ 		if (!$PowerBB->_CONF['info_row']['active_send_admin_message'])
+		{
+		 exit;
+        }
          if ($PowerBB->_SERVER['REQUEST_METHOD'] != 'POST')
          {
          	 @header("Location: index.php?page=send&sendmessage=1");
 		     exit;
          }
+
 		$PowerBB->functions->ShowHeader();
   		$PowerBB->_POST['email'] 	= 	$PowerBB->functions->CleanVariable($PowerBB->_POST['email'],'html');
 		$PowerBB->_POST['text']   = 	$PowerBB->functions->CleanVariable($PowerBB->_POST['text'] ,'html');

@@ -253,9 +253,9 @@ class PowerBBExtraField
         break;
       case 'box_text':
           if($select==true)
-            $return='<textarea rows="5" cols="50" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" />'.$value.'</textarea>';
+            $return='<textarea rows="5" style="width: 50%;" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" />'.$value.'</textarea>';
           else
-            $return='<textarea rows="5" cols="50" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" /> </textarea>';
+            $return='<textarea rows="5" style="width: 50%;" name="'.$field['name_tag'].'" id="'.$field['name_tag'].'_id" /> </textarea>';
           return $return;
         break;
       case 'select_option':
