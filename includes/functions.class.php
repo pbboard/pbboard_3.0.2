@@ -2630,15 +2630,11 @@ function gzip_encode($contents, $level=1)
 							{
                                if($Hooks[$place_of_hook][$x])
                                {
-									$Hooksquery = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['hooks'] . " WHERE main_place = '$place_of_hook' ");
-									while ($Hooks = $PowerBB->DB->sql_fetch_array($Hooksquery))
-									{
-									$Hooks['phpcode'] = str_replace("{sq}","'", $Hooks['phpcode']);
-									$Hooks['phpcode'] = str_replace("\'","'", $Hooks['phpcode']);
-									return ($Hooks['phpcode']);
-									}
+                                $Hook_s .=$Hooks[$place_of_hook][$x];
+
                                }
 							}
+							return $Hook_s;
 						 }
 	              }
 		  }

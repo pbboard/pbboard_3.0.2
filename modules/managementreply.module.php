@@ -133,21 +133,24 @@ class PowerBBManagementMOD
 
 		$SubjectInfo = $PowerBB->core->GetInfo($SubjectArr,'subject');
 
-        $SubjectOldArr = array();
-		$SubjectOldArr['where'] = array('id',$PowerBB->_POST['subject_old']);
-
-		$SubjectInfoOld = $PowerBB->subject->GetSubjectInfo($SubjectOldArr);
-
-				$SecArr 			= 	array();
-		        $SecArr['where'] 	= 	array('id',$SubjectInfoOld['section']);
-
-		        $this->SectionInfo = $PowerBB->core->GetInfo($SecArr,'section');
-
 
 		if (!$SubjectInfo)
 		{
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Sorry_requested_topic_does_not_exist']);
 		}
+
+
+        $SubjectOldArr = array();
+		$SubjectOldArr['where'] = array('id',$PowerBB->_POST['subject_old']);
+
+		$SubjectInfoOld = $PowerBB->subject->GetSubjectInfo($SubjectOldArr);
+
+		$SecArr 			= 	array();
+        $SecArr['where'] 	= 	array('id',$SubjectInfoOld['section']);
+
+        $this->SectionInfo = $PowerBB->core->GetInfo($SecArr,'section');
+
+
 
 		$Reply_M = $PowerBB->_POST['check'];
        foreach ($Reply_M as $GetReply)
@@ -159,120 +162,85 @@ class PowerBBManagementMOD
 
 			$ReplyInfo = $PowerBB->core->GetInfo($ReplyArr,'reply');
 
-           ///////
-			$UpdateArr 					= 	array();
-			$UpdateArr['subject_id']	=	$PowerBB->_POST['subject_id'];
-			$UpdateArr['where'] 		= 	array('id',intval($GetReply));
-
-			$update = $PowerBB->reply->MoveReply($UpdateArr);
             //////
 			$UpdateArr 				= 	array();
 			$UpdateArr['field']		= 	array();
 
 			$UpdateArr['field']['section'] 		= 	$SubjectInfo['section'];
 			$UpdateArr['field']['subject_id'] 		= 	$PowerBB->_POST['subject_id'];
+			$UpdateArr['field']['title'] 		= 	$SubjectInfo['title'];
 
 			$UpdateArr['where'] 				= 	array('id',intval($GetReply));
 
-			$update = $PowerBB->reply->UpdateReply($UpdateArr);
+			$updateMove = $PowerBB->reply->UpdateReply($UpdateArr);
             /////
 
-				if ($this->SectionInfo['last_subjectid'] == $PowerBB->_POST['subject_old'])
+              if($updateMove)
+              {
+              $subject_id = $PowerBB->_POST['subject_id'];              $reply_nm = $PowerBB->DB->sql_num_rows($PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id='$subject_id' "));
+
+				$Getlast_replier = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = '$subject_id' AND delete_topic<>1 AND review_reply<>1 ORDER by write_time DESC");
+				$GetLast_replierForm = $PowerBB->DB->sql_fetch_array($Getlast_replier);
+				if (!$GetLast_replierForm)
 				{
-				 	/**
-				 	 *Update Section Cache ;)
-				 	 */
-                    $SectionCache = $SubjectInfoOld['section'];
-					// The number of section's subjects number
-					$reply_num = $PowerBB->DB->sql_num_rows($PowerBB->DB->sql_query("SELECT id FROM " . $PowerBB->table['reply'] . " WHERE section = '$SectionCache' "));
-
-					$UpdateArr 					= 	array();
-					$UpdateArr['field']			=	array();
-					$UpdateArr['field']['reply_num'] 	= 	$reply_num;
-					$UpdateArr['where']					= 	array('id',$SectionCache);
-
-					$UpdateReplyNumber = $PowerBB->core->Update($UpdateArr,'section');
-
-
-					$PowerBB->cache->UpdateReplyNumber(array('reply_num'	=>	$reply_num));
-
-
-					$subject_nm = $PowerBB->DB->sql_num_rows($PowerBB->DB->sql_query("SELECT id FROM " . $PowerBB->table['subject'] . " WHERE section = '$SectionCache' "));
-
-					// The number of section's subjects number
-					$UpdateArr 					= 	array();
-					$UpdateArr['field']			=	array();
-
-					$UpdateArr['field']['subject_num'] 	= 	$subject_nm;
-					$UpdateArr['where']					= 	array('id',$SectionCache);
-
-					$UpdateSubjectNumber = $PowerBB->core->Update($UpdateArr,'section');
-
-
-					$PowerBB->cache->UpdateSubjectNumber(array('subject_num'	=>	$subject_nm));
-
-
-                    $subject_id = $PowerBB->_POST['subject_old'];
-					$GetLastqueryReplyForm = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = '$subject_id' AND delete_topic<>1 AND review_reply<>1 ORDER by write_time DESC");
-					$GetLastReplyForm = $PowerBB->DB->sql_fetch_array($GetLastqueryReplyForm);
-
-					if (!$GetLastReplyForm)
-					{
-					// Update Last subject's information in Section Form
-					$UpdateLastFormSecArr = array();
-					$UpdateLastFormSecArr['field']			=	array();
-
-					$UpdateLastFormSecArr['field']['last_writer'] 		= 	$SubjectInfo['writer'];
-					$UpdateLastFormSecArr['field']['last_subject'] 		= 	$SubjectInfo['title'];
-					$UpdateLastFormSecArr['field']['last_subjectid'] 	= 	$PowerBB->_POST['subject_old'];
-					$UpdateLastFormSecArr['field']['last_date'] 	= 	$PowerBB->_CONF['now'];
-					$UpdateLastFormSecArr['field']['last_time'] 	= 	$PowerBB->_CONF['now'];
-					$UpdateLastFormSecArr['field']['icon'] 		    = 	$SubjectInfo['icon'];
-					$UpdateLastFormSecArr['field']['last_reply'] 	= 	0;
-					$UpdateLastFormSecArr['field']['last_berpage_nm']  = 	0;
-
-					$UpdateLastFormSecArr['where'] 		        = 	array('id',$SectionCache);
-
-					// Update Last Form Sec subject's information
-					$UpdateLastFormSec = $PowerBB->section->UpdateSection($UpdateLastFormSecArr);
-					}
-					else
-					{
-
-					// Update Last subject's information in Section Form
-					$UpdateLastFormSecArr = array();
-					$UpdateLastFormSecArr['field']			=	array();
-
-					$UpdateLastFormSecArr['field']['last_writer'] 		= 	$GetLastReplyForm['writer'];
-					$UpdateLastFormSecArr['field']['last_subject'] 		= 	$GetLastReplyForm['title'];
-					$UpdateLastFormSecArr['field']['last_subjectid'] 	= 	$GetLastReplyForm['subject_id'];
-					$UpdateLastFormSecArr['field']['last_date'] 	= 	$GetLastReplyForm['write_time'];
-					$UpdateLastFormSecArr['field']['last_time'] 	= 	$GetLastReplyForm['write_time'];
-					$UpdateLastFormSecArr['field']['icon'] 		    = 	$GetLastReplyForm['icon'];
-					$UpdateLastFormSecArr['field']['last_reply'] 	= 	0;
-					$UpdateLastFormSecArr['field']['last_berpage_nm']  = 	0;
-
-					$UpdateLastFormSecArr['where'] 		        = 	array('id',$SectionCache);
-
-					// Update Last Form Sec subject's information
-					$UpdateLastFormSec = $PowerBB->section->UpdateSection($UpdateLastFormSecArr);
-				   }
-
-					// Get Section Info
-					$SecaArr 			= 	array();
-					$SecaArr['where'] 	= 	array('id',$SectionCache);
-
-					$this->SecInfo = $PowerBB->section->GetSectionInfo($SecaArr);
-
-					// Update section's cache
-					$UpdateArr 				= 	array();
-					$UpdateArr['parent'] 	= 	$this->SecInfo['parent'];
-
-					$update_cache = $PowerBB->section->UpdateSectionsCache($UpdateArr);
-
-
-					unset($UpdateArr);
+				$last_replier = '';
 				}
+				else
+				{
+				$last_replier = $GetLast_replierForm['writer'];
+				}
+
+				if (empty($GetLast_replierForm['write_time']))
+				{
+				$write_time = $SubjectInfo['native_write_time'];
+				}
+				else
+				{
+				$write_time = $GetLast_replierForm['write_time'];
+				}
+
+				$SubjectArr 							= 	array();
+				$SubjectArr['field'] 					= 	array();
+				$SubjectArr['field']['reply_number'] 	= 	$reply_nm;
+				$SubjectArr['field']['last_replier'] 	= 	$last_replier;
+				$SubjectArr['field']['write_time']   	= 	$write_time;
+				$SubjectArr['where'] 					= 	array('id',$PowerBB->_POST['subject_id']);
+
+				$updates = $PowerBB->subject->UpdateSubject($SubjectArr);
+                //
+
+              $Subjectoldid = $PowerBB->_POST['subject_old'];
+              $replyold_nm = $PowerBB->DB->sql_num_rows($PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id='$Subjectoldid' "));
+
+				$Getlast_replierold = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = '$Subjectoldid' AND delete_topic<>1 AND review_reply<>1 ORDER by write_time DESC");
+				$GetLast_replierFormold = $PowerBB->DB->sql_fetch_array($Getlast_replierold);
+				if (!$GetLast_replierFormold)
+				{
+				$last_replierold = '';
+				}
+				else
+				{
+				$last_replierold = $GetLast_replierFormold['writer'];
+				}
+
+				if (empty($GetLast_replierFormold['write_time']))
+				{
+				$write_timeold = $SubjectInfoOld['native_write_time'];
+				}
+				else
+				{
+				$write_timeold = $GetLast_replierFormold['write_time'];
+				}
+				$SubjectoldArr 							= 	array();
+				$SubjectoldArr['field'] 					= 	array();
+				$SubjectoldArr['field']['reply_number'] 	= 	$replyold_nm;
+				$SubjectoldArr['field']['last_replier'] 	= 	$last_replierold;
+				$SubjectoldArr['field']['write_time']   	= 	$write_timeold;
+
+				$SubjectoldArr['where'] 					= 	array('id',$PowerBB->_POST['subject_old']);
+
+				$updateSubjectold = $PowerBB->subject->UpdateSubject($SubjectoldArr);
+             }
 
 
 	     }
@@ -383,151 +351,44 @@ class PowerBBManagementMOD
 				  $DeleteReplyArr				=	array();
 		          $DeleteReplyArr['where'] 	= 	array('id',intval($GetReply));
 				  $delReply = $PowerBB->reply->DeleteReply($DeleteReplyArr);
-		     }
 
-
-				$SecArr 			= 	array();
-		        $SecArr['where'] 	= 	array('id',$PowerBB->_POST['section_id']);
-
-		        $this->SectionInfo = $PowerBB->core->GetInfo($SecArr,'section');
-
-		        $SubjectArr = array();
+				$subject_id = $PowerBB->_POST['subject_id'];
+				$Getlast_replier = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = '$subject_id' AND delete_topic<>1 AND review_reply<>1 ORDER by write_time DESC");
+				$GetLast_replierForm = $PowerBB->DB->sql_fetch_array($Getlast_replier);
+				if (!$GetLast_replierForm)
+				{
+				$last_replier = '';
+				}
+				else
+				{
+				$last_replier = $GetLast_replierForm['writer'];
+				}
+				//////////
+				// Update Subject
+				$SubjectArr = array();
 				$SubjectArr['where'] = array('id',$PowerBB->_POST['subject_id']);
 
 				$SubjectInfo = $PowerBB->core->GetInfo($SubjectArr,'subject');
-
-				$UpdateSubjectNumber = $PowerBB->cache->UpdateReplyNumber(array('reply_num'	=>	$PowerBB->_CONF['info_row']['reply_number']));
-
-                    $subject_id = $PowerBB->_POST['subject_id'];
-					$Getlast_replier = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = '$subject_id' AND delete_topic<>1 AND review_reply<>1 ORDER by write_time DESC");
-					$GetLast_replierForm = $PowerBB->DB->sql_fetch_array($Getlast_replier);
-					if (!$GetLast_replierForm)
-					{
-					$last_replier = '';
-					}
-					else
-					{
-					$last_replier = $GetLast_replierForm['writer'];
-					}
-
-					 // Update Subject
-					$SubjectArr = array();
-					$SubjectArr['where'] = array('id',$PowerBB->_GET['subject_id']);
-
-					$SubjectInfo = $PowerBB->core->GetInfo($SubjectArr,'subject');
-					if (empty($GetLast_replierForm['write_time']))
-					{
-					$write_time = $SubjectInfo['native_write_time'];
-					}
-					else
-					{
-					$write_time = $GetLast_replierForm['write_time'];
-					}
-                    $SubjectArr 							= 	array();
-					$SubjectArr['field'] 					= 	array();
-					$SubjectArr['field']['reply_number'] 	= 	$SubjectInfo['reply_number'] -1;
-					$SubjectArr['field']['last_replier'] 	= 	$last_replier;
-					$SubjectArr['field']['write_time']   	= 	$write_time;
-					$SubjectArr['where'] 					= 	array('id',$PowerBB->_GET['subject_id']);
-
-					$update = $PowerBB->subject->UpdateSubject($SubjectArr);
-
- 				if ($this->SectionInfo['last_subjectid'] == $PowerBB->_POST['subject_id'])
+				if (empty($GetLast_replierForm['write_time']))
 				{
-				 	/**
-				 	 *Update Section Cache ;)
-				 	 */
-                    $SectionCache = $PowerBB->_POST['section_id'];
-					// The number of section's subjects number
-					$reply_num = $PowerBB->DB->sql_num_rows($PowerBB->DB->sql_query("SELECT id FROM " . $PowerBB->table['reply'] . " WHERE section = '$SectionCache' "));
-
-					$UpdateArr 					= 	array();
-					$UpdateArr['field']			=	array();
-					$UpdateArr['field']['reply_num'] 	= 	$reply_num;
-					$UpdateArr['where']					= 	array('id',$SectionCache);
-
-					$UpdateReplyNumber = $PowerBB->core->Update($UpdateArr,'section');
-
-
-					$PowerBB->cache->UpdateReplyNumber(array('reply_num'	=>	$reply_num));
-
-
-					$subject_nm = $PowerBB->DB->sql_num_rows($PowerBB->DB->sql_query("SELECT id FROM " . $PowerBB->table['subject'] . " WHERE section = '$SectionCache' "));
-
-					// The number of section's subjects number
-					$UpdateArr 					= 	array();
-					$UpdateArr['field']			=	array();
-
-					$UpdateArr['field']['subject_num'] 	= 	$subject_nm;
-					$UpdateArr['where']					= 	array('id',$SectionCache);
-
-					$UpdateSubjectNumber = $PowerBB->core->Update($UpdateArr,'section');
-
-
-					$PowerBB->cache->UpdateSubjectNumber(array('subject_num'	=>	$subject_nm));
-
-
-                    $subject_id = $PowerBB->_POST['subject_id'];
-					$GetLastqueryReplyForm = $PowerBB->DB->sql_query("SELECT * FROM " . $PowerBB->table['reply'] . " WHERE subject_id = '$subject_id' AND delete_topic<>1 AND review_reply<>1 ORDER by write_time DESC");
-					$GetLastReplyForm = $PowerBB->DB->sql_fetch_array($GetLastqueryReplyForm);
-
-					if (!$GetLastReplyForm)
-					{
-					// Update Last subject's information in Section Form
-					$UpdateLastFormSecArr = array();
-					$UpdateLastFormSecArr['field']			=	array();
-
-					$UpdateLastFormSecArr['field']['last_writer'] 		= 	$SubjectInfo['writer'];
-					$UpdateLastFormSecArr['field']['last_subject'] 		= 	$SubjectInfo['title'];
-					$UpdateLastFormSecArr['field']['last_subjectid'] 	= 	$PowerBB->_POST['subject_id'];
-					$UpdateLastFormSecArr['field']['last_date'] 	= 	$PowerBB->_CONF['now'];
-					$UpdateLastFormSecArr['field']['last_time'] 	= 	$PowerBB->_CONF['now'];
-					$UpdateLastFormSecArr['field']['icon'] 		    = 	$SubjectInfo['icon'];
-					$UpdateLastFormSecArr['field']['last_reply'] 	= 	0;
-					$UpdateLastFormSecArr['field']['last_berpage_nm']  = 	0;
-
-					$UpdateLastFormSecArr['where'] 		        = 	array('id',$SectionCache);
-
-					// Update Last Form Sec subject's information
-					$UpdateLastFormSec = $PowerBB->section->UpdateSection($UpdateLastFormSecArr);
-					}
-					else
-					{
-
-					// Update Last subject's information in Section Form
-					$UpdateLastFormSecArr = array();
-					$UpdateLastFormSecArr['field']			=	array();
-
-					$UpdateLastFormSecArr['field']['last_writer'] 		= 	$GetLastReplyForm['writer'];
-					$UpdateLastFormSecArr['field']['last_subject'] 		= 	$GetLastReplyForm['title'];
-					$UpdateLastFormSecArr['field']['last_subjectid'] 	= 	$GetLastReplyForm['subject_id'];
-					$UpdateLastFormSecArr['field']['last_date'] 	= 	$GetLastReplyForm['write_time'];
-					$UpdateLastFormSecArr['field']['last_time'] 	= 	$GetLastReplyForm['write_time'];
-					$UpdateLastFormSecArr['field']['icon'] 		    = 	$GetLastReplyForm['icon'];
-					$UpdateLastFormSecArr['field']['last_reply'] 	= 	0;
-					$UpdateLastFormSecArr['field']['last_berpage_nm']  = 	0;
-
-					$UpdateLastFormSecArr['where'] 		        = 	array('id',$SectionCache);
-
-					// Update Last Form Sec subject's information
-					$UpdateLastFormSec = $PowerBB->section->UpdateSection($UpdateLastFormSecArr);
-				   }
-
-					// Get Section Info
-					$SecaArr 			= 	array();
-					$SecaArr['where'] 	= 	array('id',$SectionCache);
-
-					$this->SecInfo = $PowerBB->section->GetSectionInfo($SecaArr);
-
-					// Update section's cache
-					$UpdateArr 				= 	array();
-					$UpdateArr['parent'] 	= 	$this->SecInfo['parent'];
-
-					$update_cache = $PowerBB->section->UpdateSectionsCache($UpdateArr);
-
-
-					unset($UpdateArr);
+				$write_time = $SubjectInfo['native_write_time'];
 				}
+				else
+				{
+				$write_time = $GetLast_replierForm['write_time'];
+				}
+				$SubjectArr 							= 	array();
+				$SubjectArr['field'] 					= 	array();
+				$SubjectArr['field']['reply_number'] 	= 	$SubjectInfo['reply_number'] -1;
+				$SubjectArr['field']['last_replier'] 	= 	$last_replier;
+				$SubjectArr['field']['write_time']   	= 	$write_time;
+				$SubjectArr['where'] 					= 	array('id',$PowerBB->_POST['subject_id']);
+
+				$updates = $PowerBB->subject->UpdateSubject($SubjectArr);
+		     }
+
+
+
 		  }
 
 
