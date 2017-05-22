@@ -1938,7 +1938,7 @@ class DatabaseStruct extends PowerBBInstall
 		$InfoArray['sidebar_list_active']	   = '1';
 		$InfoArray['sidebar_list_align']	   = 'left';
 		$InfoArray['sidebar_list_pages']	   = 'index';
-		$InfoArray['sidebar_list_width']	   = '25';
+		$InfoArray['sidebar_list_width']	   = '26';
 		$InfoArray['sidebar_list_exclusion_forums']	   = '254,545';
 		$InfoArray['sidebar_list_content']	   = "{template}login_box{/template}\n{template}whatis_new{/template}";
 		$InfoArray['last_posts_cache']	   = '';

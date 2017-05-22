@@ -1112,7 +1112,7 @@ class PowerBBFunctions
  		$url = str_replace("index.php/", '', $url);
  		$url = str_replace("upload.php/", '', $url);
 		$url = @preg_replace('#/.*(.*).php/.*#iUe', "", $url);
-		$url = @preg_replace('#(.*).php.*#iUe', "", $url);
+		$url = @preg_replace('#/.*(.*).php.*#iUe', "", $url);
 		// Get server port
 		if (isset($PowerBB->_SERVER['HTTPS']) &&
 		    ($PowerBB->_SERVER['HTTPS'] == 'on' || $PowerBB->_SERVER['HTTPS'] == 1) ||
