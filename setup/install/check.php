@@ -105,20 +105,6 @@ $check ='0';
 ?>
 </li>
 <li>
-<font color="#800080">ModRewrite Module Support :</font>
-<?php
-if (in_array('mod_rewrite', @apache_get_modules())) {
-echo '<font color="#008000"> √ </font>';
-$check ='1';
-}
-else
-{
-echo '<font size="2" color="#FF0000"> X  Must be Enable <b>mod_rewrite</b> Module</font>';
-$check ='0';
-}
-?>
-</li>
-<li>
 <font color="#800080">Allow_url_fopen is Enabled :</font>
 <?php
 if( ini_get('allow_url_fopen') ) {

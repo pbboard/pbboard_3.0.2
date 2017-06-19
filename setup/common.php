@@ -29,13 +29,6 @@ else
 {
 $check_base64 ='1';
 }
-if (in_array('mod_rewrite', @apache_get_modules())) {
-$check_mod_rewrite ='0';
-}
-else
-{
-$check_mod_rewrite ='1';
-}
 if( ini_get('allow_url_fopen') ) {
 $check_allow_url_fopen ='0';
 }
@@ -43,7 +36,7 @@ else
 {
 $check_allow_url_fopen ='1';
 }
-if (extension_loaded('gd') && function_exists('gd_info')) {
+if (extension_loaded('gd') and function_exists('gd_info')) {
 $check_gd ='0';
 }
 else
@@ -54,7 +47,6 @@ if ($check_PHP
 or $check_mysql_connect
 or $check_curl
 or $check_base64
-or $check_mod_rewrite
 or $check_allow_url_fopen
 or $check_gd)
 {
