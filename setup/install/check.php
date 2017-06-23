@@ -38,12 +38,13 @@ padding: 4px;
 		<font color="#800080">PHP Version :</font>
     <?php
 // check Requirements
- if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-echo PHP_VERSION. " <font color='#FF0000' size='2'> ( Change the Version of PHP to <font color='#008000' size='2'>5.x.x</font> from cpanel <b>Select PHP Version</b> )</font>";
+if (function_exists('random_int')) {
+echo  " <font color='#FF0000' size='2'> ( Change the Version of PHP to <font color='#008000' size='2'>5.x.x</font> from cpanel <b>Select PHP Version</b> )</font>";
 $check ='0';
 }
-elseif (version_compare(PHP_VERSION, '5.6.30') < 0) {
-echo '<font color="#008000">'. PHP_VERSION . " √ </font>";
+else
+{
+echo '<font color="#008000">PHP5 √ </font>';
 $check ='1';
 }
 ?>
@@ -77,20 +78,6 @@ echo '<font color="#FF0000"> X </font>';
 ?>
 </li>
 <li>
-<font color="#800080">CURL Library Support :</font>
-<?php
-if (function_exists('curl_version')) {
-echo '<font color="#008000"> √ </font>';
-$check ='1';
-}
-else
-{
-echo '<font size="2" color="#FF0000"> X  Must be Enabled cURL Library</font>';
-$check ='0';
-}
-?>
-</li>
-<li>
 <font color="#800080">Base64 Encoding is Enabled :</font>
 <?php
 if (function_exists('base64_decode')) {
@@ -105,15 +92,16 @@ $check ='0';
 ?>
 </li>
 <li>
-<font color="#800080">Allow_url_fopen is Enabled :</font>
+<font color="#800080">CURL Library or allow_url_fopen Support :</font>
 <?php
-if( ini_get('allow_url_fopen') ) {
+if (function_exists('curl_version')
+or ini_get('allow_url_fopen')) {
 echo '<font color="#008000"> √ </font>';
 $check ='1';
 }
 else
 {
-echo '<font size="2" color="#FF0000"> X  Must be Enable <b>allow_url_fopen</b></font>';
+echo '<font size="2" color="#FF0000"> X  Must be Enabled cURL Library or allow_url_fopen </font>';
 $check ='0';
 }
 ?>
@@ -121,7 +109,7 @@ $check ='0';
 <li>
 <font color="#800080">GD Library Support :</font>
 <?php
-if (extension_loaded('gd') && function_exists('gd_info')) {
+if (extension_loaded('gd') or function_exists('gd_info')) {
 echo '<font color="#008000"> √ </font>';
 $check ='1';
 }

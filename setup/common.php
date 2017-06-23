@@ -1,10 +1,11 @@
 <?php
 @error_reporting(E_ALL ^ E_NOTICE);
 // check Requirements
-if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+if (function_exists('random_int')) {
 $check_PHP ='1';
 }
-elseif (version_compare(PHP_VERSION, '5.6.30') < 0) {
+else
+{
 $check_PHP ='0';
 }
 
@@ -15,13 +16,7 @@ else
 {
 $check_mysql_connect ='1';
 }
-if (function_exists('curl_version')) {
-$check_curl ='0';
-}
-else
-{
-$check_curl ='1';
-}
+
 if (function_exists('base64_decode')) {
 $check_base64 ='0';
 }
@@ -29,14 +24,16 @@ else
 {
 $check_base64 ='1';
 }
-if( ini_get('allow_url_fopen') ) {
+
+if (function_exists('curl_version')
+or ini_get('allow_url_fopen')) {
 $check_allow_url_fopen ='0';
 }
 else
 {
 $check_allow_url_fopen ='1';
 }
-if (extension_loaded('gd') and function_exists('gd_info')) {
+if (extension_loaded('gd') or function_exists('gd_info')) {
 $check_gd ='0';
 }
 else
@@ -45,7 +42,6 @@ $check_gd ='1';
 }
 if ($check_PHP
 or $check_mysql_connect
-or $check_curl
 or $check_base64
 or $check_allow_url_fopen
 or $check_gd)
