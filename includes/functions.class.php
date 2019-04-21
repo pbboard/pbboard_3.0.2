@@ -1112,7 +1112,7 @@ class PowerBBFunctions
  		$url = str_replace("index.php/", '', $url);
  		$url = str_replace("upload.php/", '', $url);
 		$url = @preg_replace('#/.*(.*).php/.*#iUe', "", $url);
-		$url = @preg_replace('#/.*(.*).php.*#iUe', "", $url);
+		//$url = @preg_replace('#/.*(.*).php.*#iUe', "", $url);
 		// Get server port
 		if (isset($PowerBB->_SERVER['HTTPS']) &&
 		    ($PowerBB->_SERVER['HTTPS'] == 'on' || $PowerBB->_SERVER['HTTPS'] == 1) ||
@@ -1267,6 +1267,7 @@ class PowerBBFunctions
 		$mail->SMTPSecure = strtolower($PowerBB->_CONF['info_row']['smtp_secure']); // Enable TLS encryption, `ssl` also accepted
 		$mail->Port = $PowerBB->_CONF['info_row']['smtp_port'];  // TCP port to connect to
 		$mail->From = $from;
+		$mail->CharSet = 'UTF-8';
 		$mail->FromName = $PowerBB->_CONF['info_row']['title'];
 		$mail->addAddress($to, $subject);     // Add a recipient
 		$mail->addReplyTo($to, $PowerBB->_CONF['info_row']['title']);
