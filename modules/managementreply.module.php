@@ -9,6 +9,7 @@ class PowerBBManagementMOD
 		global $PowerBB;
 
 		$PowerBB->_GET['section'] = $PowerBB->functions->CleanVariable($PowerBB->_GET['section'],'intval');
+
 			if (!$PowerBB->_CONF['member_permission'])
 			{
 			 $PowerBB->functions->ShowHeader();
@@ -59,7 +60,7 @@ class PowerBBManagementMOD
 				}
 				else
 				{
-					@header("Location: index.php");
+					header("Location: index.php");
 					exit;
 				}
 
@@ -76,7 +77,7 @@ class PowerBBManagementMOD
 			}
 			else
 			{
-				@header("Location: index.php");
+				header("Location: index.php");
 				exit;
 			}
 	}
@@ -529,32 +530,43 @@ class PowerBBManagementMOD
 
 		 $SubjectDelInfo = $PowerBB->subject->GetSubjectInfo($SubjectInfoArr);
 
+		if (!$SubjectDelInfo)
+		{
+			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['Sorry_requested_topic_does_not_exist']);
+		}
 			$ReplyArr = array();
 			$ReplyArr['where'] = array('id',$PowerBB->_GET['reply_id']);
 
 			$ReplyInfo = $PowerBB->core->GetInfo($ReplyArr,'reply');
 
+		if (!$ReplyInfo)
+		{
+			$PowerBB->functions->error('لن نتمكن من حذف هذه المشاركة لعدم وجودها في قاعدة البيانات.');
+		}
 		if ($PowerBB->_CONF['group_info']['group_mod'] == '1')
 		{
 			if ($PowerBB->_CONF['group_info']['del_reply'] == '0')
 			{
 			//$PowerBB->functions->ShowHeader();
-            $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+			 if ($PowerBB->_CONF['group_info']['id'] != '1'
+			 AND  $PowerBB->_CONF['group_info']['id'] != '2')
+			 {
+              $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+              }
 			}
 
 		}
         else
 		{
+
 			if ($PowerBB->_CONF['group_info']['id'] != '1'
 			   AND  $PowerBB->_CONF['group_info']['id'] != '2')
 			{
 
 				if ($PowerBB->_CONF['group_info']['group_mod'] == 0
 				and $ReplyInfo['writer'] != $PowerBB->_CONF['member_row']['username'])
-				{
-                      $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+				{                      $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
 				}
-
 				if ($SubjectDelInfo['close'] == '1')
 				{
 				 //$PowerBB->functions->ShowHeader();
@@ -562,7 +574,7 @@ class PowerBBManagementMOD
 				}
 
 
-		          if ($SubjectDelInfo['writer'] == $PowerBB->_CONF['member_row']['username'])
+		        if ($ReplyInfo['writer'] == $PowerBB->_CONF['member_row']['username'])
 		        {
 	              if ($PowerBB->functions->section_group_permission($PowerBB->_GET['section'],$PowerBB->_CONF['group_info']['id'],'del_own_reply') == 0)
 				  {
@@ -594,7 +606,12 @@ class PowerBBManagementMOD
 		{
 			if ($PowerBB->_CONF['group_info']['del_reply'] == '0')
 			{
-			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+    			if ($PowerBB->_CONF['group_info']['id'] != '1'
+			   AND  $PowerBB->_CONF['group_info']['id'] != '2')
+			  {
+			    $PowerBB->functions->ShowHeader();
+			   $PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+			  }
 			}
 		}
 
@@ -606,14 +623,17 @@ class PowerBBManagementMOD
 
 		if (empty($PowerBB->_GET['subject_id']))
 		{
+		    $PowerBB->functions->ShowHeader();
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
 		}
 		if (empty($PowerBB->_GET['reply_id']))
 		{
+		     $PowerBB->functions->ShowHeader();
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
 		}
 		if (empty($PowerBB->_GET['section']))
 		{
+		    $PowerBB->functions->ShowHeader();
 			$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['path_not_true']);
 		}
 
@@ -633,12 +653,21 @@ class PowerBBManagementMOD
 
 			$ReplyInfo = $PowerBB->core->GetInfo($ReplyArr,'reply');
 
-		if ($PowerBB->_CONF['group_info']['group_mod'] == 0
-		and $ReplyInfo['writer'] != $PowerBB->_CONF['member_row']['username'])
+		if (!$ReplyInfo)
 		{
-		$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+		     $PowerBB->functions->ShowHeader();
+			$PowerBB->functions->error('لن نتمكن من حذف هذه المشاركة لعدم وجودها في قاعدة البيانات.');
 		}
-
+    			if ($PowerBB->_CONF['group_info']['id'] != '1'
+			   AND  $PowerBB->_CONF['group_info']['id'] != '2')
+			  {
+				if ($PowerBB->_CONF['group_info']['group_mod'] == 0
+				and $ReplyInfo['writer'] != $PowerBB->_CONF['member_row']['username'])
+				{
+				$PowerBB->functions->ShowHeader();
+				$PowerBB->functions->error($PowerBB->_CONF['template']['_CONF']['lang']['error_permission']);
+				}
+		      }
 	  if ($PowerBB->_POST['deletetype'] == 1)
 	  {
 
